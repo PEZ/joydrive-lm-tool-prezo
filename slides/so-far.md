@@ -13,7 +13,7 @@
   - Small steps (not figured out yet)
 - Rich comments (varying success)
 - Inline defs and Snitch
-- REPL resulsts grow context
+- REPL results grow context
 - Great for live demos and interactive sessions 😀
 
 </div>
