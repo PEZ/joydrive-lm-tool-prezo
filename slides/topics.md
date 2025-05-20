@@ -21,9 +21,9 @@ Can we turn CoPilot into an Interactive Programmer?
 </div>
 
 <div class="gutters-10 column center">
-<img src="images/clj.png" height=200>
-<img src="images/copilot-icon-light.png" height=180>
-<img src="images/backseat-driver-icon.png" height=200>
+<img src="images/clj.png" height=160>
+<img src="images/copilot-icon-light.png" height=140>
+<img src="images/backseat-driver-icon.png" height=160>
 </div>
 
 </div>

@@ -3,7 +3,7 @@
 # Why was Backseat Driver built?
 
 <div class="gutters-10 row">
-  <div class="bullet-column column">
+  <div class="col-4 column">
   <div>
 
 **Original Backseat Driver:**
@@ -17,7 +17,7 @@
   - REPL Output
   </div>
   </div>
-  <div class="image-column center">
+  <div class="col-8 center">
     <img src="images/clj.png" alt="Clojure logo" style="max-width: 180px; margin-bottom: 32px;" />
     <span style="font-size: 7rem; line-height: 1;">‽</span>
   </div>

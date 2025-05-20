@@ -3,7 +3,7 @@
 # The REPL Tool
 
 <div class="gutters-10 row">
-<div class="bullet-column column">
+<div class="col-4 column">
 
 **Safety mechanisms**:
 
@@ -16,7 +16,7 @@
 
 </div>
 
-<div class="image-column scroller center gutters-10">
+<div class="col-8 scroller center gutters-10">
 
 ![Copilot tool trust dialog](images/copilot-trust-dialog.png)
 

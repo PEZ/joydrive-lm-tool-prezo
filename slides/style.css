@@ -78,16 +78,18 @@ body {
   align-items: center;
 }
 
-/* Add vertical stacking for images in a column, and set max width for image column */
-.image-column {
+.col-c {
+  align-items: center;
+}
+
+.col-8 {
   flex-basis: 66%;
   max-width: 66%;
   display: flex;
   flex-direction: column;
-  align-items: center;
 }
 
-.bullet-column {
+.col-4 {
   flex-basis: 33%;
   max-width: 33%;
 }
@@ -97,7 +99,7 @@ body {
   overflow-y: auto;
 }
 
-.image-column img {
+.col-8 img {
   width: 100%;
   max-width: 420px;
   margin-bottom: 16px;
