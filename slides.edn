@@ -1,0 +1,7 @@
+{:slides ["slides/hello.md",
+          "slides/topics.md"
+          "slides/backseat-driver.md"
+          "slides/why.md"
+          "slides/repl.md"
+          "slides/so-far.md"
+          "slides/thanks.md"]}

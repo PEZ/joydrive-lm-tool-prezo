@@ -1,0 +1,42 @@
+{
+    "cSpell.language": "en",
+    "cSpell.allowCompoundWords": true,
+    "markdown.preview.fontSize": 24,
+    "cSpell.words": [
+        "fooo",
+        "foooo"
+    ],
+    "zenMode.centerLayout": false,
+    "editor.fontSize": 18,
+    "gitlens.gitCommands.sortBy": "name",
+    "window.zoomLevel": 4,
+    "zenMode.hideStatusBar": false,
+    "workbench.statusBar.visible": true,
+    "markdown.preview.typographer": true,
+    "markdown.styles": [
+        "slides/style.css"
+    ],
+    "markdown.preview.scrollPreviewWithEditor": false,
+    "markdown.preview.scrollEditorWithPreview": false,
+    "markdown.preview.markEditorSelection": false,
+    "errorLens.enabled": false,
+    "screencastMode.keyboardShortcutsFormat": "commandWithGroup",
+    "gitlens.statusBar.enabled": false,
+    "gitlens.statusBar.pullRequests.enabled": false,
+    "gitlens.graph.statusBar.enabled": false,
+    "gitlens.mode.statusBar.enabled": false,
+    "calva.prettyPrintingOptions": {
+        "printEngine": "pprint",
+        "enabled": true,
+        "width": 20,
+        "maxLength": 50
+    },
+    "editor.occurrencesHighlight": "off",
+    "markdown.preview.doubleClickToSwitchToEditor": false,
+    "zenMode.silentNotifications": false,
+    "screencastMode.verticalOffset": 80,
+    "editor.hover.delay": 1300,
+    "editor.quickSuggestionsDelay": 1300,
+    "calva.showCalvaSaysOnStart": false,
+    "calva.autoOpenJackInTerminal": false,
+}
