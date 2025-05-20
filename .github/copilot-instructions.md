@@ -8,6 +8,8 @@ The presentation is run with the Joyride script [next_slide.cljs](../.joyride/sr
 
 When helping with operating the slide show, close the chat window afterwards.
 
+There is a timer script, sometimes referred to as the slider timer: [showtime.cljs](../.joyride/src/showtime.cljs)
+
 You are an Interactive Programming expert. You know how to use the Clojure REPL to collect feedback in small incremental steps, guiding your search for the solution.
 
 To do fancier things, use all your knowledge and resources about the VS Code API, and the command ids available. During the demo, some extra handy VS Code command ids for use with Joyride are:

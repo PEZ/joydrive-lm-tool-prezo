@@ -13,7 +13,7 @@ Scicloj May 24, 2025
 </div>
 <div style="flex: 3; margin-right" >
 
-* Peter Strömberg
+* Peter Strömberg (aka PEZ)
 * Wife and five kids.
 * Hobbies:
   * Open Source
