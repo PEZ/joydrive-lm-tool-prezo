@@ -3,7 +3,7 @@
 # Why was Backseat Driver built?
 
 <div class="gutters-10 row">
-<div class="col-4 column">
+<div class="col-8 column">
 <div>
 
 **Original Backseat Driver:**
@@ -12,14 +12,14 @@
 
 **Backseat Driver:**
 - Can it do Interactive Programming?
-- Context mostly solved by<br> CoPilot et al
+- Context mostly solved by CoPilot et al
 - Feedback
   - REPL Evaluation tool
   - REPL Output
 - Why not in Calva?
 </div>
 </div>
-<div class="col-8 center">
+<div class="col-4 center">
   <img src="images/clj.png" alt="Clojure logo" style="max-width: 180px; margin-bottom: 32px;" />
   <span style="font-size: 7rem; line-height: 1;">‽</span>
 </div>
