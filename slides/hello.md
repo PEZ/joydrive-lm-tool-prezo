@@ -1,17 +1,17 @@
-<div class="slide">
+<div class="slide title-slide">
 
-Scicloj May 24, 2025
+Scicloj May 24, 2025 – Can we turn CoPilot into an Interactive Programmer?
 
-# Backseat Driver<br><span class="small">Can we turn CoPilot into an Interactive Programmer?</span>
+# Backseat Driver
 
+<div class="responsive-container">
+<div class="row">
+<div class="col-2 center">
 
-<div style="display: flex; flex-direction: row;">
-<div style="display: flex; flex-direction: column; flex: 1;">
-<div style="display: flex; flex-direction: row; flex: 1; justify-items: space-between; align-items: flex-start;">
-<div style="flex: 0.8;">
-<img src="images/pappapez.png" width=220 />
+<img src="images/pappapez.png" alt="PEZ photo" />
+
 </div>
-<div style="flex: 3; margin-right" >
+<div class="col-5">
 
 * Peter Strömberg (aka PEZ)
 * Wife and five kids.
@@ -20,8 +20,7 @@ Scicloj May 24, 2025
   * Sharpening kitchen knives
 
 </div>
-
-<div style="flex: 5;">
+<div class="col-5">
 
 * https://github.com/PEZ
 * https://twitter.com/pappapez
@@ -29,16 +28,16 @@ Scicloj May 24, 2025
 * https://blog.agical.se/en/authors/peter-stromberg
 
 </div>
-
 </div>
 
-<div style="display: flex; flex-direction: row; flex: 1; justify-items: space-between; align-items: center;">
+<div class="row" style="margin-top: 20px;">
+<div class="col-2"></div>
+<div class="col-5 center">
 
-<div style="flex: 3.8; margin-right" >
-<img src="images/agical.svg" height="160">
+<img src="images/agical.svg" alt="Agical logo" />
+
 </div>
-
-<div style="flex: 5;">
+<div class="col-5 vcenter">
 
 * **80%** Clojure contractor
 * **20%** Open Source developer

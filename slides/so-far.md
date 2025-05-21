@@ -2,9 +2,9 @@
 
 # Experiences so far
 
-<div class="gutters-10 row">
-<div class="col-8 column">
-<div>
+<div class="responsive-container">
+<div class="row gutters-10">
+<div class="col-8">
 
 - Depends a lot on the model
 - Voice mode works better for me (?)
@@ -12,8 +12,8 @@
 - Output tool (it keeps forgetting)
 - Rich comments (varying success)
 - Inline defs and Snitch
-</div>
-<div>
+
+<div style="margin-top: 20px;">
 
 * **Unsolved**
   - REPL results grow context
@@ -23,11 +23,17 @@
     - (not figured this out yet)
   - Bracket balancing...
   - Skill issues
+
 </div>
 </div>
-<div class="col-4 rows">
+
+<div class="col-4 center">
+
 Great for live demos 😀
+
 <span style="font-size: 5rem; line-height: 1; margin-top: 3rem">🎤</span>
+
+</div>
 </div>
 </div>
 </div>

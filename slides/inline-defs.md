@@ -1,8 +1,8 @@
-<div class="slide">
+<div class="slide content-heavy">
 
 # BONUS POINTS: USE INTERACTIVE DEBUGGING TECHNIQUES
 
-<div class="scroller">
+<div class="content-area">
 
 - A.k.a. "inline def debugging" (the power move, you love it)
 - Instrument functions with inline defs to capture bindings with their existing names:
@@ -29,5 +29,6 @@
             (process-txn txn)))
          txns))
    ```
+
 </div>
 </div>

@@ -1,0 +1,267 @@
+/* Base Styles */
+body {
+  margin: 0;
+  padding: 0;
+  /* padding-top: 20px; */
+  overflow: hidden;
+  line-height: 1.5;
+}
+
+/* Slide Container */
+.slide {
+  max-width: 100%;
+  padding: 20px;
+  position: relative;
+}
+
+/* Typography */
+.github-markdown-body h1 {
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+.github-markdown-body h2 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  border: none;
+}
+
+.small {
+  font-size: 0.7em;
+  opacity: 0.9;
+}
+
+/* Column Layout System */
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  /* margin: 0 -10px; */
+  width: 100%;
+}
+
+.column {
+  /* padding: 0 10px; */
+  /* flex: 1;
+  min-width: 200px; */
+}
+
+/* Grid Column Widths */
+.col-1 { flex: 0 0 8.333%; }
+.col-2 { flex: 0 0 16.666%; }
+.col-3 { flex: 0 0 25%; }
+.col-4 { flex: 0 0 33.333%; }
+.col-5 { flex: 0 0 41.666%; }
+.col-6 { flex: 0 0 50%; }
+.col-7 { flex: 0 0 58.333%; }
+.col-8 { flex: 0 0 66.666%; }
+.col-9 { flex: 0 0 75%; }
+.col-10 { flex: 0 0 83.333%; }
+.col-11 { flex: 0 0 91.666%; }
+.col-12 { flex: 0 0 100%; }
+
+/* Responsive Containers - using container queries */
+@container (max-width: 600px) {
+  .column {
+    flex: 0 0 100%;
+    margin-bottom: 20px;
+    margin-left: 10px;
+  }
+}
+
+.responsive-container {
+  container-type: inline-size;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+/* Utility Classes */
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  flex-direction: column;
+}
+
+.vcenter {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.scroller {
+  max-height: 80svh;
+  overflow-y: auto;
+  /* border: 1px solid var(--vscode-editor-lineHighlightBorder); */
+  /* padding: 10px; */
+  /* position: relative; */
+}
+
+.scroller::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  height: 20px;
+  background: linear-gradient(to bottom, transparent, var(--vscode-editor-background));
+  pointer-events: none;
+  opacity: 0.8;
+}
+
+.gutters-10 {
+  padding: 10px;
+}
+
+/* Image Handling */
+img {
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+img:hover {
+  transform: scale(1.02);
+  transition: transform 0.3s ease;
+}
+
+/* Icon Gallery */
+.icon-gallery {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.icon-gallery img {
+  height: 120px;
+  width: auto;
+}
+
+/* Slide Types */
+/* Title Slide */
+.title-slide h1 {
+  font-size: 2.5em;
+}
+
+.title-slide .subtitle {
+  font-size: 1.5em;
+  opacity: 0.8;
+  margin-bottom: 30px;
+}
+
+/* Image Slide */
+.image-slide .caption {
+  font-style: italic;
+  opacity: 0.8;
+  text-align: center;
+  margin-top: 10px;
+}
+
+/* Content Heavy Slide */
+.content-heavy {
+  display: flex;
+  flex-direction: column;
+}
+
+.content-heavy .content-area {
+  flex: 1;
+  overflow-y: auto;
+  max-height: 70vh;
+  position: relative;
+}
+
+.content-heavy .content-area::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  height: 25px;
+  background: linear-gradient(to bottom, transparent, var(--vscode-editor-background));
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+/* Additional Layout Improvements */
+.rows {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Responsive Image Layout */
+.image-focus {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  margin: 20px 0;
+}
+
+.image-focus img {
+  max-height: 60vh;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+}
+
+.image-focus img:hover {
+  transform: scale(1.03);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+}
+
+/* Gallery Layout */
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+  margin: 20px 0;
+}
+
+.gallery-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+  border-radius: 5px;
+  transition: background-color 0.2s ease;
+}
+
+.gallery-item:hover {
+  background-color: var(--vscode-editor-hoverHighlightBackground);
+}
+
+.gallery-item img {
+  max-width: 100%;
+  height: 120px;
+  object-fit: contain;
+}
+
+.gallery-item .caption {
+  margin-top: 10px;
+  font-size: 0.9em;
+  text-align: center;
+}
+
+/* Accessibility Improvements */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+/* Print Styles - for exporting to PDF */
+@media print {
+  .slide {
+    page-break-after: always;
+    height: 100vh;
+    overflow: visible;
+  }
+
+  .scroller, .content-area {
+    overflow: visible;
+    max-height: none;
+  }
+}

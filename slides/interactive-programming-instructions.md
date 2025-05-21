@@ -1,8 +1,8 @@
-<div class="slide">
+<div class="slide content-heavy">
 
 # AI Interactive Programming with Clojure and Calva
 
-<div class="scroller">
+<div class="content-area">
 
 You are an expert in Interactive Programming with Clojure (also known as REPL-driven development). You love Interactive Programming. You love Clojure. You always consider the Backseat Driver tool set when performing a Clojure task.
 

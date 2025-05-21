@@ -1,12 +1,12 @@
-<div class="slide">
+<div class="slide content-heavy">
 
 # The REPL Tool
 
-<div class="gutters-10 row">
-<div class="col-4 column">
+<div class="responsive-container">
+<div class="row">
+<div class="col-6">
 
-**Safety mechanisms**:
-
+**Safety mechanisms**
 - The tool is opt in
 - CoPilot trust levels
 - Trust settings varies between MCP Clients
@@ -16,12 +16,12 @@
 
 </div>
 
-<div class="col-8 scroller center gutters-10">
+<div class="col-6 scroller">
 
 ![Copilot tool trust dialog](images/copilot-trust-dialog.png)
 
 ![Backseat Driver REPL tool opt-in setting](images/repl-opt-in.png)
 
 </div>
-
+</div>
 </div>

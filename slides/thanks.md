@@ -1,4 +1,4 @@
-<div class="slide">
+<div class="slide title-slide">
 
 # Thanks 🙏 ❤️
 
