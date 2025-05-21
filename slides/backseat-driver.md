@@ -8,7 +8,6 @@
 - A VS Code Extension
   - CoPilot tools provider
   - MCP Server - for other AI Agents
-    - Some setup required
   - Built with ClojureScript
 - A Calva Extension
 - Tools for feedback
@@ -16,7 +15,7 @@
 </div>
 
 <div class="gutters-10 column center">
-<img src="images/backseat-driver-header.png" height=300>
+<img src="images/backseat-driver-header.png" alt="Backseat Driver Header">
 </div>
 
 </div>

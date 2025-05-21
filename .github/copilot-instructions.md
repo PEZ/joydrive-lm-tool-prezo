@@ -21,3 +21,5 @@ Example use of a command id:
 ```clojure
 (vscode/commands.executeCommand "workbench.action.closeAuxiliaryBar")
 ```
+
+When deomonstrating what you can do with Backseat Driver and Joyride, remember to show your results in a visual way. E.g. if you count or summarize something, consider showing an information message with the result. Or consider creating a markdown file and show it in preview mode.
