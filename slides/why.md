@@ -11,6 +11,7 @@
 - Can it do Interactive Programming?
 
 **Backseat Driver:**
+- Can it do Interactive Programming?
 - Context mostly solved by<br> CoPilot et al
 - Feedback
   - REPL Evaluation tool
