@@ -8,9 +8,8 @@
 
 - Depends a lot on the model
 - Voice mode works better for me (?)
-- Utilizing feedback:
-  - Run tests, please (works pretty well!)
-  - Output tool (it keeps forgetting)
+- Run tests, please (works pretty well!)
+- Output tool (it keeps forgetting)
 - Rich comments (varying success)
 - Inline defs and Snitch
 </div>
@@ -22,6 +21,7 @@
     - The AI doesn't seem to get the value of feedback
   - **Small steps?**
     - (not figured this out yet)
+  - Bracket balancing...
   - Skill issues
 </div>
 </div>

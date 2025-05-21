@@ -121,3 +121,76 @@ body {
   max-width: 100%;
   object-fit: contain;
 }
+
+/* Row-based layout setup */
+.responsive-container {
+  display: flex;
+  flex-wrap: nowrap;
+  width: 100%;
+}
+
+.responsive-container > .column {
+  flex: 1;
+  align-self: center;
+}
+
+/* General image styling */
+.slide img {
+  transition: transform 0.2s;
+  object-fit: contain;
+}
+
+.slide img:hover {
+  transform: scale(1.05);
+}
+
+/* Multi-image gallery (for topics slide) */
+.icon-gallery {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  width: 250px;
+}
+
+.icon-gallery img {
+  max-height: 100px;
+  margin: 5px;
+}
+
+/* Single image container (for backseat-driver slide) */
+.image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+}
+
+.image-container img {
+  max-height: 240px;
+  max-width: 100%;
+}
+
+/* Media query for topics slide - images stack vertically when narrow */
+@media screen and (max-width: 1023px) {
+  .icon-gallery {
+    flex-direction: column;
+  }
+}
+
+/* Media query for backseat-driver slide - whole layout stacks when narrow */
+@media screen and (max-width: 1023px) {
+  .stack-on-narrow {
+    flex-direction: column;
+  }
+
+  .stack-on-narrow > .column,
+  .stack-on-narrow > .image-container {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .icon-gallery {
+    margin-top: 20px;
+  }
+}

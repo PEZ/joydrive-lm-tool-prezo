@@ -1,11 +1,10 @@
 <div class="slide">
 
-# Topics
+# Can we turn CoPilot into an Interactive Programmer?
 
-Can we turn CoPilot into an Interactive Programmer?
 
-<div class="gutters-10 row">
-<div class="column" style="flex: 1.1;">
+<div class="responsive-container">
+<div class="column">
 
 ## Backseat Driver
 
@@ -20,10 +19,12 @@ Can we turn CoPilot into an Interactive Programmer?
 
 </div>
 
-<div class="gutters-10 column center">
-<img src="images/clj.png" height=160>
-<img src="images/copilot-icon-light.png" height=140>
-<img src="images/backseat-driver-icon.png" height=160>
+<div class="column center">
+  <div class="icon-gallery">
+    <img src="images/clj.png" alt="Clojure Logo">
+    <img src="images/copilot-icon-light.png" alt="GitHub Copilot Icon">
+    <img src="images/backseat-driver-icon.png" alt="Backseat Driver Icon">
+  </div>
 </div>
 
 </div>

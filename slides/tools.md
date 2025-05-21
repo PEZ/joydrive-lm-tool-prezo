@@ -1,5 +1,7 @@
 <div class="slide">
-<h1>Tools</h1>
+
+# Tools for Interactive Programming
+
 <div class="gutters-10 row">
 <div class="col-4 column">
 
