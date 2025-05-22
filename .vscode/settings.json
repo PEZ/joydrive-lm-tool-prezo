@@ -14,7 +14,7 @@
     "workbench.statusBar.visible": true,
     "markdown.preview.typographer": true,
     "markdown.styles": [
-        "slides/style2.css"
+        "next-slide.css"
     ],
     "markdown.preview.scrollPreviewWithEditor": false,
     "markdown.preview.scrollEditorWithPreview": false,
