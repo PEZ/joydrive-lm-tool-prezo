@@ -3,8 +3,8 @@
 # Can we turn CoPilot into an Interactive Programmer?
 
 
-<div class="gutters-10 row">
-<div class="column" style="flex: 1.1;">
+<div class="row">
+<div class="column col-6">
 
 ## Backseat Driver
 
@@ -19,7 +19,7 @@
 
 </div>
 
-<div class="gutters-10 column center">
+<div class="column col-6 icon-gallery vcenter">
 <img src="images/clj.png" height=160>
 <img src="images/copilot-icon-light.png" height=140>
 <img src="images/backseat-driver-icon.png" height=160>

@@ -2,8 +2,8 @@
 
 # Backseat Driver – What is it?
 
-<div class="gutters-10 row">
-<div class="column">
+<div class="row">
+<div class="column col-5">
 
 - A VS Code Extension
   - CoPilot tools provider
@@ -14,7 +14,7 @@
 
 </div>
 
-<div class="gutters-10 column center">
+<div class="column col-7">
 <img src="images/backseat-driver-header.png" alt="Backseat Driver Header">
 </div>
 
