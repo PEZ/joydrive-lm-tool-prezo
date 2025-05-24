@@ -39,5 +39,7 @@
     "editor.quickSuggestionsDelay": 1300,
     "calva.showCalvaSaysOnStart": false,
     "calva.autoOpenJackInTerminal": false,
+    "calva.autoOpenInspector": false,
+    "calva.autoOpenResultOutputDestination": false,
 
 }
