@@ -16,6 +16,7 @@
 - Well, can we?
 - WIP, where next?
 - MCP
+- Alternatives/complementary tools
 
 </div>
 
