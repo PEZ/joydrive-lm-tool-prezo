@@ -16,3 +16,4 @@ words-alpha.txt
 .calva/output-window/
 .DS_Store
 .portal/
+node_modules/
