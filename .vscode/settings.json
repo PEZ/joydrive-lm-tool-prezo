@@ -9,7 +9,7 @@
     "zenMode.centerLayout": false,
     "editor.fontSize": 18,
     "gitlens.gitCommands.sortBy": "name",
-    "window.zoomLevel": 4,
+    "window.zoomLevel": 2,
     "zenMode.hideStatusBar": false,
     "workbench.statusBar.visible": true,
     "markdown.preview.typographer": true,
