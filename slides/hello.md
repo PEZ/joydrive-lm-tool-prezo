@@ -1,8 +1,8 @@
 <div class="slide title-slide">
 
-Scicloj May 24, 2025 – Can we turn CoPilot into an Interactive Programmer?
+Scicloj May 24, 2025 – AI Hacking VS Code with Interactive Programming
 
-# Backseat Driver
+# Joyride + LM Tools
 
 <div class="responsive-container">
 <div class="row">

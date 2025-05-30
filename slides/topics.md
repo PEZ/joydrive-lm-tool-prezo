@@ -1,29 +1,27 @@
 <div class="slide">
 
-# Can we turn CoPilot into an Interactive Programmer?
+# AI Hacking VS Code with Interactive Programming
 
 
 <div class="row">
 <div class="column col-6">
 
-## Backseat Driver
+## Joyride + LM Tools
 
-- What is it, and why?
-- The provided tools
-- Demo
-- Do we dare? (YOLO mode)
-- Experience so far (skill issues)
-- Well, can we?
-- WIP, where next?
-- MCP
-- Alternatives/complementary tools
+- What is Joyride?
+- The new LM Tool integration
+- Interactive Programming with AI
+- Demo: AI building VS Code features
+- Experiences and learnings  
+- Joyride + Calva + Backseat Driver
+- Where next?
 
 </div>
 
 <div class="column col-6 icon-gallery vcenter">
 <img src="images/clj.png" height=160>
 <img src="images/copilot-icon-light.png" height=140>
-<img src="images/backseat-driver-icon.png" height=160>
+<img src="images/vscode.png" height=160>
 </div>
 
 </div>

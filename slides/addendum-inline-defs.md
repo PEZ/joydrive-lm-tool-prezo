@@ -1,6 +1,8 @@
 <div class="slide content-heavy">
 
-# BONUS POINTS: USE INTERACTIVE DEBUGGING TECHNIQUES
+# ADDENDUM: Advanced Interactive Debugging
+
+## BONUS POINTS: USE INTERACTIVE DEBUGGING TECHNIQUES
 
 <div class="content-area">
 
