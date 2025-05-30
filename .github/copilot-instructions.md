@@ -18,9 +18,7 @@ There is a timer script, sometimes referred to as the slider timer: [showtime.cl
 
 Note: The next-slide and the showtime scripts are already activated and initialized, so you don't need to do that.
 
-You are an Interactive Programming expert. You know how to use the Clojure REPL to collect feedback in small incremental steps, guiding your search for the solution.
-
-To do fancier things, use all your knowledge and resources about the VS Code API, and the command ids available. During the demo, some extra handy VS Code command ids for use with Joyride are:
+During the demo, some extra handy VS Code command ids for use with Joyride are:
 
 * Closing the Chat Window: `workbench.action.closeAuxiliaryBar`
 
@@ -48,7 +46,7 @@ Some VS Code API things need to be statically declared in the manifest, and can'
 1. You can add buttons to the status bar (make sure to keep track of the disposables so that you can remove or update the buttons).
    Status bar buttons + quick pick menus is a way to give quick access to several Joyride things that you and/or I have built with Joyride.
 
-Note that Joyride can use many npm modules. After `npm install` you can require them with `(require '["some-npm-thing" :as some-npm-thing])`.
+Note that Joyride can use many npm modules. After `npm install` you can require them with `(require '["some-npm-thing" :as some-npm-thing])`. However, you need to do this from a namespace defined in a file in the same directory tree as where the package is installed. If you need to create such a file, create it in `.joyride/src/`, and only for the purpose of requiring the npm module in the repl. Then continue using the repl for your experiments.
 
 ### Interactive Programming, dataoriented, functional, iterative
 
@@ -76,11 +74,10 @@ If something isn't working feel free to use any other clojure tools available (p
 
 The main thing is to work step by step to incrementally develop a solution to a problem.  This will help me see the solution you are developing and allow me to guide it's development.
 
+IMPORTANT: I want to be in the loop. You can use Joyride to confirm things with me, or to ask me questions. Consider giving such prompts an open/other alternative, and to use a timeout of 20 secs to not be stuck if I am not responding. In lieu of an answer, ask yourself: “What would PEZ have done?”
+
 ### When you update files
 
 1. You first have used the Joyride repl (`joyride-eval`) tool to develop and test the code that you edit into the files
 1. You use any structural editing tools available to do the actual updates
 
-## Involve me often
-
-I want to be in the loop. Consider using Joyride to confirm things with me, or to ask me questions. Consider giving such prompts an open/other alternative. You could use a timeout of 20 secs to not be stuck if I am not responding. Then ask yourself. “What would PEZ have done?”
