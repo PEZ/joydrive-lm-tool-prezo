@@ -3,8 +3,7 @@
             [cljs.test]
             [promesa.core :as p]
             [test.db :as db]
-            ["vscode" :as vscode]
-            workspace-activate))
+            ["vscode" :as vscode]))
 
 (defn- write [& xs]
   (js/process.stdout.write (string/join " " xs)))
