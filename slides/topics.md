@@ -12,7 +12,7 @@
 - The new LM Tool integration
 - Interactive Programming with AI
 - Demo: AI building VS Code features
-- Experiences and learnings  
+- Experiences and learnings
 - Joyride + Calva + Backseat Driver
 - Where next?
 

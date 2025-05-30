@@ -13,7 +13,7 @@
   * Structural editing and formatting
   * Rich Clojure tooling
 
-* **Backseat Driver**: Additional AI tools  
+* **Backseat Driver**: Additional AI tools
   * Can connect to Joyride's REPL
   * Disable Joyride's eval tool when using both
   * Provides more specialized Clojure AI assistance
