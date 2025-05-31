@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Audio Control with Local Resources</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background: #1e1e1e; color: #d4d4d4; }
+        .controls { margin: 20px 0; }
+        button { margin: 5px; padding: 10px 15px; font-size: 14px; }
+        .status { padding: 10px; background: #2d2d30; border-radius: 5px; margin: 10px 0; }
+        .success { background: #0e7c0e; }
+        .error { background: #a1260d; }
+        .log { background: #252526; padding: 10px; border-radius: 5px; max-height: 200px; overflow-y: auto; font-family: monospace; font-size: 12px; }
+    </style>
+</head>
+<body>
+    <h2>Audio Control with VS Code Local Resources</h2>
+
+    <div class='status' id='status'>Ready to test audio playback</div>
+
+    <div class='controls'>
+        <button onclick='enableAudio()' style='background: #0078d4; color: white; border: none; padding: 15px 25px; font-size: 16px;'>
+            🔊 Enable Audio
+        </button>
+        <br><br>
+        <button onclick='playAudio()'>Play</button>
+        <button onclick='pauseAudio()'>Pause</button>
+        <button onclick='stopAudio()'>Stop</button>
+    </div>
+
+    <audio id='audioPlayer' preload='metadata' style='width: 100%; margin: 20px 0;'>
+        <source src='WEBVIEW_RESOURCE_URI_HERE' type='audio/mpeg'>
+        Your browser does not support the audio element.
+    </audio>
+
+    <div class='log' id='log'></div>
+
+    <script>
+        const vscode = acquireVsCodeApi();
+        let audio = document.getElementById('audioPlayer');
+        let userGestureComplete = false;
+
+        function log(message) {
+            const logDiv = document.getElementById('log');
+            const timestamp = new Date().toISOString().substr(11, 12);
+            logDiv.innerHTML += timestamp + ': ' + message + '<br>';
+            logDiv.scrollTop = logDiv.scrollHeight;
+            console.log(message);
+        }
+
+        function updateStatus(message, type = '') {
+            const status = document.getElementById('status');
+            status.textContent = message;
+            status.className = 'status ' + type;
+        }
+
+        function enableAudio() {
+            log('User clicked enable audio button - gesture captured');
+            userGestureComplete = true;
+            updateStatus('Audio enabled', 'success');
+
+            log('Testing audio source: ' + audio.src);
+            vscode.postMessage({type: 'userGestureComplete', success: true, message: 'User clicked enable button'});
+        }
+
+        function loadAudio(audioPath) {
+            log('Loading audio: ', audioPath, "...");
+            audio.src = audioPath;
+            audio.load();
+            updateStatus('Audio loaded');
+        }
+
+        function playAudio() {
+            if (!userGestureComplete) {
+                updateStatus('Please click Enable Audio first', 'error');
+                return;
+            }
+            log('Attempting to play audio...');
+            audio.play().then(() => {
+                log('Audio play() succeeded');
+                updateStatus('Playing', 'success');
+            }).catch(err => {
+                log('Audio play() failed: ' + err.message);
+                updateStatus('Play failed: ' + err.message, 'error');
+            });
+        }
+
+        function pauseAudio() {
+            audio.pause();
+            log('Audio paused');
+            updateStatus('Paused');
+        }
+
+        function stopAudio() {
+            audio.pause();
+            audio.currentTime = 0;
+            log('Audio stopped');
+            updateStatus('Stopped');
+        }
+
+        function setVolume(v) {
+            if (typeof v !== 'number' || v < 0 || v > 1) {
+                log('Invalid volume value: ' + v);
+                return;
+            }
+            audio.volume = v;
+            log('Audio volume set to ' + v);
+            updateStatus('Volume set to ' + v);
+        }
+
+        // Audio event listeners
+        audio.addEventListener('loadstart', () => log('Audio: loadstart'));
+        audio.addEventListener('loadeddata', () => log('Audio: loadeddata'));
+        audio.addEventListener('canplay', () => log('Audio: canplay'));
+        audio.addEventListener('playing', () => log('Audio: playing'));
+        audio.addEventListener('pause', () => log('Audio: pause'));
+        audio.addEventListener('ended', () => log('Audio: ended'));
+        audio.addEventListener('error', (e) => log('Audio error: ' + e.target.error.message));
+        audio.addEventListener('volumechange', () => log('Audio: volume changed to ' + audio.volume));
+
+        // Message handler from Joyride
+        window.addEventListener('message', event => {
+            const message = event.data;
+            log('Received message: ' + JSON.stringify(message));
+
+            switch(message.command) {
+                case 'load':
+                    loadAudio();
+                    break;
+                case 'play':
+                    playAudio();
+                    break;
+                case 'pause':
+                    pauseAudio();
+                    break;
+                case 'stop':
+                    stopAudio();
+                    break;
+                default:
+                    log('Unknown message type: ' + message.type);
+            }
+        });
+
+        log('Webview initialized with local resource access');
+        vscode.postMessage({type: 'webview-ready', hasAudio: true});
+    </script>
+</body>
+</html>
