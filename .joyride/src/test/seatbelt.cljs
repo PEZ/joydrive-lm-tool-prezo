@@ -12,39 +12,44 @@
   (apply write xs)
   (js/process.stdout.write "\n"))
 
-(def old-pass (get-method cljs.test/report [:cljs.test/default :pass]))
+;; Simple custom reporting that avoids recursion
+(defn handle-end-run-tests [_m]
+  (let [{:keys [running pass fail error]} @db/!state
+        passed-minimum-threshold 2
+        fail-reason (cond
+                      (< 0 (+ fail error)) "FAILURE: Some tests failed or errored"
+                      (< pass passed-minimum-threshold) (str "FAILURE: Less than " passed-minimum-threshold " assertions passed")
+                      :else nil)]
 
-(defmethod cljs.test/report [:cljs.test/default :pass] [m]
-  (binding [*print-fn* writeln] (old-pass m))
-  (swap! db/!state update :pass inc))
-
-(def old-fail (get-method cljs.test/report [:cljs.test/default :fail]))
-
-(defmethod cljs.test/report [:cljs.test/default :fail] [m]
-  (binding [*print-fn* writeln] (old-fail m))
-  (swap! db/!state update :fail inc))
-
-(def old-error (get-method cljs.test/report [:cljs.test/default :error]))
-
-(defmethod cljs.test/report [:cljs.test/default :error] [m]
-  (binding [*print-fn* writeln] (old-error m))
-  (swap! db/!state update :error inc))
-
-(def old-end-run-tests (get-method cljs.test/report [:cljs.test/default :end-run-tests]))
-
-(defmethod cljs.test/report [:cljs.test/default :end-run-tests] [m]
-  (binding [*print-fn* write]
-    (old-end-run-tests m)
-    (let [{:keys [running pass fail error]} @db/!state
-          passed-minimum-threshold 2
-          fail-reason (cond
-                        (< 0 (+ fail error)) "FAILURE: Some tests failed or errored"
-                        (< pass passed-minimum-threshold) (str "FAILURE: Less than " passed-minimum-threshold " assertions passed")
-                        :else nil)]
-
+    (when running
       (if fail-reason
         (p/reject! running fail-reason)
         (p/resolve! running true)))))
+
+(defn custom-report [m]
+  ;; Handle our custom reporting without calling original to avoid recursion
+  (case (:type m)
+    :pass (do
+            (swap! db/!state update :pass inc)
+            (write "."))
+    :fail (do
+            (swap! db/!state update :fail inc)
+            (write "F"))
+    :error (do
+             (swap! db/!state update :error inc)
+             (write "E"))
+    :begin-test-ns (writeln (str "\nTesting " (:ns m)))
+    :end-test-ns (writeln (str "Completed " (:test m) " tests"))
+    :end-run-tests (do
+                     (handle-end-run-tests m)
+                     (writeln (str "\nResults: " (:pass @db/!state) " passed, "
+                                   (:fail @db/!state) " failed, "
+                                   (:error @db/!state) " errors")))
+    :summary nil ;; Skip default summary to avoid duplication
+    nil))
+
+;; Install the custom report function
+(set! cljs.test/report custom-report)
 
 (defn- file->ns [src-path file]
   (-> file
@@ -54,7 +59,7 @@
       (string/replace #"_" "-")))
 
 (defn- find-test-nss+ [src-path]
-  (p/let [file-uris (vscode/workspace.findFiles (str src-path "/**/*_test.cljs"))
+  (p/let [file-uris (vscode/workspace.findFiles (str src-path "/**/*test.cljs"))
           files (.map file-uris (fn [uri]
                                   (vscode/workspace.asRelativePath uri false)))
           nss-strings (-> files
