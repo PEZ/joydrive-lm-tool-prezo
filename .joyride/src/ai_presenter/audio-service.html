@@ -12,7 +12,7 @@
         let audioPlayer = null;
         let currentAudio = null;
         let audioFiles = new Map();
-        
+
         // Initialize sounds-control
         window.addEventListener('load', () => {
             try {
@@ -24,7 +24,7 @@
                 vscode.postMessage({type: 'error', message: e.message});
             }
         });
-        
+
         // Message handler
         window.addEventListener('message', event => {
             const cmd = event.data;
