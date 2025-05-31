@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "ai-text-to-speech": "^1.0.5"
+    "ai-text-to-speech": "^1.0.5",
+    "sounds-control": "^1.0.1"
   }
 }
