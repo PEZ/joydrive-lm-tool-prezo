@@ -1,4 +1,4 @@
-(ns ai-presenter.audio-playback-spike
+(ns ai-presenter.spikes.audio-playback-afplay-spike
   "🎯 Spike: Programmatic Audio Playback Control in VS Code/Electron/Node.js
 
   Goal: Find the best way to achieve full programmatic control (play/pause/resume/stop)
@@ -12,7 +12,8 @@
 
 
 ;; ========================================
-;; 🎯 SPIKE FINDINGS: Working Audio Playback Control
+;; 🎯 SPIKE FINDINGS: Working Audio Playback Control with afplay
+;;    Mac Only, so the search continues.
 ;; ========================================
 
 (defn play-audio-file
