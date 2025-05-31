@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Audio Service</title>
+    <script src="https://unpkg.com/sounds-control@latest/dist/index.umd.js"></script>
+</head>
+<body>
+    <div id="status">Audio Service Loading...</div>
+    <script>
+        const vscode = acquireVsCodeApi();
+        let audioPlayer = null;
+        let currentAudio = null;
+        let audioFiles = new Map();
+        
+        // Initialize sounds-control
+        window.addEventListener('load', () => {
+            try {
+                audioPlayer = new SoundsControl();
+                document.getElementById('status').textContent = 'SoundsControl Ready';
+                vscode.postMessage({type: 'ready', message: 'Audio service initialized'});
+            } catch (e) {
+                document.getElementById('status').textContent = 'Error: ' + e.message;
+                vscode.postMessage({type: 'error', message: e.message});
+            }
+        });
+        
+        // Message handler
+        window.addEventListener('message', event => {
+            const cmd = event.data;
+            try {
+                switch(cmd.command) {
+                    case 'load':
+                        if (audioPlayer && cmd.audioPath) {
+                            currentAudio = audioPlayer.load(cmd.audioPath);
+                            audioFiles.set(cmd.id || 'default', currentAudio);
+                            vscode.postMessage({type: 'loaded', id: cmd.id, path: cmd.audioPath});
+                        }
+                        break;
+                    case 'play':
+                        const playAudio = audioFiles.get(cmd.id || 'default') || currentAudio;
+                        if (playAudio) {
+                            playAudio.play();
+                            vscode.postMessage({type: 'playing', id: cmd.id});
+                        }
+                        break;
+                    case 'pause':
+                        const pauseAudio = audioFiles.get(cmd.id || 'default') || currentAudio;
+                        if (pauseAudio) {
+                            pauseAudio.pause();
+                            vscode.postMessage({type: 'paused', id: cmd.id});
+                        }
+                        break;
+                    case 'stop':
+                        const stopAudio = audioFiles.get(cmd.id || 'default') || currentAudio;
+                        if (stopAudio) {
+                            stopAudio.stop();
+                            vscode.postMessage({type: 'stopped', id: cmd.id});
+                        }
+                        break;
+                    case 'volume':
+                        const volAudio = audioFiles.get(cmd.id || 'default') || currentAudio;
+                        if (volAudio && typeof cmd.volume === 'number') {
+                            volAudio.setVolume(cmd.volume);
+                            vscode.postMessage({type: 'volumeSet', id: cmd.id, volume: cmd.volume});
+                        }
+                        break;
+                    case 'debug':
+                        console.log('Debug: audioPlayer =', audioPlayer);
+                        console.log('Debug: currentAudio =', currentAudio);
+                        console.log('Debug: audioFiles =', audioFiles);
+                        vscode.postMessage({type: 'debug', audioPlayer: !!audioPlayer, currentAudio: !!currentAudio});
+                        break;
+                }
+            } catch (e) {
+                vscode.postMessage({type: 'error', message: e.message, command: cmd.command});
+            }
+        });
+    </script>
+</body>
+</html>

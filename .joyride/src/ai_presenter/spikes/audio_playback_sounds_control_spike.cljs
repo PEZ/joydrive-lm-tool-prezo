@@ -179,3 +179,51 @@
     )
 
   :rcf)
+
+;; 🔧 DEBUGGING HELPERS
+(defn test-with-web-audio! []
+  ;; Test with a web-accessible audio file to rule out file path issues
+  (load-audio! "https://www.soundjay.com/misc/sounds/bell-ringing-05.wav" :id "web-test"))
+
+(defn add-debug-to-webview! []
+  ;; Add debug commands to webview HTML - call this after init
+  (when @!audio-webview
+    ;; Add debug case to message handler
+    (send-audio-command! :eval {:code "console.log('Debug: audioPlayer =', audioPlayer); console.log('Debug: currentAudio =', currentAudio);"})))
+
+(defn enable-webview-dev-tools! []
+  ;; Enable dev tools for the webview to see console messages
+  (when @!audio-webview
+    ;; This might help with debugging
+    (.postMessage
+     (.-webview @!audio-webview)
+     {:command "enableDevTools"})))
+
+;; 🎯 TROUBLESHOOTING STEPS:
+;; 1. File access: Local files might not be accessible from webview
+;; 2. Audio permissions: Browser might need user interaction
+;; 3. sounds-control loading: CDN might be failing
+;; 4. Message passing: Commands might not be reaching webview properly
+
+;; 🔧 FILE-BASED HTML APPROACH (to avoid ClojureScript reader issues)
+(defn load-html-from-file! []
+  "Load HTML content from external file to avoid string parsing issues"
+  (when @!audio-webview
+    (let [fs (js/require "fs")
+          path (js/require "path")
+          html-path (path/join js/__dirname "../ai_presenter/audio-service.html")
+          html-content (.readFileSync fs html-path "utf8")]
+      (set! (.. @!audio-webview -webview -html) html-content))))
+
+(defn init-audio-service-v2! []
+  "Improved version using external HTML file"
+  (create-audio-webview!)
+  (load-html-from-file!)
+  ;; Set up message listener
+  (.onDidReceiveMessage 
+    (.-webview @!audio-webview)
+    (fn [message]
+      (js/console.log "Audio service message:" message)
+      message))
+  @!audio-webview)
+
