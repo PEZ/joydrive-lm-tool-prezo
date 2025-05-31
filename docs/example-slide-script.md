@@ -19,16 +19,16 @@ From `slides/what-is-joyride.md`:
 ## Generated Script
 
 ```
-Welcome to Joyride! So what exactly is Joyride? 
-   
+Welcome to Joyride! So what exactly is Joyride?
+
 Joyride is VS Code scripting powered by ClojureScript. This means you can automate and customize your VS Code environment using the elegance and power of Clojure.
-   
+
 You get full access to the VS Code extension API - everything that extensions can do, you can do interactively from the REPL.
-   
+
 This is REPL-driven development taken to the next level - you're not just developing your application with the REPL, you're developing your development environment itself!
-   
+
 And here's what's NEW and exciting: we now have LM Tool integration, which means AI assistants like me can interact with VS Code through Joyride. This opens up incredible possibilities for AI-powered development workflows.
-   
+
 As you can see, it's VS Code plus ClojureScript equals pure programming joy!
 ```
 
@@ -98,7 +98,7 @@ The script was generated and played using:
   (in-ns 'next-slide)
   (swap! !state assoc :active-slide 2)
   (current!)
-  
+
   (in-ns 'ai-presenter.audio-playback)
   (load-and-play-audio!+ "/Users/pez/Projects/Meetup/joydrive-lm-tool-prezo/slides/voice/what-is-joyride-demo.mp3"))
 ```
