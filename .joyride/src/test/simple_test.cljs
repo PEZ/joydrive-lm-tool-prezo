@@ -1,5 +1,14 @@
 (ns test.simple-test
-  (:require [cljs.test :refer [deftest is testing]]))
+  (:require
+   [cljs.test :refer [deftest is testing]]
+   [promesa.core :as p]
+   [test.macros :refer [deftest-async]]))
+
+
+(deftest-async promise-test
+  (testing "Async operations work"
+    (p/let [result (p/resolved "async-success")]
+      (is (= "async-success" result) "Should handle promises"))))
 
 (deftest simple-math-test
   (testing "Basic arithmetic operations"

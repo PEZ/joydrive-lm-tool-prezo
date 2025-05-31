@@ -81,3 +81,8 @@
       p)
     running))
 
+(comment
+  (require '[test.simple-test] :reload)
+  (p/let [p+ (run-all-tests! ".joyride/src")]
+    (def p+ p+))
+  )
