@@ -1,8 +1,5 @@
 (ns ai-presenter.audio-playback
-  "Core playback module.
-   * Sets up the webview, in view column One
-   * with the html from the file `audio-service.html`
-   * "
+  "Core playback module."
   (:require ["vscode" :as vscode]
             ["path" :as path]
             [promesa.core :as p]
