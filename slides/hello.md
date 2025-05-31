@@ -1,6 +1,6 @@
 <div class="slide title-slide">
 
-Scicloj May 24, 2025 – AI Hacking VS Code with Interactive Programming
+Can AI modify your VS Code environment while you are using it?
 
 # Joyride + LM Tools
 
