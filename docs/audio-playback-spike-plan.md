@@ -13,58 +13,62 @@ The [main plan](./AI-PRESENTER-PLAN.md#phase-0-spikes) identified this as Phase 
 ## Research Questions
 
 ### Primary Questions (Must Answer)
-1. **How does VS Code/Joyride handle audio playback?**
-   - Can we use `vscode.env.openExternal` with file URIs?
-   - Do we need HTML5 Audio elements?
-   - What about native system audio controls?
+1. **VS Code/Electron/Node.js Audio Control Options:**
+   - Are there VS Code APIs for programmatic audio playback control?
+   - What Node.js built-in modules support audio with play/pause/resume/stop?
+   - What npm modules provide full programmatic audio control in Electron/Node environment?
+   - Can we leverage Electron's main process audio capabilities?
 
-2. **How do we get playback control handles?**
-   - Can we get references to pause/resume/stop the audio?
-   - How do we detect when audio finishes playing?
-   - How do we prevent multiple audio files playing simultaneously?
+2. **Programmatic Control Requirements:**
+   - Can we get programmatic handles for play/pause/resume/stop operations?
+   - How do we detect audio completion events programmatically?
+   - Can we prevent multiple audio sessions programmatically (not relying on user)?
+   - Can we control playback position, volume, speed programmatically?
 
-3. **What's the user experience like?**
-   - Does audio play in system default player or in VS Code?
-   - Can we control volume, speed, position?
-   - How responsive are the controls?
+3. **Integration with Joyride/ClojureScript:**
+   - How do chosen audio solutions integrate with Joyride's ClojureScript environment?
+   - What's the interop story for audio control from ClojureScript?
+   - Can we maintain functional, data-oriented design patterns?
 
-### Secondary Questions (Nice to Know)
-4. **Integration points:**
-   - How do we hook into audio completion events?
-   - Can we get playback progress/timing information?
-   - What happens if user manually closes audio player?
+### Secondary Questions (Fallback Options)
+4. **Browser Tech Fallback:**
+   - If native options fail, how do HTML5 Audio elements work in VS Code's webview?
+   - Can we get programmatic control through webview messaging?
+   - What are the limitations of browser-based audio in this context?
 
 ## Spike Implementation Plan
 
-### Step 1: Basic Playback Exploration
-- Test different audio playback approaches with existing generated files
-- Document what works, what doesn't, and UX implications
-- Test with MP3 files in `slides/voice/` directory
+### Step 1: Native Audio Control Investigation
+- **Priority 1**: Research VS Code extension APIs for audio control
+- **Priority 2**: Test Node.js built-in audio capabilities (`child_process` with system audio tools?)
+- **Priority 3**: Explore npm modules: `node-wav-player`, `speaker`, `audio-play`, etc.
+- **Priority 4**: Investigate Electron main process audio control options
+### Step 2: Programmatic Control Testing
+- Test each viable option with actual play/pause/resume/stop operations
+- Measure control responsiveness and reliability
+- Test audio completion event detection
+- Validate session management capabilities
 
-### Step 2: Control Interface Discovery  
-- Experiment with pause/resume/stop mechanisms
-- Test audio session management (prevent chaos of multiple audio)
-- Document control limitations and capabilities
+### Step 3: Joyride Integration Assessment  
+- Test ClojureScript interop with chosen audio solutions
+- Prototype data-oriented API design
+- Test error handling and cleanup scenarios
+- Document integration patterns and constraints
 
-### Step 3: Event Handling Investigation
-- Research audio completion detection
-- Test cleanup and error scenarios
-- Document integration patterns for auto-advance functionality
-
-### Step 4: Design Recommendations
-- Propose data structures for audio session management
-- Recommend control patterns based on findings
-- Identify constraints and workarounds needed
+### Step 4: Fallback Option Evaluation
+- **Only if native options fail**: Test HTML5 Audio in VS Code webview
+- Compare programmatic control capabilities
+- Document trade-offs and limitations
 
 ## Success Criteria for Spike
 
-✅ **Basic Playback**: Can reliably play MP3 files from `slides/voice/` directory  
-✅ **Control Discovery**: Understand available control mechanisms (play/pause/stop)  
-✅ **Session Management**: Can prevent multiple audio files playing simultaneously  
-✅ **Completion Detection**: Can detect when audio finishes (for auto-advance)  
-✅ **Error Handling**: Understand failure modes and cleanup requirements  
-✅ **UX Documentation**: Clear understanding of user experience implications  
-✅ **Integration Pattern**: Recommended approach for presenter mode integration  
+✅ **Native Audio Control**: Identify working VS Code/Node.js/npm solution with full programmatic control  
+✅ **Complete Control Set**: Verified play/pause/resume/stop operations work reliably  
+✅ **Event Detection**: Can programmatically detect audio completion and errors  
+✅ **Session Management**: Can prevent multiple audio chaos programmatically  
+✅ **Joyride Integration**: ClojureScript interop works smoothly with chosen solution  
+✅ **Performance Validation**: Controls are responsive enough for presenter mode  
+✅ **Technical Decision**: Clear recommendation on best approach with justification  
 
 ## Spike Approach
 
@@ -95,11 +99,12 @@ The [main plan](./AI-PRESENTER-PLAN.md#phase-0-spikes) identified this as Phase 
 
 ## Expected Outcomes
 
-1. **Technical Recommendations**: Best approach for audio playback in Joyride/VS Code
-2. **API Design**: Proposed function signatures for audio control system
-3. **Data Models**: Structures needed for session management and state tracking
-4. **Integration Guidelines**: How to connect with slideshow navigation
-5. **Constraint Documentation**: Known limitations and workarounds
+1. **Primary Recommendation**: Best native audio control solution for VS Code/Electron/Node.js environment
+2. **API Design**: Proposed function signatures for programmatic audio control system  
+3. **Technical Constraints**: Documented limitations and required workarounds
+4. **Integration Pattern**: How to connect with Joyride/ClojureScript effectively
+5. **Performance Profile**: Control responsiveness and reliability characteristics
+6. **Fallback Strategy**: Browser-based option if native approaches fail
 
 ## Next Steps After Spike
 
