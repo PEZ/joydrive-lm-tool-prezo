@@ -79,6 +79,13 @@
 (defn set-volume! [volume & {:keys [id]}]
   (send-audio-command! :volume {:volume volume :id (or id "default")}))
 
+(defn load-and-play-audio!+ [file-path]
+  (p/let [load-result (load-audio! file-path)
+          play-result (play-audio!)]
+    {:load-result load-result
+     :play-result play-result
+     :success (and load-result play-result)}))
+
 (comment
   (init-audio-service!)
 
@@ -87,6 +94,10 @@
 
   (p/let [play+ (play-audio!)]
     (def play+ play+))
+
+  (p/let [load-and-play+ (load-and-play-audio!+ "/Users/pez/Projects/Meetup/joydrive-lm-tool-prezo/slides/voice/test-playback.mp3")]
+    (def load-and-play+ load-and-play+))
+
 
   (p/let [pause+ (pause-audio!)]
     (def pause+ pause+))
