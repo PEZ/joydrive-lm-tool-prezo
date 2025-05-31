@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "ai-text-to-speech": "^1.0.5"
+  }
+}
