@@ -28,7 +28,7 @@
     </div>
 
     <audio id='audioPlayer' preload='metadata' style='width: 100%; margin: 20px 0;'>
-        <source src='WEBVIEW_RESOURCE_URI_HERE' type='audio/mpeg'>
+        <source type='audio/mpeg'>
         Your browser does not support the audio element.
     </audio>
 
@@ -58,7 +58,6 @@
             userGestureComplete = true;
             updateStatus('Audio enabled', 'success');
 
-            log('Testing audio source: ' + audio.src);
             vscode.postMessage({type: 'userGestureComplete', success: true, message: 'User clicked enable button'});
         }
 
@@ -124,7 +123,7 @@
 
             switch(message.command) {
                 case 'load':
-                    loadAudio();
+                    loadAudio(message.audioPath);
                     break;
                 case 'play':
                     playAudio();
@@ -141,7 +140,7 @@
         });
 
         log('Webview initialized with local resource access');
-        vscode.postMessage({type: 'webview-ready', hasAudio: true});
+        vscode.postMessage({type: 'webview-ready', hasAudio: false, userGestureComplete});
     </script>
 </body>
 </html>

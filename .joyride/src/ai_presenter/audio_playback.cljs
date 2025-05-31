@@ -17,7 +17,7 @@
                    ".joyride"
                    "resources"))
 
-(def !audio-webview (atom nil))
+(defonce !audio-webview (atom nil))
 
 (defn dispose-audio-webview! []
   (when @!audio-webview
@@ -61,8 +61,14 @@
      (.-webview @!audio-webview)
      (clj->js (apply merge {:command (name command)} args)))))
 
-(defn load-audio! [audio-path & {:keys [id]}]
-  (send-audio-command! :load {:audioPath audio-path :id (or id "default")}))
+(defn load-audio! [local-file-path & {:keys [id]}]
+  (def local-file-path local-file-path)
+  (let [webview (.-webview @!audio-webview)
+        _ (def webview webview)
+        audio-uri (.asWebviewUri webview (vscode/Uri.file local-file-path))]
+    (def audio-uri audio-uri)
+    (send-audio-command! :load {:audioPath (str audio-uri)
+                                :id (or id "default")})))
 
 (defn play-audio! [& {:keys [id]}]
   (send-audio-command! :play {:id (or id "default")}))
@@ -88,7 +94,7 @@
   (p/let [pause+ (pause-audio!)]
     (def pause+ pause+))
 
-  (p/let [set-volume+ (set-volume! 0.5)]
+  (p/let [set-volume+ (set-volume! 0.1)]
     (def set-volume+ set-volume+))
 
   (p/let [stop+ (stop-audio!)]
