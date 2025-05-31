@@ -15,6 +15,12 @@ This mini-plan is derived from the comprehensive [AI Presenter Mode Implementati
 
 ## Core Implementation: Audio Generation
 
+### Development Approach
+- **REPL-Driven Development**: Build functionality step by step in the REPL, following Interactive Programming principles
+- **Test-Driven Development**: Use TDD approach as outlined in the [main plan's testing strategy](./AI-PRESENTER-PLAN.md#testing-strategy)
+- **Functional & Data-Oriented**: Functions take arguments and return data, minimal side effects, following Rich Hickey's principles
+- **Pure Functions First**: Separate pure logic from side effects for better testability
+
 ### 1. Leverage the Successful Spike Results
 - The spike confirmed `ai-text-to-speech` works with Joyride
 - Files are created with auto-generated names (uncontrollable)
@@ -43,6 +49,7 @@ This mini-plan is derived from the comprehensive [AI Presenter Mode Implementati
 ✅ **No Leftover Artifacts**: Temporary files are properly cleaned up on both success and failure
 ✅ **Validation**: Won't attempt generation without valid inputs (slide name, script text, API key)
 ✅ **REPL-Driven Development**: Rich comment form demonstrates usage, serves as documentation, and proves functionality works at the REPL
+✅ **Data-Oriented Design**: Tests demonstrate functional, data-oriented implementation using minimal (preferably no) mocking
 
 ## Implementation File
 
