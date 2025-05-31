@@ -96,7 +96,7 @@
 
 (defn prepare-slide-audio!
   "Generate audio for a specific slide (FR-2.1, FR-2.2)
-   slide-name: 'hello.md' or 'hello' 
+   slide-name: 'hello.md' or 'hello'
    script-text: The text to convert to speech
    Returns promise resolving to {:success true :file-path path} or {:success false :error msg}"
   [slide-name script-text]
@@ -114,11 +114,19 @@
             (resolve {:success false :error "Invalid script text"})
             (-> (let [tts-fn (.-default tts)]
                   (tts-fn tts-options))
-                (.then (fn [audio-data]
+                (.then (fn [tts-result-path]
+                         ;; The TTS module returns a file path, not binary data!
+                         ;; We need to copy the file to our desired location
                          (let [fs (js/require "fs")]
-                           (.writeFileSync fs audio-path audio-data)
-                           (js/console.log (str "🎵 Generated slide audio: " slide-name " -> " audio-path))
-                           (resolve {:success true :file-path audio-path}))))
+                           (if (.existsSync fs tts-result-path)
+                             (do
+                               ;; Copy the generated file to our target location
+                               (.copyFileSync fs tts-result-path audio-path)
+                               ;; Clean up the temporary file
+                               (.unlinkSync fs tts-result-path)
+                               (js/console.log (str "🎵 Generated slide audio: " slide-name " -> " audio-path))
+                               (resolve {:success true :file-path audio-path}))
+                             (resolve {:success false :error "TTS module did not generate expected file"})))))
                 (.catch (fn [error]
                           (resolve {:success false :error (.-message error)}))))))
         (catch js/Error e
@@ -129,22 +137,17 @@
   [text {:keys [voice model format] :or {voice "nova" model "tts-1" format "mp3"}}]
   (p/create
     (fn [resolve reject]
-      (let [timestamp (js/Date.now)
-            filename (str "joyride-" voice "-" timestamp "." format)
-            output-path (str "/tmp/" filename)
-            tts-options #js {:input text
+      (let [tts-options #js {:input text
                              :voice voice
                              :model model
                              :response_format format}]
         (-> (js/Promise.resolve)
             (.then #(let [tts-fn (.-default tts)]
                       (tts-fn tts-options)))
-            (.then (fn [audio-data]
-                     ;; Write the audio data to file
-                     (let [fs (js/require "fs")]
-                       (.writeFileSync fs output-path audio-data)
-                       (js/console.log (str "🎵 Real TTS generated: \"" text "\" -> " output-path))
-                       output-path)))
+            (.then (fn [tts-result-path]
+                     ;; The TTS module returns a file path, not binary data!
+                     (js/console.log (str "🎵 Real TTS generated file at: " tts-result-path))
+                     tts-result-path))
             (.then resolve)
             (.catch reject))))))
 
@@ -197,12 +200,12 @@
 
 ;; ===== AUDIO SESSION MANAGEMENT (Plan Implementation) =====
 
-(defn generate-audio-id 
+(defn generate-audio-id
   "Generate unique audio session ID"
   []
   (str "audio-" (js/Date.now) "-" (rand-int 10000)))
 
-(defn register-audio 
+(defn register-audio
   "Pure function: register audio session in registry
    Returns new registry state"
   [registry audio-id file-path]
@@ -229,7 +232,7 @@
   [registry]
   (let [active-sessions (vals (:audio-sessions registry))
         cleanup-commands (map #(select-keys % [:file-path :element]) active-sessions)]
-    {:registry (assoc registry 
+    {:registry (assoc registry
                       :active-audio-id nil
                       :audio-sessions {})
      :cleanup-commands cleanup-commands}))
@@ -253,10 +256,10 @@
           ;; Register the audio session
           (swap! !audio-registry register-audio audio-id file-path)
           (swap! !audio-registry set-active-audio audio-id)
-          
+
           ;; Update status to playing
           (swap! !audio-registry update-audio-session-status audio-id :playing)
-          
+
           ;; Use VS Code's external opener which delegates to system default app
           (-> (vscode/env.openExternal (vscode/Uri.file file-path))
               (.then #(do

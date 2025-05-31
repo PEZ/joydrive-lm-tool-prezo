@@ -42,16 +42,16 @@
             first-slide (first slides)
             voice-config (:voice-config @!presenter-state)
             _ (when first-slide
-                (vscode/window.showInformationMessage 
+                (vscode/window.showInformationMessage
                   (str "🎵 Generating narration for slide: " first-slide)))
             audio-path (when first-slide
-                         (audio/generate-audio+ 
+                         (audio/generate-audio+
                            (str "Welcome to the presentation. Starting with slide: " first-slide)
                            voice-config))
             new-state (integration/start-presenting-unified @!presenter-state)]
       (reset! !presenter-state new-state)
       (when audio-path
-        (vscode/window.showInformationMessage 
+        (vscode/window.showInformationMessage
           (str "🎤 AI Presentation started! Audio: " audio-path)))
       new-state)))
 
@@ -63,15 +63,15 @@
             next-state (integration/next-slide-unified @!presenter-state)
             next-idx (:slide-index next-state)]
       (reset! !presenter-state next-state)
-      
+
       (when (< next-idx (count slides))
         (let [slide (nth slides next-idx)
               voice-config (:voice-config @!presenter-state)]
-          (p/let [audio-path (audio/generate-audio+ 
+          (p/let [audio-path (audio/generate-audio+
                                (str "Now presenting slide: " slide)
                                voice-config)]
-            (vscode/window.showInformationMessage 
-              (str "🎵 Slide " (inc next-idx) "/" (count slides) 
+            (vscode/window.showInformationMessage
+              (str "🎵 Slide " (inc next-idx) "/" (count slides)
                    " - Audio: " audio-path)))))
       next-state)
     (do

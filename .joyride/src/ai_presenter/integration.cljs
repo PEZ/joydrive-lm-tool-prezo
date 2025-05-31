@@ -1,6 +1,6 @@
 (ns ai-presenter.integration
   "Integration functions for AI presenter with next-slide system.
-   
+
    Provides unified operations that keep both systems in sync."
   (:require [ai-presenter.core :as core]))
 

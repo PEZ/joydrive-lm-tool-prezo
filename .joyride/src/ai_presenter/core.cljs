@@ -1,6 +1,6 @@
 (ns ai-presenter.core
   "Pure functions for AI presenter state management.
-   
+
    State structure (integrated with next-slide):
    {:next/active? boolean
     :next/active-slide number

@@ -45,7 +45,7 @@
       (is (map? result))
       (is (contains? result :error))
       (is (re-find #"empty text" (get result :error))))
-    
+
     ;; Test invalid voice
     (p/let [result (p/catch (audio/generate-audio+ "Hello" {:voice "invalid"})
                             (fn [error] {:error (.-message error)}))]
