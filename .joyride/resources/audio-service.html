@@ -134,8 +134,11 @@
                 case 'stop':
                     stopAudio();
                     break;
+                case 'volume':
+                    setVolume(message.volume);
+                    break;
                 default:
-                    log('Unknown message type: ' + message.type);
+                    log('Unknown message command: ' + message.command);
             }
         });
 
