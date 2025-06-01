@@ -62,8 +62,8 @@
 ;; Function to create or update status bar item
 (defn update-status-bar! [mood-name]
   (let [item (or (:status-bar-item @!mood-state)
-                 (vscode/window.createStatusBarItem vscode/StatusBarAlignment.Left 100))]
-    (set! (.-text item) (str "AI: " mood-name))
+                 (vscode/window.createStatusBarItem vscode/StatusBarAlignment.Left -1001))]
+    (set! (.-text item) (str "🎭 " mood-name))
     (set! (.-tooltip item) "Current AI mood - click to change")
     (set! (.-command item) (clj->js {:command "joyride.runCode"
                                      :arguments ["(ai-mood-selector/show-ai-mood-picker!)"]}))
@@ -71,7 +71,9 @@
     (swap! !mood-state assoc
            :current-mood mood-name
            :status-bar-item item)
-    "Status bar updated"))
+    #js {:dispose (fn []
+                    (swap! !mood-state dissoc :status-bar-item)
+                    (.dispose item))}))
 
 ;; Enhanced function to activate mood with concatenation
 (defn activate-mood!
@@ -97,6 +99,7 @@
 
            target-uri (vscode/Uri.joinPath (ws-root) ".github" "copilot-instructions.md")
            mood-name (extract-mood-name filename)]
+     (def filename filename)
 
      (.writeFile vscode/workspace.fs target-uri (js/Buffer.from full-content "utf-8"))
      (update-status-bar! mood-name))))

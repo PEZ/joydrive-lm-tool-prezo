@@ -46,19 +46,6 @@
     (.show item)
     item))
 
-(defn- add-ai-mood-item! []
-  (let [item (vscode/window.createStatusBarItem
-              vscode/StatusBarAlignment.Left
-              -1001)]
-    (set! (.-text item) "🎭 AI Mood")
-    (set! (.-command item)
-          (clj->js
-           {:command "joyride.runCode"
-            :arguments ["(ai-mood-selector/show-ai-mood-picker!)"]}))
-    (set! (.-tooltip item) "Select AI mood for Copilot")
-    (.show item)
-    item))
-
 (defn- my-main []
   (println "Hello World, from my-main workspace_activate.cljs script")
   (clear-disposables!)
@@ -66,7 +53,9 @@
   (next-slide/activate!)
   (audio-playback/init-audio-service!)
   #_(push-disposable (add-joy-run-item!))
-  (push-disposable (add-ai-mood-item!)))
+  (p/let [item (ai-mood-selector/activate-mood! "presenter")]
+    (def item item)
+    (push-disposable item)))
 
 (when (= (joyride/invoked-script) joyride/*file*)
   (my-main))

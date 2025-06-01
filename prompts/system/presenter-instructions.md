@@ -1,4 +1,4 @@
-- ai-presenter
+- presenter
 
 # AI Presenter Instructions
 
