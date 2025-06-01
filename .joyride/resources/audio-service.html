@@ -236,7 +236,17 @@
             log(msg);
             audioStatus.lastError = msg;
             audioStatus.playbackState = 'error';
+            audioStatus.audioDataReady = false;  // Reset data ready flag on error
+            audioStatus.audioLoaded = false;     // Reset loaded flag on error
             updateStatus(msg, 'error');
+
+            // Notify Joyride about the load failure
+            vscode.postMessage({
+                type: 'audioLoadError',
+                success: false,
+                error: msg,
+                audioSrc: audioStatus.audioSrc
+            });
         });
 
         audio.addEventListener('volumechange', () => {

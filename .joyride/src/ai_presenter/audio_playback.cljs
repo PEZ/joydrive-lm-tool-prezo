@@ -119,10 +119,35 @@
      (when (= (.-type message) "audioReady")
        (println "🎵 Audio ready notification received!")
        (let [load-data (js->clj message :keywordize-keys true)
-             current-state @!state]
-         (when-let [resolver (get-in current-state [:load-resolvers "default"])]
-           (resolver load-data)
-           (swap! !state remove-resolver :load-resolvers "default"))))
+             current-state @!state
+             audio-id (or (:id load-data) "default")]
+         ;; Try to find resolver by ID, or any resolver if ID not found
+         (if-let [resolver-map (get-in current-state [:load-resolvers audio-id])]
+           (do
+             ((:resolve resolver-map) load-data)
+             (swap! !state remove-resolver :load-resolvers audio-id))
+           ;; If no resolver found for the specific ID, try to resolve any pending resolver
+           (when-let [[found-id resolver-map] (first (:load-resolvers current-state))]
+             (println "🔧 No resolver for audio-id" audio-id ", using" found-id)
+             ((:resolve resolver-map) load-data)
+             (swap! !state remove-resolver :load-resolvers found-id)))))
+     ;; Handle audio load error notifications
+     (when (= (.-type message) "audioLoadError")
+       (println "❌ Audio load error notification received!")
+       (let [error-data (js->clj message :keywordize-keys true)
+             current-state @!state
+             audio-id (or (:id error-data) "default")]
+         ;; Try to find any resolver (since webview might not send the correct ID)
+         (if-let [resolver-map (get-in current-state [:load-resolvers audio-id])]
+           (do
+             ;; Reject the promise with error details
+             ((:reject resolver-map) (js/Error. (:error error-data)))
+             (swap! !state remove-resolver :load-resolvers audio-id))
+           ;; If no resolver found for the specific ID, try to reject any pending resolver
+           (when-let [[found-id resolver-map] (first (:load-resolvers current-state))]
+             (println "🔧 No resolver for audio-id" audio-id ", using" found-id)
+             ((:reject resolver-map) (js/Error. (:error error-data)))
+             (swap! !state remove-resolver :load-resolvers found-id)))))
      message))
   (:webview @!state))
 
@@ -174,11 +199,11 @@
   (send-audio-command! :volume {:volume volume :id (or id "default")}))
 
 (defn load-and-play-audio!+ [file-path]
-  (p/let [load-result (load-audio! file-path)
+  (p/let [load-result (load-audio-promise!+ file-path)
           play-result (play-audio!)]
     {:load-result load-result
      :play-result play-result
-     :success (and load-result play-result)}))
+     :success true}))
 
 (defn get-audio-status!+ []
   (p/create
@@ -219,24 +244,35 @@
        :error "Audio failed to load in time"})))
 
 (defn load-audio-promise!+
-  "Returns a promise that resolves when audio is loaded and ready to play"
-  [local-file-path & {:keys [id]}]
+  "Returns a promise that resolves when audio is loaded and ready to play, or rejects with detailed error info"
+  [local-file-path & {:keys [id timeout-ms] :or {timeout-ms 10000}}]
   (let [audio-id (or id "default")]
     (p/create
      (fn [resolve reject]
-       ;; Store the resolver using pure function
-       (swap! !state add-load-resolver audio-id resolve)
+       ;; Store both resolve and reject functions
+       (swap! !state add-load-resolver audio-id {:resolve resolve :reject reject})
        ;; Send load command using existing function
        (let [webview (:webview @!state)
              audio-uri (.asWebviewUri (.-webview webview) (vscode/Uri.file local-file-path))]
          (send-audio-command! :load {:audioPath (str audio-uri)
                                      :id audio-id}))
-       ;; Timeout after 10 seconds
+       ;; Enhanced timeout with status check
        (js/setTimeout
-        #(do
+        #(p/let [final-status (get-audio-status!+)]
            (swap! !state remove-resolver :load-resolvers audio-id)
-           (reject (str "Audio load timeout for: " local-file-path)))
-        10000)))))
+           (if (and (:audioDataReady final-status)
+                    (not (:userGestureComplete final-status)))
+             ;; Audio data loaded but waiting for user gesture
+             (reject (js/Error.
+                      (str "Audio loaded but requires user gesture. Duration: "
+                           (:audioDuration final-status) "s. Please click 'Enable Audio'.")))
+             ;; True timeout or other issue
+             (reject (js/Error.
+                      (str "Audio load timeout for: " local-file-path
+                           ". Status: " (:playbackState final-status)
+                           (when (:lastError final-status)
+                             (str ". Error: " (:lastError final-status))))))))
+        timeout-ms)))))
 
 ;; Simple load-and-play using the promise-based load
 (defn load-and-play-audio-simple!+ [file-path]
