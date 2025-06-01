@@ -16,6 +16,7 @@
 
 (defonce !audio-webview (atom nil))
 (defonce !status-resolvers (atom {}))
+(defonce !load-resolvers (atom {}))
 
 (defn dispose-audio-webview! []
   (when @!audio-webview
@@ -54,6 +55,12 @@
        (when-let [resolver (get @!status-resolvers "current")]
          (resolver (js->clj (.-status message) :keywordize-keys true))
          (swap! !status-resolvers dissoc "current")))
+     ;; Handle audio ready notifications
+     (when (= (.-type message) "audioReady")
+       (println "🎵 Audio ready notification received!")
+       (when-let [resolver (get @!load-resolvers "default")]
+         (resolver (js->clj message :keywordize-keys true))
+         (swap! !load-resolvers dissoc "default")))
      message))
   @!audio-webview)
 
@@ -128,6 +135,34 @@
        :play-result nil
        :success false
        :error "Audio failed to load in time"})))
+
+(defn load-audio-promise!+
+  "Returns a promise that resolves when audio is loaded and ready to play"
+  [local-file-path & {:keys [id]}]
+  (let [audio-id (or id "default")]
+    (p/create
+     (fn [resolve reject]
+       ;; Store the resolver
+       (swap! !load-resolvers assoc audio-id resolve)
+       ;; Send load command using existing function
+       (let [webview (.-webview @!audio-webview)
+             audio-uri (.asWebviewUri webview (vscode/Uri.file local-file-path))]
+         (send-audio-command! :load {:audioPath (str audio-uri)
+                                     :id audio-id}))
+       ;; Timeout after 10 seconds
+       (js/setTimeout
+        #(do
+           (swap! !load-resolvers dissoc audio-id)
+           (reject (str "Audio load timeout for: " local-file-path)))
+        10000)))))
+
+;; Simple load-and-play using the promise-based load
+(defn load-and-play-audio-simple!+ [file-path]
+  (p/let [load-result (load-audio-promise!+ file-path)
+          play-result (play-audio!)]
+    {:load-result load-result
+     :play-result play-result
+     :success true}))
 
 (comment
   (p/let [load+ (load-audio! "/Users/pez/Projects/Meetup/joydrive-lm-tool-prezo/slides/voice/test-playback.mp3")]

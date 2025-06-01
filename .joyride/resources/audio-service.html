@@ -189,6 +189,13 @@
             audioStatus.audioLoaded = true;
             audioStatus.playbackState = 'ready';
             updateStatus('Audio ready for playback', 'success');
+
+            // Notify Joyride that audio is ready to play
+            vscode.postMessage({
+                type: 'audioReady',
+                success: true,
+                audioSrc: audioStatus.audioSrc
+            });
         });
 
         audio.addEventListener('playing', () => {
