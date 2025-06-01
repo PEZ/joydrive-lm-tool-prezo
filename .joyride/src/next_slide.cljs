@@ -123,6 +123,26 @@
    (vscode/window.showInformationMessage
     (str "next-slide:" "activated"))))
 
+(defn show-slide-by-name!+
+  "Show a slide by its filename (e.g. 'hello.md' or 'slides/hello.md')"
+  [slide-name]
+  (p/let [slides (slides-list+)
+          ;; Find the slide index by matching the filename
+          slide-index (->> slides
+                          (map-indexed vector)
+                          (filter (fn [[_idx slide-path]]
+                                   (or (= slide-path slide-name)
+                                       (.endsWith slide-path slide-name))))
+                          first
+                          first)]
+    (if slide-index
+      (do
+        (swap! !state assoc :next/active-slide slide-index)
+        (current!))
+      (do
+        (js/console.warn "Slide not found:" slide-name "Available slides:" slides)
+        (vscode/window.showWarningMessage (str "Slide not found: " slide-name))))))
+
 (when (= (joyride/invoked-script) joyride/*file*)
   (activate!))
 
