@@ -39,6 +39,18 @@
         let audio = document.getElementById('audioPlayer');
         let userGestureComplete = false;
 
+        // Enhanced status tracking
+        let audioStatus = {
+            userGestureComplete: false,
+            audioLoaded: false,
+            audioSrc: null,
+            playbackState: 'stopped',
+            audioDuration: 0,
+            audioCurrentTime: 0,
+            audioVolume: 1.0,
+            lastError: null
+        };
+
         function log(message) {
             const logDiv = document.getElementById('log');
             const timestamp = new Date().toISOString().substr(11, 12);
@@ -56,35 +68,62 @@
         function enableAudio() {
             log('User clicked enable audio button - gesture captured');
             userGestureComplete = true;
+            audioStatus.userGestureComplete = true;
             updateStatus('Audio enabled', 'success');
 
             vscode.postMessage({type: 'userGestureComplete', success: true, message: 'User clicked enable button'});
         }
 
         function loadAudio(audioPath) {
-            log('Loading audio: ', audioPath, "...");
+            log('Loading audio: ' + audioPath);
+            audioStatus.audioSrc = audioPath;
+            audioStatus.playbackState = 'loading';
+            audioStatus.audioLoaded = false;
+            audioStatus.lastError = null;
             audio.src = audioPath;
             audio.load();
-            updateStatus('Audio loaded');
+            updateStatus('Loading audio...', 'info');
         }
 
         function playAudio() {
+            log('ATTEMPT TO PLAY - Checking prerequisites...');
+            log('  User gesture completed: ' + audioStatus.userGestureComplete);
+            log('  Audio loaded: ' + audioStatus.audioLoaded);
+            log('  Audio source: ' + audioStatus.audioSrc);
+
             if (!userGestureComplete) {
-                updateStatus('Please click Enable Audio first', 'error');
+                const msg = 'Cannot play: Please click Enable Audio first';
+                log('  BLOCKED: ' + msg);
+                audioStatus.lastError = msg;
+                updateStatus(msg, 'error');
                 return;
             }
-            log('Attempting to play audio...');
+
+            if (!audioStatus.audioLoaded) {
+                const msg = 'Cannot play: Audio not yet loaded/ready';
+                log('  BLOCKED: ' + msg);
+                audioStatus.lastError = msg;
+                updateStatus(msg, 'error');
+                return;
+            }
+
+            log('  Prerequisites met - calling audio.play()');
+            audioStatus.playbackState = 'playing';
             audio.play().then(() => {
                 log('Audio play() succeeded');
                 updateStatus('Playing', 'success');
             }).catch(err => {
-                log('Audio play() failed: ' + err.message);
-                updateStatus('Play failed: ' + err.message, 'error');
+                const msg = 'Audio play() failed: ' + err.message;
+                log('Audio play() error: ' + msg);
+                audioStatus.lastError = msg;
+                audioStatus.playbackState = 'stopped';
+                updateStatus(msg, 'error');
             });
         }
 
         function pauseAudio() {
             audio.pause();
+            audioStatus.playbackState = 'paused';
             log('Audio paused');
             updateStatus('Paused');
         }
@@ -92,29 +131,93 @@
         function stopAudio() {
             audio.pause();
             audio.currentTime = 0;
+            audioStatus.playbackState = 'stopped';
             log('Audio stopped');
             updateStatus('Stopped');
         }
 
         function setVolume(v) {
             if (typeof v !== 'number' || v < 0 || v > 1) {
-                log('Invalid volume value: ' + v);
+                const msg = 'Invalid volume value: ' + v;
+                log(msg);
+                audioStatus.lastError = msg;
                 return;
             }
             audio.volume = v;
+            audioStatus.audioVolume = v;
             log('Audio volume set to ' + v);
             updateStatus('Volume set to ' + v);
         }
 
-        // Audio event listeners
-        audio.addEventListener('loadstart', () => log('Audio: loadstart'));
-        audio.addEventListener('loadeddata', () => log('Audio: loadeddata'));
-        audio.addEventListener('canplay', () => log('Audio: canplay'));
-        audio.addEventListener('playing', () => log('Audio: playing'));
-        audio.addEventListener('pause', () => log('Audio: pause'));
-        audio.addEventListener('ended', () => log('Audio: ended'));
-        audio.addEventListener('error', (e) => log('Audio error: ' + e.target.error.message));
-        audio.addEventListener('volumechange', () => log('Audio: volume changed to ' + audio.volume));
+        function getAudioStatus() {
+            // Update current values from audio element
+            audioStatus.audioCurrentTime = audio.currentTime || 0;
+            audioStatus.audioDuration = audio.duration || 0;
+            audioStatus.audioVolume = audio.volume || 1.0;
+
+            log('STATUS REQUEST - Current audio status:');
+            log('  User gesture: ' + audioStatus.userGestureComplete);
+            log('  Audio loaded: ' + audioStatus.audioLoaded);
+            log('  Audio source: ' + audioStatus.audioSrc);
+            log('  Playback state: ' + audioStatus.playbackState);
+            log('  Duration: ' + audioStatus.audioDuration);
+            log('  Current time: ' + audioStatus.audioCurrentTime);
+            log('  Volume: ' + audioStatus.audioVolume);
+            log('  Last error: ' + audioStatus.lastError);
+
+            // Send status back to Joyride
+            vscode.postMessage({
+                type: 'statusResponse',
+                status: audioStatus
+            });
+
+            return audioStatus;
+        }
+
+        // Audio event listeners with enhanced status tracking
+        audio.addEventListener('loadstart', () => {
+            log('Audio: loadstart');
+            audioStatus.playbackState = 'loading';
+        });
+
+        audio.addEventListener('loadeddata', () => {
+            log('Audio: loadeddata');
+        });
+
+        audio.addEventListener('canplay', () => {
+            log('Audio: canplay - READY FOR PLAYBACK');
+            audioStatus.audioLoaded = true;
+            audioStatus.playbackState = 'ready';
+            updateStatus('Audio ready for playback', 'success');
+        });
+
+        audio.addEventListener('playing', () => {
+            log('Audio: playing');
+            audioStatus.playbackState = 'playing';
+        });
+
+        audio.addEventListener('pause', () => {
+            log('Audio: pause');
+            audioStatus.playbackState = 'paused';
+        });
+
+        audio.addEventListener('ended', () => {
+            log('Audio: ended');
+            audioStatus.playbackState = 'stopped';
+        });
+
+        audio.addEventListener('error', (e) => {
+            const msg = 'AUDIO ERROR: ' + (e.target.error ? e.target.error.message : 'Unknown error');
+            log(msg);
+            audioStatus.lastError = msg;
+            audioStatus.playbackState = 'error';
+            updateStatus(msg, 'error');
+        });
+
+        audio.addEventListener('volumechange', () => {
+            audioStatus.audioVolume = audio.volume;
+            log('Audio: volume changed to ' + audio.volume);
+        });
 
         // Message handler from Joyride
         window.addEventListener('message', event => {
@@ -136,6 +239,9 @@
                     break;
                 case 'volume':
                     setVolume(message.volume);
+                    break;
+                case 'status':
+                    getAudioStatus();
                     break;
                 default:
                     log('Unknown message command: ' + message.command);

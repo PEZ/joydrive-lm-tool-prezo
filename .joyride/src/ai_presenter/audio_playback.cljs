@@ -15,6 +15,7 @@
                    "resources"))
 
 (defonce !audio-webview (atom nil))
+(defonce !status-resolvers (atom {}))
 
 (defn dispose-audio-webview! []
   (when @!audio-webview
@@ -37,7 +38,6 @@
   (when @!audio-webview
     (let [html-path (path/join resource-dir "audio-service.html")
           html-content (fs/readFileSync html-path "utf8")]
-      (def html-content html-content)
       (set! (-> @!audio-webview .-webview .-html) html-content))))
 
 (defn init-audio-service!
@@ -48,7 +48,12 @@
   (.onDidReceiveMessage
    (.-webview @!audio-webview)
    (fn [message]
-     (println "audio-service-webview message:"  message)
+     (println "audio-service-webview message:" message)
+     ;; Handle status responses
+     (when (= (.-type message) "statusResponse")
+       (when-let [resolver (get @!status-resolvers "current")]
+         (resolver (js->clj (.-status message) :keywordize-keys true))
+         (swap! !status-resolvers dissoc "current")))
      message))
   @!audio-webview)
 
@@ -86,9 +91,45 @@
      :play-result play-result
      :success (and load-result play-result)}))
 
-(comment
-  (init-audio-service!)
+(defn get-audio-status!+ []
+  (p/create
+   (fn [resolve reject]
+     ;; Store the resolver
+     (swap! !status-resolvers assoc "current" resolve)
+     ;; Request status from webview
+     (send-audio-command! :status)
+     ;; Timeout after 5 seconds
+     (js/setTimeout #(do
+                       (swap! !status-resolvers dissoc "current")
+                       (reject "Status request timeout")) 5000))))
 
+;; Enhanced load and play that waits for proper loading
+(defn load-and-play-audio-properly!+ [file-path]
+  (p/let [_ (load-audio! file-path)
+          ;; Wait a bit for loading to start
+          _ (p/delay 100)
+          ;; Check status repeatedly until loaded
+          status (loop [attempts 0]
+                   (p/let [current-status (get-audio-status!+)]
+                     (if (or (:audioLoaded current-status)
+                             (> attempts 20)) ;; 2 second timeout
+                       current-status
+                       (do
+                         (p/delay 100)
+                         (recur (inc attempts))))))]
+    (if (:audioLoaded status)
+      (do
+        (println "Audio loaded successfully, attempting play...")
+        (p/let [play-result (play-audio!)]
+          {:load-status status
+           :play-result play-result
+           :success true}))
+      {:load-status status
+       :play-result nil
+       :success false
+       :error "Audio failed to load in time"})))
+
+(comment
   (p/let [load+ (load-audio! "/Users/pez/Projects/Meetup/joydrive-lm-tool-prezo/slides/voice/test-playback.mp3")]
     (def load+ load+))
 
@@ -107,7 +148,5 @@
 
   (p/let [stop+ (stop-audio!)]
     (def stop+ stop+))
-
-  (dispose-audio-webview!)
 
   :rcf)
