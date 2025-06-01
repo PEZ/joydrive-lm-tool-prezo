@@ -99,9 +99,7 @@
            mood-name (extract-mood-name filename)]
 
      (.writeFile vscode/workspace.fs target-uri (js/Buffer.from full-content "utf-8"))
-     (update-status-bar! mood-name)
-     (vscode/window.showInformationMessage
-      (str "AI Mood '" mood-name "' activated!")))))
+     (update-status-bar! mood-name))))
 
 (defn show-ai-mood-picker! []
   (p/let [items (get-prompt-files+)
@@ -120,7 +118,9 @@
                       (let [source-uri (.-uri selected)
                             filename (.-label selected)]
                         (.hide quick-pick) ; Dismiss menu immediately
-                        (activate-mood! source-uri filename)))))
+                        (activate-mood! source-uri filename)
+                        (vscode/window.showInformationMessage
+                         (str "AI Mood '" filename "' activated!"))))))
 
     ;; Handle hiding
     (.onDidHide quick-pick
