@@ -1,11 +1,13 @@
 (ns workspace-activate
-  (:require [joyride.core :as joyride]
-            ["vscode" :as vscode]
-            [promesa.core :as p]
-            [next-slide]
-            [next-slide-notes]
-            [showtime]
-            [ai-mood-selector]))
+  (:require
+   ["vscode" :as vscode]
+   [ai-mood-selector]
+   [ai-presenter.audio-playback :as audio-playback]
+   [joyride.core :as joyride]
+   [next-slide]
+   [next-slide-notes]
+   [promesa.core :as p]
+   [showtime]))
 
 (defonce !db (atom {:disposables []}))
 
@@ -62,6 +64,7 @@
   (clear-disposables!)
   (push-disposable (showtime/init!))
   (next-slide/activate!)
+  (audio-playback/init-audio-service!)
   #_(push-disposable (add-joy-run-item!))
   (push-disposable (add-ai-mood-item!)))
 
