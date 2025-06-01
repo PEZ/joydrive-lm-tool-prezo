@@ -157,35 +157,6 @@
      (.-webview webview)
      (clj->js (apply merge {:command (name command)} args)))))
 
-(defn load-audio! [local-file-path & {:keys [id]}]
-  (def local-file-path local-file-path)
-  (let [webview (:webview @!state)
-        _ (def webview webview)
-        audio-uri (.asWebviewUri (.-webview webview) (vscode/Uri.file local-file-path))]
-    (def audio-uri audio-uri)
-    (send-audio-command! :load {:audioPath (str audio-uri)
-                                :id (or id "default")})))
-
-(defn play-audio-smart!+
-  "Smart play that checks readiness first and returns comprehensive info"
-  [& {:keys [id]}]
-  (p/let [status (get-audio-status!+)
-          readiness (get-play-readiness status)]
-    (if (:ready? readiness)
-      (do
-        (send-audio-command! :play {:id (or id "default")})
-        ;; Get updated status after play command
-        (p/let [new-status (get-audio-status!+)]
-          {:success true
-           :action :played
-           :readiness readiness
-           :status-before status
-           :status-after new-status}))
-      {:success false
-       :action :blocked
-       :readiness readiness
-       :status status})))
-
 (defn play-audio! [& {:keys [id]}]
   (send-audio-command! :play {:id (or id "default")}))
 
@@ -198,13 +169,6 @@
 (defn set-volume! [volume & {:keys [id]}]
   (send-audio-command! :volume {:volume volume :id (or id "default")}))
 
-(defn load-and-play-audio!+ [file-path]
-  (p/let [load-result (load-audio-promise!+ file-path)
-          play-result (play-audio!)]
-    {:load-result load-result
-     :play-result play-result
-     :success true}))
-
 (defn get-audio-status!+ []
   (p/create
    (fn [resolve reject]
@@ -216,32 +180,6 @@
      (js/setTimeout #(do
                        (swap! !state remove-resolver :status-resolvers "current")
                        (reject "Status request timeout")) 5000))))
-
-;; Enhanced load and play that waits for proper loading
-(defn load-and-play-audio-properly!+ [file-path]
-  (p/let [_ (load-audio! file-path)
-          ;; Wait a bit for loading to start
-          _ (p/delay 100)
-          ;; Check status repeatedly until loaded
-          status (loop [attempts 0]
-                   (p/let [current-status (get-audio-status!+)]
-                     (if (or (:audioLoaded current-status)
-                             (> attempts 20)) ;; 2 second timeout
-                       current-status
-                       (do
-                         (p/delay 100)
-                         (recur (inc attempts))))))]
-    (if (:audioLoaded status)
-      (do
-        (println "Audio loaded successfully, attempting play...")
-        (p/let [play-result (play-audio!)]
-          {:load-status status
-           :play-result play-result
-           :success true}))
-      {:load-status status
-       :play-result nil
-       :success false
-       :error "Audio failed to load in time"})))
 
 (defn load-audio-promise!+
   "Returns a promise that resolves when audio is loaded and ready to play, or rejects with detailed error info"
@@ -273,6 +211,67 @@
                            (when (:lastError final-status)
                              (str ". Error: " (:lastError final-status))))))))
         timeout-ms)))))
+
+(defn load-audio! [local-file-path & {:keys [id]}]
+  (def local-file-path local-file-path)
+  (let [webview (:webview @!state)
+        _ (def webview webview)
+        audio-uri (.asWebviewUri (.-webview webview) (vscode/Uri.file local-file-path))]
+    (def audio-uri audio-uri)
+    (send-audio-command! :load {:audioPath (str audio-uri)
+                                :id (or id "default")})))
+(defn play-audio-smart!+
+  "Smart play that checks readiness first and returns comprehensive info"
+  [& {:keys [id]}]
+  (p/let [status (get-audio-status!+)
+          readiness (get-play-readiness status)]
+    (if (:ready? readiness)
+      (do
+        (send-audio-command! :play {:id (or id "default")})
+        ;; Get updated status after play command
+        (p/let [new-status (get-audio-status!+)]
+          {:success true
+           :action :played
+           :readiness readiness
+           :status-before status
+           :status-after new-status}))
+      {:success false
+       :action :blocked
+       :readiness readiness
+       :status status})))
+
+(defn load-and-play-audio!+ [file-path]
+  (p/let [load-result (load-audio-promise!+ file-path)
+          play-result (play-audio!)]
+    {:load-result load-result
+     :play-result play-result
+     :success true}))
+
+;; Enhanced load and play that waits for proper loading
+(defn load-and-play-audio-properly!+ [file-path]
+  (p/let [_ (load-audio! file-path)
+          ;; Wait a bit for loading to start
+          _ (p/delay 100)
+          ;; Check status repeatedly until loaded
+          status (loop [attempts 0]
+                   (p/let [current-status (get-audio-status!+)]
+                     (if (or (:audioLoaded current-status)
+                             (> attempts 20)) ;; 2 second timeout
+                       current-status
+                       (do
+                         (p/delay 100)
+                         (recur (inc attempts))))))]
+    (if (:audioLoaded status)
+      (do
+        (println "Audio loaded successfully, attempting play...")
+        (p/let [play-result (play-audio!)]
+          {:load-status status
+           :play-result play-result
+           :success true}))
+      {:load-status status
+       :play-result nil
+       :success false
+       :error "Audio failed to load in time"})))
 
 ;; Simple load-and-play using the promise-based load
 (defn load-and-play-audio-simple!+ [file-path]
