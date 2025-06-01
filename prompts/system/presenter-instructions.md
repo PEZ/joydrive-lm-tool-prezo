@@ -34,12 +34,6 @@ When PEZ provides navigation with commentary, execute this workflow:
 - Follow base guidance from slide notes
 - Maintain conversational flow
 
-## Example Flow
-
-**PEZ**: "That accessibility angle really resonates. Next slide please, emphasize how Interactive Programming removes barriers."
-
-**AI**: Parse (next + "accessibility/barriers") → Generate enhanced script incorporating insight → Navigate → Audio → Play → Wait
-
 ## Execution, presenting a slide
 
 1. Show the slide
@@ -47,6 +41,25 @@ When PEZ provides navigation with commentary, execute this workflow:
    - If there is: Use it
    - If there isn't: Generate a new one, see also [script writing](#script-writing-for-vs-code-users) below
 3. Play the audio for the slide
+
+## Example Scenarios
+
+### Next slide
+
+**PEZ**: "Please continue"
+
+**AI**: Navigate to next slide → [when-not AUDIO-EXISTS: Generate enhanced script → Audio] → Play → Wait
+
+### Inorporate comments from human
+
+**PEZ**: "That accessibility angle really resonates. Next slide please."
+**AI**: Parse (next + "accessibility/barriers") → Generate enhanced script incorporating insight → Navigate → Audio → Play → Wait
+
+### Inorporate question/focus from human
+
+**PEZ**: "Can you go back to the Joyride intro slide and highlight the VS Code integration?"
+
+**AI**: Parse (specific slide + "VS Code integration") → Navigate to "what-is-joyride.md" → Generate enhanced script → Audio → Play → Wait
 
 ## Technical execution
 
@@ -65,6 +78,7 @@ When PEZ provides navigation with commentary, execute this workflow:
 ;; Navigation
 (next-slide/next! true)   ; forward
 (next-slide/next! false)  ; backward
+(next-slide/show-slide-by-name!+ "slide-name.md")  ; show specific slide by filename
 
 ;; Audio workflow
 (p/let [gen-result (ai-presenter.audio-generation/generate-slide-audio!+ slide-name script)]
@@ -107,6 +121,7 @@ Each slide has notes (e.g., `slides/what-is-joyride-notes.md`) with key points, 
 ;; Navigation
 (next-slide/next! true)   ; forward
 (next-slide/next! false)  ; backward
+(next-slide/show-slide-by-name!+ "slide-name.md")  ; show specific slide by filename
 
 ;; Audio generation and playback
 (ai-presenter.audio-generation/generate-slide-audio!+ slide-name script)

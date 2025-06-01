@@ -95,13 +95,15 @@ The AI reads slide content and presentation notes to create engaging scripts tha
 
 ### AI-Assisted Presentation
 Ask Copilot (with LM Tools enabled):
-> "Present the first three slides of the presentation"
+> "Present the slide about the LM tools for Joyride, please. I'm especially interested in vide coding"
 
 The AI will:
-1. Read slide content and notes
-2. Generate engaging scripts
-3. Create audio narration
-4. Navigate slides with proper timing
+1. Navigate to the slide
+2. Read slide content and notes
+3. Generate a narration script, incorporating your focus
+4. Create audio narration
+5. Play the audio
+6. Wait for your next instruction
 
 ## 🧠 Interactive Programming Paradigm
 
