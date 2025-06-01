@@ -240,12 +240,44 @@
        :readiness readiness
        :status status})))
 
-(defn load-and-play-audio!+ [file-path]
-  (p/let [load-result (load-audio-promise!+ file-path)
-          play-result (play-audio!)]
-    {:load-result load-result
-     :play-result play-result
-     :success true}))
+(defn check-user-gesture!+
+  "Check if user gesture has been completed"
+  []
+  (p/let [status (get-audio-status!+)]
+    (:userGestureComplete status)))
+
+(defn prompt-user-for-audio-gesture!+
+  "Show user a message to enable audio and wait for confirmation"
+  []
+  (p/create
+   (fn [resolve reject]
+     (-> (vscode/window.showInformationMessage
+          "🔊 Please enable audio in the webview by clicking the 'Enable Audio' button, then click Done."
+          "Done")
+         (.then (fn [selection]
+                  (if (= selection "Done")
+                    (resolve true)
+                    (reject (js/Error. "User cancelled audio setup")))))))))
+
+(defn load-and-play-audio!+
+  "Load and play audio with proper user gesture checking"
+  [file-path]
+  (p/let [gesture-complete? (check-user-gesture!+)]
+    (if gesture-complete?
+      ;; User gesture already complete, proceed with loading
+      (p/let [load-result (load-audio-promise!+ file-path)
+              play-result (play-audio!)]
+        {:load-result load-result
+         :play-result play-result
+         :success true})
+      ;; No user gesture yet, prompt user first
+      (p/let [_ (prompt-user-for-audio-gesture!+)
+              ;; After user clicks Done, proceed with loading
+              load-result (load-audio-promise!+ file-path)
+              play-result (play-audio!)]
+        {:load-result load-result
+         :play-result play-result
+         :success true}))))
 
 ;; Enhanced load and play that waits for proper loading
 (defn load-and-play-audio-properly!+ [file-path]
