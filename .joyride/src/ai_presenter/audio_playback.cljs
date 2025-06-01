@@ -14,32 +14,87 @@
                    ".joyride"
                    "resources"))
 
-(defonce !audio-webview (atom nil))
-(defonce !status-resolvers (atom {}))
-(defonce !load-resolvers (atom {}))
+(defonce !state (atom {:webview nil
+                       :status-resolvers {}
+                       :load-resolvers {}
+                       :last-known-status nil}))
+
+;; =============================================================================
+;; PURE FUNCTIONS - Functional Core
+;; =============================================================================
+
+(defn can-play?
+  "Pure function: Check if audio system is ready to play"
+  [status]
+  (and (:userGestureComplete status)
+       (:audioLoaded status)))
+
+(defn add-status-resolver
+  "Pure function: Add a status resolver to state"
+  [state id resolver]
+  (assoc-in state [:status-resolvers id] resolver))
+
+(defn add-load-resolver
+  "Pure function: Add a load resolver to state"
+  [state id resolver]
+  (assoc-in state [:load-resolvers id] resolver))
+
+(defn remove-resolver
+  "Pure function: Remove a resolver from state"
+  [state resolver-type id]
+  (update state resolver-type dissoc id))
+
+(defn update-last-status
+  "Pure function: Update the cached status"
+  [state new-status]
+  (assoc state :last-known-status new-status))
+
+(defn get-play-readiness
+  "Pure function: Analyze play readiness and return info"
+  [status]
+  (cond
+    (not (:userGestureComplete status))
+    {:ready? false
+     :reason :no-user-gesture
+     :message "Please click Enable Audio first"}
+
+    (not (:audioLoaded status))
+    {:ready? false
+     :reason :audio-not-loaded
+     :message "Audio not yet loaded/ready"}
+
+    :else
+    {:ready? true
+     :reason :ready
+     :message "Ready to play"}))
+
+;; =============================================================================
+;; IMPERATIVE SHELL - Side Effects
+;; =============================================================================
 
 (defn dispose-audio-webview! []
-  (when @!audio-webview
-    (.dispose @!audio-webview)
-    (reset! !audio-webview nil)))
+  (when-let [webview (:webview @!state)]
+    (.dispose webview)
+    (swap! !state assoc :webview nil)))
 
 (defn create-audio-webview! []
   (dispose-audio-webview!)
-  (reset! !audio-webview
-          (vscode/window.createWebviewPanel
-           "audio-service-webview"
-           "Audio Service"
-           (.-One vscode/ViewColumn)
-           (clj->js {:enableScripts true
-                     :retainContextWhenHidden true}))))
+  (let [webview (vscode/window.createWebviewPanel
+                 "audio-service-webview"
+                 "Audio Service"
+                 (.-One vscode/ViewColumn)
+                 (clj->js {:enableScripts true
+                           :retainContextWhenHidden true}))]
+    (swap! !state assoc :webview webview)
+    webview))
 
 (defn load-html-from-file!
   "Load HTML content from external file to avoid string parsing issues"
   []
-  (when @!audio-webview
+  (when-let [webview (:webview @!state)]
     (let [html-path (path/join resource-dir "audio-service.html")
           html-content (fs/readFileSync html-path "utf8")]
-      (set! (-> @!audio-webview .-webview .-html) html-content))))
+      (set! (-> webview .-webview .-html) html-content))))
 
 (defn init-audio-service!
   "Improved version using external HTML file"
@@ -47,37 +102,64 @@
   (create-audio-webview!)
   (load-html-from-file!)
   (.onDidReceiveMessage
-   (.-webview @!audio-webview)
+   (.-webview (:webview @!state))
    (fn [message]
      (println "audio-service-webview message:" message)
      ;; Handle status responses
      (when (= (.-type message) "statusResponse")
-       (when-let [resolver (get @!status-resolvers "current")]
-         (resolver (js->clj (.-status message) :keywordize-keys true))
-         (swap! !status-resolvers dissoc "current")))
+       (let [status (js->clj (.-status message) :keywordize-keys true)
+             current-state @!state]
+         ;; Update cached status using pure function
+         (swap! !state update-last-status status)
+         ;; Resolve pending status request
+         (when-let [resolver (get-in current-state [:status-resolvers "current"])]
+           (resolver status)
+           (swap! !state remove-resolver :status-resolvers "current"))))
      ;; Handle audio ready notifications
      (when (= (.-type message) "audioReady")
        (println "🎵 Audio ready notification received!")
-       (when-let [resolver (get @!load-resolvers "default")]
-         (resolver (js->clj message :keywordize-keys true))
-         (swap! !load-resolvers dissoc "default")))
+       (let [load-data (js->clj message :keywordize-keys true)
+             current-state @!state]
+         (when-let [resolver (get-in current-state [:load-resolvers "default"])]
+           (resolver load-data)
+           (swap! !state remove-resolver :load-resolvers "default"))))
      message))
-  @!audio-webview)
+  (:webview @!state))
 
 (defn send-audio-command! [command & args]
-  (when @!audio-webview
+  (when-let [webview (:webview @!state)]
     (.postMessage
-     (.-webview @!audio-webview)
+     (.-webview webview)
      (clj->js (apply merge {:command (name command)} args)))))
 
 (defn load-audio! [local-file-path & {:keys [id]}]
   (def local-file-path local-file-path)
-  (let [webview (.-webview @!audio-webview)
+  (let [webview (:webview @!state)
         _ (def webview webview)
-        audio-uri (.asWebviewUri webview (vscode/Uri.file local-file-path))]
+        audio-uri (.asWebviewUri (.-webview webview) (vscode/Uri.file local-file-path))]
     (def audio-uri audio-uri)
     (send-audio-command! :load {:audioPath (str audio-uri)
                                 :id (or id "default")})))
+
+(defn play-audio-smart!+
+  "Smart play that checks readiness first and returns comprehensive info"
+  [& {:keys [id]}]
+  (p/let [status (get-audio-status!+)
+          readiness (get-play-readiness status)]
+    (if (:ready? readiness)
+      (do
+        (send-audio-command! :play {:id (or id "default")})
+        ;; Get updated status after play command
+        (p/let [new-status (get-audio-status!+)]
+          {:success true
+           :action :played
+           :readiness readiness
+           :status-before status
+           :status-after new-status}))
+      {:success false
+       :action :blocked
+       :readiness readiness
+       :status status})))
 
 (defn play-audio! [& {:keys [id]}]
   (send-audio-command! :play {:id (or id "default")}))
@@ -101,13 +183,13 @@
 (defn get-audio-status!+ []
   (p/create
    (fn [resolve reject]
-     ;; Store the resolver
-     (swap! !status-resolvers assoc "current" resolve)
+     ;; Store the resolver using pure function
+     (swap! !state add-status-resolver "current" resolve)
      ;; Request status from webview
      (send-audio-command! :status)
      ;; Timeout after 5 seconds
      (js/setTimeout #(do
-                       (swap! !status-resolvers dissoc "current")
+                       (swap! !state remove-resolver :status-resolvers "current")
                        (reject "Status request timeout")) 5000))))
 
 ;; Enhanced load and play that waits for proper loading
@@ -142,17 +224,17 @@
   (let [audio-id (or id "default")]
     (p/create
      (fn [resolve reject]
-       ;; Store the resolver
-       (swap! !load-resolvers assoc audio-id resolve)
+       ;; Store the resolver using pure function
+       (swap! !state add-load-resolver audio-id resolve)
        ;; Send load command using existing function
-       (let [webview (.-webview @!audio-webview)
-             audio-uri (.asWebviewUri webview (vscode/Uri.file local-file-path))]
+       (let [webview (:webview @!state)
+             audio-uri (.asWebviewUri (.-webview webview) (vscode/Uri.file local-file-path))]
          (send-audio-command! :load {:audioPath (str audio-uri)
                                      :id audio-id}))
        ;; Timeout after 10 seconds
        (js/setTimeout
         #(do
-           (swap! !load-resolvers dissoc audio-id)
+           (swap! !state remove-resolver :load-resolvers audio-id)
            (reject (str "Audio load timeout for: " local-file-path)))
         10000)))))
 

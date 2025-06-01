@@ -42,7 +42,8 @@
         // Enhanced status tracking
         let audioStatus = {
             userGestureComplete: false,
-            audioLoaded: false,
+            audioLoaded: false,        // True only when BOTH data ready AND user gesture complete
+            audioDataReady: false,     // Audio data loaded but may not be playable yet
             audioSrc: null,
             playbackState: 'stopped',
             audioDuration: 0,
@@ -65,11 +66,32 @@
             status.className = 'status ' + type;
         }
 
+        function checkAndUpdateReadiness() {
+            const wasLoaded = audioStatus.audioLoaded;
+            audioStatus.audioLoaded = audioStatus.audioDataReady && audioStatus.userGestureComplete;
+
+            if (!wasLoaded && audioStatus.audioLoaded) {
+                log('AUDIO NOW FULLY READY - Both data loaded and user gesture complete');
+                audioStatus.playbackState = 'ready';
+                updateStatus('Audio ready for playback', 'success');
+
+                // Notify Joyride that audio is ready to play
+                vscode.postMessage({
+                    type: 'audioReady',
+                    success: true,
+                    audioSrc: audioStatus.audioSrc
+                });
+            }
+        }
+
         function enableAudio() {
             log('User clicked enable audio button - gesture captured');
             userGestureComplete = true;
             audioStatus.userGestureComplete = true;
             updateStatus('Audio enabled', 'success');
+
+            // Check if we can now mark audio as fully ready
+            checkAndUpdateReadiness();
 
             vscode.postMessage({type: 'userGestureComplete', success: true, message: 'User clicked enable button'});
         }
@@ -79,6 +101,7 @@
             audioStatus.audioSrc = audioPath;
             audioStatus.playbackState = 'loading';
             audioStatus.audioLoaded = false;
+            audioStatus.audioDataReady = false;
             audioStatus.lastError = null;
             audio.src = audioPath;
             audio.load();
@@ -157,7 +180,8 @@
 
             log('STATUS REQUEST - Current audio status:');
             log('  User gesture: ' + audioStatus.userGestureComplete);
-            log('  Audio loaded: ' + audioStatus.audioLoaded);
+            log('  Audio data ready: ' + audioStatus.audioDataReady);
+            log('  Audio loaded (both): ' + audioStatus.audioLoaded);
             log('  Audio source: ' + audioStatus.audioSrc);
             log('  Playback state: ' + audioStatus.playbackState);
             log('  Duration: ' + audioStatus.audioDuration);
@@ -185,17 +209,11 @@
         });
 
         audio.addEventListener('canplay', () => {
-            log('Audio: canplay - READY FOR PLAYBACK');
-            audioStatus.audioLoaded = true;
-            audioStatus.playbackState = 'ready';
-            updateStatus('Audio ready for playback', 'success');
+            log('Audio: canplay - Audio data is ready');
+            audioStatus.audioDataReady = true;
 
-            // Notify Joyride that audio is ready to play
-            vscode.postMessage({
-                type: 'audioReady',
-                success: true,
-                audioSrc: audioStatus.audioSrc
-            });
+            // Check if we can now mark audio as fully ready (data + user gesture)
+            checkAndUpdateReadiness();
         });
 
         audio.addEventListener('playing', () => {
