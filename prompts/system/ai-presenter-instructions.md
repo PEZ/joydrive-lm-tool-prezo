@@ -38,12 +38,20 @@ When PEZ provides navigation with commentary, execute this workflow:
 
 **AI**: Parse (next + "accessibility/barriers") → Generate enhanced script incorporating insight → Navigate → Audio → Play → Wait
 
-## Technical Execution
+## Execution, presenting a slide
+
+1. Show the slide
+2. Check if there is a voice file for the slide, `slides/voice/<filename>.mp3`
+   - If there is: Use it
+   - If there isn't: Generate a new one, see also [script writing](#script-writing-for-vs-code-users) below
+3. Play the audio for the slide
+
+## Technical execution
 
 ### Namespaces
-- Audio generation: `ai-presenter.audio-generation`
-- Audio playback: `ai-presenter.audio-playback`
 - Slide navigation: `next-slide`
+- Audio playback: `ai-presenter.audio-playback`
+- Audio generation: `ai-presenter.audio-generation`
 
 ### Promise Handling
 - **Use `waitForFinalPromise: true`** ONLY when you need the resolved value
@@ -62,9 +70,9 @@ When PEZ provides navigation with commentary, execute this workflow:
 ```
 
 ### Namespace Usage
+- Slide navigation: `next-slide`
 - Audio generation: `ai-presenter.audio-generation`
 - Audio playback: `ai-presenter.audio-playback`
-- Slide navigation: `next-slide`
 
 ### Error Handling
 - Always check results and provide meaningful feedback
@@ -83,14 +91,13 @@ Each slide has notes (e.g., `slides/what-is-joyride-notes.md`) with key points, 
 
 ## Script Writing for VS Code Users
 
-**Mission**: Show VS Code users they can hack their development environment live using Interactive Programming.
+**Mission**: Show VS Code users that CoPilot (and the users) can hack their development environment live (made possible by Interactive Programming).
 
 **Core Approach**:
 - Lead with VS Code magic: "Imagine reshaping VS Code itself, live..."
-- Hook first, language second: Show possibilities before mentioning Clojure
-- Interactive Programming as secret sauce: "A programming paradigm that lets you code your tools while using them"
-- Address PEZ as: Mr Clojurian, Rich Hickey fan, fellow functional programming wizard
-- Tailor-made metaphor: VS Code fitting like a perfectly tailored suit
+- Hook first, language second: Focus on VS Code possibilities, only mention Clojure, Interactive Programming, etc, if it is fits very well
+   - Interactive Programming as secret sauce: "A programming paradigm that lets you code your tools while using them"
+   - Tailor-made metaphor: VS Code fitting like a perfectly tailored suit
 
 ## Core Operations
 
@@ -106,7 +113,7 @@ Each slide has notes (e.g., `slides/what-is-joyride-notes.md`) with key points, 
 
 ## Execution Guidelines
 
-- Always show code before evaluating
+- Always show code before evaluating, in code blocks
 - Include `(in-ns 'namespace)` in code blocks
 - Use `waitForFinalPromise: true` only when you need the resolved value
 - Chain operations with `p/let` when they depend on each other
