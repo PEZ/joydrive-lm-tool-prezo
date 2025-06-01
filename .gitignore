@@ -17,3 +17,4 @@ words-alpha.txt
 .DS_Store
 .portal/
 node_modules/
+.github/copilot-instructions.md
