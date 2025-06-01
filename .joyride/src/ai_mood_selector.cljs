@@ -22,7 +22,7 @@
             :uri file-uri}))
 
 (defn get-prompt-files+ []
-  (let [prompts-dir (vscode/Uri.joinPath (ws-root) "prompts")]
+  (let [prompts-dir (vscode/Uri.joinPath (ws-root) "prompts" "system")]
     (p/let [dir-entries (.readDirectory vscode/workspace.fs prompts-dir)
             files (->> dir-entries
                        js->clj
