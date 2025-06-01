@@ -45,36 +45,37 @@
     (set! (.-items quick-pick) (clj->js items))
     (set! (.-matchOnDescription quick-pick) true)
     (set! (.-matchOnDetail quick-pick) true)
-    
-    ;; Handle active item changes (preview)
-    (.onDidChangeActive quick-pick
-      (fn [active-items]
-        (when (> (.-length active-items) 0)
-          (let [item (first active-items)
-                uri (.-uri item)]
-            (.executeCommand vscode/commands "vscode.open" uri #js{:preview true})))))
-    
-    ;; Handle selection (open for editing)
+
+    ;; Handle selection (copy file to .github/copilot-instructions.md)
     (.onDidAccept quick-pick
-      (fn []
-        (when-let [selected (first (.-selectedItems quick-pick))]
-          (let [uri (.-uri selected)]
-            (.executeCommand vscode/commands "vscode.open" uri #js{:preview false})
-            (.hide quick-pick)))))
-    
+                  (fn []
+                    (when-let [selected (first (.-selectedItems quick-pick))]
+                      (let [source-uri (.-uri selected)
+                            target-uri (vscode/Uri.joinPath (ws-root) ".github" "copilot-instructions.md")
+                            filename (.-label selected)]
+                        (.hide quick-pick) ; Dismiss menu immediately
+                        (p/let [file-data (.readFile vscode/workspace.fs source-uri)]
+                          (.writeFile vscode/workspace.fs target-uri file-data)
+                          (-> (vscode/window.showInformationMessage
+                               (str "AI Mood " filename " activated!")
+                               "Open mood file")
+                              (p/then (fn [selection]
+                                        (when (= selection "Open mood file")
+                                          (.executeCommand vscode/commands "vscode.open" source-uri))))))))))
+
     ;; Handle hiding
     (.onDidHide quick-pick
-      (fn []
-        (.dispose quick-pick)))
-    
+                (fn []
+                  (.dispose quick-pick)))
+
     ;; Show the picker
     (.show quick-pick)))
 
 (comment
   ;; Test the AI mood picker
   (show-ai-mood-picker!)
-  
+
   ;; Test individual functions
   (get-prompt-files+)
-  
+
   :rcf)
