@@ -23,6 +23,17 @@
 ;; PURE FUNCTIONS - Functional Core
 ;; =============================================================================
 
+(defn ensure-absolute-path
+  "Convert relative path to absolute path if needed"
+  [file-path]
+  (if (.startsWith file-path "/")
+    file-path
+    (path/join (-> vscode/workspace.workspaceFolders
+                   first
+                   .-uri
+                   .-fsPath)
+               file-path)))
+
 (defn can-play?
   "Pure function: Check if audio system is ready to play"
   [status]
@@ -184,14 +195,15 @@
 (defn load-audio-promise!+
   "Returns a promise that resolves when audio is loaded and ready to play, or rejects with detailed error info"
   [local-file-path & {:keys [id timeout-ms] :or {timeout-ms 10000}}]
-  (let [audio-id (or id "default")]
+  (let [audio-id (or id "default")
+        absolute-path (ensure-absolute-path local-file-path)]
     (p/create
      (fn [resolve reject]
        ;; Store both resolve and reject functions
        (swap! !state add-load-resolver audio-id {:resolve resolve :reject reject})
        ;; Send load command using existing function
        (let [webview (:webview @!state)
-             audio-uri (.asWebviewUri (.-webview webview) (vscode/Uri.file local-file-path))]
+             audio-uri (.asWebviewUri (.-webview webview) (vscode/Uri.file absolute-path))]
          (send-audio-command! :load {:audioPath (str audio-uri)
                                      :id audio-id}))
        ;; Enhanced timeout with status check
@@ -213,11 +225,9 @@
         timeout-ms)))))
 
 (defn load-audio! [local-file-path & {:keys [id]}]
-  (def local-file-path local-file-path)
-  (let [webview (:webview @!state)
-        _ (def webview webview)
-        audio-uri (.asWebviewUri (.-webview webview) (vscode/Uri.file local-file-path))]
-    (def audio-uri audio-uri)
+  (let [absolute-path (ensure-absolute-path local-file-path)
+        webview (:webview @!state)
+        audio-uri (.asWebviewUri (.-webview webview) (vscode/Uri.file absolute-path))]
     (send-audio-command! :load {:audioPath (str audio-uri)
                                 :id (or id "default")})))
 (defn play-audio-smart!+
