@@ -289,40 +289,6 @@
          :play-result play-result
          :success true}))))
 
-;; Enhanced load and play that waits for proper loading
-(defn load-and-play-audio-properly!+ [file-path]
-  (p/let [_ (load-audio! file-path)
-          ;; Wait a bit for loading to start
-          _ (p/delay 100)
-          ;; Check status repeatedly until loaded
-          status (loop [attempts 0]
-                   (p/let [current-status (get-audio-status!+)]
-                     (if (or (:audioLoaded current-status)
-                             (> attempts 20)) ;; 2 second timeout
-                       current-status
-                       (do
-                         (p/delay 100)
-                         (recur (inc attempts))))))]
-    (if (:audioLoaded status)
-      (do
-        (println "Audio loaded successfully, attempting play...")
-        (p/let [play-result (play-audio!)]
-          {:load-status status
-           :play-result play-result
-           :success true}))
-      {:load-status status
-       :play-result nil
-       :success false
-       :error "Audio failed to load in time"})))
-
-;; Simple load-and-play using the promise-based load
-(defn load-and-play-audio-simple!+ [file-path]
-  (p/let [load-result (load-audio-promise!+ file-path)
-          play-result (play-audio!)]
-    {:load-result load-result
-     :play-result play-result
-     :success true}))
-
 (comment
   (p/let [load+ (load-audio! "/Users/pez/Projects/Meetup/joydrive-lm-tool-prezo/slides/voice/test-playback.mp3")]
     (def load+ load+))
