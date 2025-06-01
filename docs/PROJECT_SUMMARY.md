@@ -2,7 +2,13 @@
 
 ## Overview
 
-This project demonstrates an AI-powered presentation system built with Joyride (VS Code ClojureScript scripting) that generates and plays audio narration for markdown slides. It showcases Interactive Programming paradigms where AI can directly interact with VS Code through the Joyride LM Tool integration.
+This project demonstrates an AI-powered presenta### Component Interaction Flow
+1. **Slide Navigation** (`next-slide`) - Manages slide state and markdown preview
+2. **AI Mood Selection** (`ai-mood-selector`) - Dynamic AI personality switching with status bar integration
+3. **Script Generation** - AI reads slide content and notes to craft engaging scripts
+4. **Audio Generation** (`audio_generation`) - Converts scripts to speech using OpenAI TTS
+5. **Audio Playback** (`audio_playback`) - Webview-based playback with browser security compliance
+6. **Timing Management** - Duration estimation and waiting for audio completionystem built with Joyride (VS Code ClojureScript scripting) that generates and plays audio narration for markdown slides. It showcases Interactive Programming paradigms where AI can directly interact with VS Code through the Joyride LM Tool integration.
 
 **Core Concept**: An AI assistant can read slide content, generate engaging presentation scripts, synthesize audio using text-to-speech, and orchestrate complete presentations within VS Code.
 
@@ -10,8 +16,10 @@ This project demonstrates an AI-powered presentation system built with Joyride (
 
 ### Core Presentation Infrastructure
 
+- **`.joyride/scripts/workspace_activate.cljs`** - Workspace initialization script that sets up status bar items and presentation environment
 - **`.joyride/src/next_slide.cljs`** - Original slide navigation system with keyboard shortcuts and state management
 - **`.joyride/src/showtime.cljs`** - Timer/stopwatch widget for presentations
+- **`.joyride/src/ai_mood_selector.cljs`** - Dynamic AI mood/personality selector with status bar integration
 - **`slides.edn`** - Configuration file defining slide order and paths
 - **`slides/*.md`** - Individual markdown slides with embedded HTML/CSS for styling
 
@@ -29,8 +37,17 @@ This project demonstrates an AI-powered presentation system built with Joyride (
 
 - **`slides/*-notes.md`** - Presentation guidance notes for each slide with scripting instructions
 - **`slides/voice/*.mp3`** - Generated audio files for presentations
-- **`prompts/ai-presenter-instructions.md`** - Comprehensive AI presenter guidelines
 - **`docs/example-slide-script.md`** - Example script with analysis of effective techniques
+
+### AI System Configuration
+
+- **`prompts/system/`** - Directory containing AI mood/personality instruction files
+  - **`ai-presenter-instructions.md`** - AI presenter personality for slide presentations
+  - **`joyride-hacker-instructions.md`** - Joyride demo specialist personality
+  - **`architect-instructions.md`** - Software architecture expert personality
+- **`prompts/system-common-begin.md`** - Common instructions prepended to all AI moods
+- **`prompts/system-common-end.md`** - Common instructions appended to all AI moods
+- **`.github/copilot-instructions.md`** - Active concatenated AI instructions for GitHub Copilot
 
 ## Dependencies
 
@@ -82,6 +99,21 @@ This project demonstrates an AI-powered presentation system built with Joyride (
 ;; Show current slide
 ```
 
+### AI Mood Selection (`ai-mood-selector`)
+```clojure
+(activate-mood! "mood-name")
+;; Activate AI mood by name (e.g., "joyride-hacker", "architect")
+
+(activate-mood! source-uri filename)
+;; Activate mood using file URI (used internally by picker)
+
+(show-ai-mood-picker!)
+;; Display interactive mood selection interface
+
+(update-status-bar! mood-name)
+;; Update status bar with current mood (called automatically)
+```
+
 ### Presentation Orchestration (`ai_presenter.presentation`)
 ```clojure
 (present-slide!+ slide-index slide-name script)
@@ -102,8 +134,10 @@ This project demonstrates an AI-powered presentation system built with Joyride (
 
 ### State Management
 - **Unified State**: AI presenter integrates with existing `next-slide` state atom
+- **AI Mood State**: `ai-mood-selector` maintains current mood and status bar item references
 - **Pure Functions**: Core logic separated from side effects
 - **Promise-based Async**: All I/O operations return promises using `promesa.core`
+- **Status Bar Integration**: Dynamic status bar updates following VS Code patterns
 
 ### Browser Security Handling
 - **User Gesture Requirement**: Audio playback requires explicit user interaction
@@ -189,6 +223,10 @@ ai_presenter/
 - User gesture handling for browser security
 - Timing estimation and waiting for audio completion
 - Comprehensive script generation with audience targeting
+- **AI mood selector with status bar integration**
+- **Dynamic AI personality switching (ai-presenter, joyride-hacker, architect)**
+- **File concatenation system for AI instruction composition**
+- **Interactive mood picker with VS Code quick pick interface**
 
 ### 🚧 Known Issues
 - Audio playback requires manual "Enable Audio" click due to browser security
@@ -200,5 +238,8 @@ ai_presenter/
 - Script generation following presentation guidelines
 - Audio file creation and storage in `slides/voice/`
 - Integration with existing next-slide system
+- **AI mood activation and switching via REPL and UI picker**
+- **Status bar mood indicator with clickable interface**
+- **Dynamic instruction file concatenation and GitHub Copilot integration**
 
 This system demonstrates the power of Interactive Programming where AI can directly interact with and extend VS Code capabilities in real-time, creating a seamless development and presentation experience.

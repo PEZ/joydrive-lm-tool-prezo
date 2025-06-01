@@ -1,6 +1,6 @@
 Available system prompts/AI moods
 
-- ai-presenter
+- presenter
 - joyride-hacker
 - architect
 

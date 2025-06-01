@@ -54,7 +54,6 @@
   (audio-playback/init-audio-service!)
   #_(push-disposable (add-joy-run-item!))
   (p/let [item (ai-mood-selector/activate-mood! "presenter")]
-    (def item item)
     (push-disposable item)))
 
 (when (= (joyride/invoked-script) joyride/*file*)
