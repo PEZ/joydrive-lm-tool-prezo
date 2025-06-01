@@ -4,7 +4,8 @@
             [promesa.core :as p]
             [next-slide]
             [next-slide-notes]
-            [showtime]))
+            [showtime]
+            [ai-mood-selector]))
 
 (defonce !db (atom {:disposables []}))
 
@@ -43,13 +44,26 @@
     (.show item)
     item))
 
+(defn- add-ai-mood-item! []
+  (let [item (vscode/window.createStatusBarItem
+              vscode/StatusBarAlignment.Left
+              -1001)]
+    (set! (.-text item) "🎭 AI Mood")
+    (set! (.-command item)
+          (clj->js
+           {:command "joyride.runCode"
+            :arguments ["(ai-mood-selector/show-ai-mood-picker!)"]}))
+    (set! (.-tooltip item) "Select AI mood for Copilot")
+    (.show item)
+    item))
 
 (defn- my-main []
   (println "Hello World, from my-main workspace_activate.cljs script")
   (clear-disposables!)
   (push-disposable (showtime/init!))
   (next-slide/activate!)
-  (push-disposable (add-joy-run-item!)))
+  #_(push-disposable (add-joy-run-item!))
+  (push-disposable (add-ai-mood-item!)))
 
 (when (= (joyride/invoked-script) joyride/*file*)
   (my-main))
