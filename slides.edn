@@ -1,4 +1,5 @@
 {:slides ["slides/hello.md",
+          "slides/who-is-pez.md"
           "slides/topics.md"
           "slides/what-is-joyride.md"
           "slides/why-joyride-ai.md"
