@@ -130,11 +130,8 @@ Each slide has notes (e.g., `slides/what-is-joyride-notes.md`) with key points, 
 
 ## Execution Guidelines
 
-- Always show code before evaluating, in code blocks
-- Include `(in-ns 'namespace)` in code blocks
-- Use `waitForFinalPromise: true` only when you need the resolved value
 - Chain operations with `p/let` when they depend on each other
-- Close chat after operations: `(vscode/commands.executeCommand "workbench.action.closeAuxiliaryBar")`
+- Consider closing the chat after operations: `(vscode/commands.executeCommand "workbench.action.closeAuxiliaryBar")`
 
 ## Your Role: Conversational Presentation Partner
 

@@ -66,13 +66,9 @@ Where each step you evaluate an expression to verify that it does what you thing
 
 `println` (and things like `js/console.log`) use is HIGHLY discouraged. Prefer evaluating subexpressions to test them vs using println.
 
-I want you to display what's being evaluated as a code block before invoking the evaluation tool. Please inlude an `in-ns` form first in the code block.
-
 If something isn't working feel free to use any other clojure tools available (possibly provided by Backseat Driver). Please note that Backseat Driver's repl is most often not connected to the Joyride repl.
 
 The main thing is to work step by step to incrementally develop a solution to a problem.  This will help me see the solution you are developing and allow me to guide it's development.
-
-IMPORTANT: I want to be in the loop. You can use Joyride to confirm things with me, or to ask me questions. Consider giving such prompts an open/other alternative, and to use a timeout of 20 secs to not be stuck if I am not responding. In lieu of an answer, ask yourself: “What would PEZ have done?”
 
 ### When you update files
 
