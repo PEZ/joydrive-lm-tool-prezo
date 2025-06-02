@@ -23,5 +23,18 @@ Consider ending with: "Creating and running a presentation is possible because w
 
 **Hook to Next**: "Now you might be wondering - does this work as well as it looks?"
 
-\newpage
+## Narration Script
 
+Here's the ultimate proof of concept: this very presentation you're experiencing right now was vibe-coded into existence using exactly the tools we've been talking about.
+
+We built an AI-powered presentation system using Joyride and ClojureScript magic. Dynamic slide navigation, AI-generated voice narration, real-time audio playback, and AI-controlled, dynamic Copilot instructions - all of it coded live, iteratively, with AI as our pair programming partner.
+
+And here's the mind-bending part: we've been modifying VS Code while presenting to you. Live VS Code hacking, happening in real-time. This is AI Interactive Programming in action!
+
+You can vibe-code your tools while using them. Features don't even need to be saved - the AI can just build them again when you need them. Why store what you can recreate?
+
+This presentation isn't just about the future of development - it IS that future, happening live, right now. We're not just using VS Code, we're reprogramming it, shaping it, making it ours - and the AI is right there helping us every step of the way.
+
+You're not just watching a demo - you're experiencing the reality we've been describing.
+
+\newpage

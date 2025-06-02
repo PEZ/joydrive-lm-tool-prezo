@@ -3,6 +3,12 @@
             [promesa.core :as p]
             [clojure.string :as string]))
 
+(defonce !mood-state (atom {:current-mood nil
+                            :status-bar-item nil}))
+
+(defn ^:export get-current-mood []
+  (:current-mood @!mood-state))
+
 (defn ws-root []
   (if (not= js/undefined vscode/workspace.workspaceFolders)
     (.-uri (first vscode/workspace.workspaceFolders))
@@ -36,10 +42,6 @@
                       (p/let [{:keys [first-line content]} (read-file-content+ file-uri)]
                         (create-quick-pick-item filename file-uri first-line content))))
                   files)))))
-
-;; State to track current mood and status bar item
-(defonce !mood-state (atom {:current-mood nil
-                            :status-bar-item nil}))
 
 ;; Function to read the begin and end common files
 (defn read-common-files+ []

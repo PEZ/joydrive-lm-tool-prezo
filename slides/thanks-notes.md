@@ -22,4 +22,16 @@
 
 **Final Message Suggestion**: "Your development environment can be as unique as your workflow, as personal as your thoughts, and as powerful as your imagination. With AI as your partner and Interactive Programming as your superpower, that transformation starts the moment you install Joyride. Welcome to the community of VS Code hackers!"
 
+## Narration Script
+
+Thank you for joining us on this journey from VS Code user to VS Code hacker!
+
+You leave here with more than just knowledge about new tools - you leave with a transformed understanding of what's possible. Your development environment can be as unique as your workflow, as personal as your thoughts, and as powerful as your imagination.
+
+These aren't just PEZ's contact details - they're your doorways into a community of makers and hackers who refuse to accept limitations. Follow him on GitHub, connect on X, reach out on LinkedIn, or read his insights on the Agical blog.
+
+With AI as your partner and Interactive Programming as your superpower, your transformation starts the moment you install Joyride. You're no longer just a VS Code user - you're a potential VS Code hacker.
+
+Welcome to the community. We can't wait to see what impossible things you'll make possible.
+
 \newpage

@@ -33,4 +33,26 @@
 
 **Hook to Next**: "So where does this journey lead us?"
 
+## To Story and Slide Narrators
+
+**Extension Ecosystem Insight**: This slide demonstrates the principle of extension composability in action. Calva, Joyride, and Backseat Driver working together exemplifies how Joyride doesn't replace your existing extensions - it makes them work together perfectly. This validates the audience's investment in their current extension choices while showing the path to transcendence.
+
+**Maturity Honesty**: Be transparent about maturity levels - Calva and core Joyride are battle-tested and stable, while the LM Tool integration and Backseat Driver are brand new and rapidly evolving. This builds trust by setting proper expectations: reliable foundations with exciting cutting-edge innovation happening at the edges.
+
+## Narration Script
+
+Welcome to your support network. You're not just getting one tool - you're joining an ecosystem of extensions at different stages of their journey, each bringing unique strengths.
+
+Calva is your mature, battle-tested Clojure development powerhouse. It's been refined over years of real-world use, handling your application REPL, providing structural editing and formatting, and bringing rich Clojure tooling to VS Code. When you're building Clojure applications, Calva is your reliable home base.
+
+Joyride itself is also mature and stable - it's been empowering VS Code hackers for years. The brand new part? The LM Tool integration that lets AI become your pair programming partner. That's bleeding edge, work in progress, evolving rapidly.
+
+Backseat Driver is similarly brand new and evolving fast. It provides specialized Clojure AI assistance and can connect to Joyride's REPL. Just remember to disable Backseat Driver's eval tool when using both - they're designed to complement, not compete.
+
+Here's the beautiful workflow: mature Calva for your application development, proven Joyride for VS Code automation, and exciting new AI tools for enhanced support. You get reliability where you need it, innovation where it matters most.
+
+This is what a healthy ecosystem looks like - mature foundations with cutting-edge exploration happening at the edges.
+
+So where does this incredible journey lead us?
+
 \newpage
