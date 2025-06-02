@@ -1,16 +1,22 @@
 # Joyride + LM Tools
 
-**PRESENTATION SCRIPT - USE VERBATIM:**
+## To the Narration Author
 
-"Welcome everyone! If you're a VS Code user - and I'm guessing most of you are - this presentation is specifically for you.
+**Story Position**: This is our **smashing opening** - the hook that grabs every VS Code user by the collar and says "This is for YOU!"
 
-Raise your hand if you've ever found yourself thinking 'VS Code almost does exactly what I want, but not quite.' Well, what if I told you that's about to change forever?
+**Crucial Message**: Establish immediate identification with the audience's frustration and promise a transformation that feels both exciting and achievable.
 
-Today we're going to explore Joyride plus LM Tools - a combination that will transform how you think about your development environment. Your editor will never feel the same again.
+**Key Details**:
+- The "almost does what I want" line is CRITICAL - it's the universal VS Code user experience
+- The phrase "hack VS Code itself" positions the audience as potential hackers, not just users
+- Interactive Programming is introduced as mysterious and powerful, not technical
 
-We're going to discover something called Interactive Programming - a programming paradigm that most developers don't even know exists. And it's this paradigm that's going to unlock incredible possibilities for customizing and automating VS Code in ways you never imagined.
+**Dramaturgic Mood**: **Electric anticipation** - like the moment before a magic show begins
 
-So buckle up, because we're about to hack VS Code itself!"
+**Narration Length**: 45-60 seconds - long enough to build anticipation, short enough to maintain energy
 
+**Hook from Previous**: This IS the beginning - set the stage for transformation
+
+**Hook to Next**: "So buckle up, because I, CoPilot, am about to hack the living system that is VS Code itself!"
 
 \newpage

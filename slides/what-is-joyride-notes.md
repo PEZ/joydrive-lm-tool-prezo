@@ -1,19 +1,22 @@
 # Joyride – What is it?
 
-**Key script points:**
-- Lead with "imagine reshaping VS Code itself, live"
-- Interactive Programming = the secret sauce
-- "You're not just developing apps, you're live-coding your dev environment"
-- Position ClojureScript as the enabler, not the star
-- Emphasize: everything extensions can do, you can do interactively
+## To the Narration Author
 
-**Hooks for VS Code users:**
-- "What if your editor could evolve with your workflow?"
-- The tailor-made suit metaphor
-- AI integration angle - Copilot helping build custom solutions
+**Story Position**: **The Paradigm Shift** - revealing the hidden door to a new world
 
-**Avoid:**
-- Deep Clojure language details
-- Functional programming theory
+**Crucial Message**: This isn't just another extension - it's a fundamentally different way of relating to your development environment
+
+**Key Details**:
+- "Live-coding your dev environment" is the killer phrase - VS Code users will feel this in their bones
+- "Interactive Programming" transforms from technical jargon to "immediate feedback and iteration"
+- The "NEW: LM Tool integration" is the bridge that makes everything accessible
+
+**Dramaturgic Mood**: **Revelation and possibility** - the moment Neo sees the Matrix
+
+**Narration Length**: 50-60 seconds - this concept needs time to sink in
+
+**Hook from Previous**: "What exactly IS Joyride?"
+
+**Hook to Next**: "Now you understand the foundation - let's see how AI makes this accessible to everyone"
 
 \newpage

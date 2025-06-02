@@ -13,15 +13,15 @@
 - Interactive Programming with AI
 - Demo: AI building VS Code features
 - Experiences and learnings
-- Joyride + Calva + Backseat Driver
+- Joyride and Calva together
 - Where next?
 
 </div>
 
 <div class="column col-6 icon-gallery vcenter">
-<img src="images/clj.png" height=160>
-<img src="images/copilot-icon-light.png" height=140>
 <img src="images/vscode.png" height=160>
+<img src="images/copilot-icon-light.png" height=140>
+<img src="images/joyride-icon.png" height=160>
 </div>
 
 </div>
