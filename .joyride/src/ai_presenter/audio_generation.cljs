@@ -113,7 +113,7 @@
        :error (.-message error)
        :slide-name slide-name})))
 
-(defn generate-and-play-workspace-temp!+ [text]
+(defn generate-and-play-message!+ [text]
   (p/let [ws-root (ai-presenter.audio-generation/ws-root)
           temp-dir-uri (vscode/Uri.joinPath ws-root ".joyride" "temp-audio")
 
@@ -156,10 +156,7 @@
 
 (comment
 
-  (generate-and-play-workspace-temp!+ "hello")
-  ;; =============================================================================
-  ;; REPL-Driven Development & Testing
-  ;; =============================================================================
+  (generate-and-play-message!+ "hello")
 
   ;; Test environment validation
   (validate-environment)
