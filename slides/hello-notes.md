@@ -12,11 +12,5 @@ We're going to discover something called Interactive Programming - a programming
 
 So buckle up, because we're about to hack VS Code itself!"
 
-**Why this script works:**
-- Direct VS Code user targeting with immediate relevance
-- Relatable pain point that hooks the audience
-- Builds mystery around Interactive Programming paradigm
-- Creates excitement and anticipation for what's coming
-- Perfect tone: conversational but energetic
 
 \newpage
