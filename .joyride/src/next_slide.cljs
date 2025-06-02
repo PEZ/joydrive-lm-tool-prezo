@@ -88,7 +88,7 @@
     (vscode/commands.executeCommand
      "markdown.showPreview"
      (vscode/Uri.joinPath (ws-root)
-                          (nth slides (:active-slide @!state))))))
+                          (nth slides (:next/active-slide @!state))))))
 
 (defn next!
   ([]
@@ -98,18 +98,17 @@
            next (if forward?
                   #(min (inc %) (dec (count slides)))
                   #(max (dec %) 0))]
-     (swap! !state update :active-slide next)
+     (swap! !state update :next/active-slide next)
      (current!))))
 
 (defn restart!
   []
-  (swap! !state assoc :active-slide 0)
+  (swap! !state assoc :next/active-slide 0)
   (current!))
 
 (defn deactivate! []
   (swap! !state assoc :next/active? false)
-  (vscode/commands.executeCommand "setContext" "next-slide:active" false)
-  (vscode/window.showInformationMessage
+  (vscode/commands.executeCommand "setContext" "next-slide:active" false) (vscode/window.showInformationMessage
    (str "next-slide:" "deactivated")))
 
 (defn activate!
@@ -127,14 +126,12 @@
   "Show a slide by its filename (e.g. 'hello.md' or 'slides/hello.md')"
   [slide-name]
   (p/let [slides (slides-list+)
-          ;; Find the slide index by matching the filename
           slide-index (->> slides
-                          (map-indexed vector)
-                          (filter (fn [[_idx slide-path]]
-                                   (or (= slide-path slide-name)
-                                       (.endsWith slide-path slide-name))))
-                          first
-                          first)]
+                           (map-indexed vector)
+                           (filter (fn [[_idx slide-path]]
+                                     (or (= slide-path slide-name)
+                                         (.endsWith slide-path slide-name))))
+                           ffirst)]
     (if slide-index
       (do
         (swap! !state assoc :next/active-slide slide-index)
@@ -142,6 +139,10 @@
       (do
         (js/console.warn "Slide not found:" slide-name "Available slides:" slides)
         (vscode/window.showWarningMessage (str "Slide not found: " slide-name))))))
+
+(comment
+  (show-slide-by-name!+ "ecosystem.md")
+  :rcf)
 
 (when (= (joyride/invoked-script) joyride/*file*)
   (activate!))
