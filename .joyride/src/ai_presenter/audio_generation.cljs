@@ -1,7 +1,9 @@
 (ns ai-presenter.audio-generation
-  (:require [promesa.core :as p]
-            ["ai-text-to-speech" :as tts]
-            ["vscode" :as vscode]))
+  (:require
+   ["ai-text-to-speech" :as tts]
+   ["vscode" :as vscode]
+   [ai-presenter.audio-playback :as audio-playback]
+   [promesa.core :as p]))
 
 ;; =============================================================================
 ;; Audio Generation System
@@ -111,7 +113,50 @@
        :error (.-message error)
        :slide-name slide-name})))
 
+(defn generate-and-play-workspace-temp!+ [text]
+  (p/let [ws-root (ai-presenter.audio-generation/ws-root)
+          temp-dir-uri (vscode/Uri.joinPath ws-root ".joyride" "temp-audio")
+
+          _ (p/catch
+             (vscode/workspace.fs.createDirectory temp-dir-uri)
+             (fn [error]
+               (when-not (= "FileExists" (.-code error))
+                 (throw error))))
+
+          timestamp (js/Date.now)
+          temp-filename (str "repl-audio-" timestamp ".mp3")
+
+          env-check (ai-presenter.audio-generation/validate-environment)
+          _ (when-not (:api-key-present? env-check)
+              (throw (js/Error. "OPENAI_API_KEY not found in environment")))
+
+          temp-file-path (ai-presenter.audio-generation/ai-speech
+                          #js {:input text
+                               :dest_dir ai-presenter.audio-generation/audio-dir
+                               :voice "nova"
+                               :model "tts-1"
+                               :response_format "mp3"})
+
+          target-uri (vscode/Uri.joinPath temp-dir-uri temp-filename)
+          _ (ai-presenter.audio-generation/move-file!+ temp-file-path target-uri)
+
+          temp-uri (vscode/Uri.file temp-file-path)
+          _ (vscode/workspace.fs.delete temp-uri)
+
+          file-stat (vscode/workspace.fs.stat target-uri)]
+
+    (p/let [relative-path (str ".joyride/temp-audio/" temp-filename)
+            play-result (audio-playback/load-and-play-audio!+ relative-path)]
+      {:success true
+       :text text
+       :temp-filename temp-filename
+       :workspace-temp-path relative-path
+       :file-size (.-size file-stat)
+       :play-result play-result})))
+
 (comment
+
+  (generate-and-play-workspace-temp!+ "hello")
   ;; =============================================================================
   ;; REPL-Driven Development & Testing
   ;; =============================================================================

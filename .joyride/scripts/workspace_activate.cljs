@@ -3,6 +3,7 @@
    ["vscode" :as vscode]
    [ai-mood-selector]
    [ai-presenter.audio-playback :as audio-playback]
+   ai-presenter.audio-generation
    [joyride.core :as joyride]
    [next-slide]
    [next-slide-notes]
