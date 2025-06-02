@@ -10,6 +10,6 @@ He's also a huge Clojure fan and created Calva, a Clojure Interactive Programmin
 
 His employer and open source patron is Agical, a small and very special software consultancy in Stockholm that believes in supporting developers who push boundaries.
 
-So let's explore what this VS Code wizard has cooked up for us this time.
+So let's explore what this VS Code homie has cooked up for us this time.
 
 \newpage

@@ -1,63 +1,43 @@
 # AI-Powered Joyride Presentation System
 
-A complete presentation system built entirely in Joyride (ClojureScript for VS Code) where AI generates and narrates slide content.
+A complete presentation system + custom AI workflow, built entirely in Joyride, where AI generates and narrates slide content.
 
 **Taking this for a spin is as easy as opening this project in VS Code with CoPilot enabled**, and installing the Joyride extension.
 
 The audio generation features need an OpenAI API key. You and CoPilot can hack it to use something else for audio generation, because ...
 
-.. This project is **100% Joyride** - demonstrating the power of **Interactive Programming** by building a complete AI presentation system using ClojureScript that runs directly within VS Code. The AI can read slide content, craft engaging scripts, generate high-quality audio narration, and orchestrate full presentations - all through Joyride's seamless integration with VS Code's extension API.
-
-## ✨ What This System Does
-
-- 📖 **Smart Script Generation** - AI reads markdown slides and crafts engaging presentation scripts
-- 🎵 **Audio Synthesis** - Converts scripts to professional-quality speech using OpenAI TTS
-- 🎯 **Intelligent Targeting** - Scripts specifically crafted for VS Code users with Interactive Programming hooks
-- ⏱️ **Timing Management** - Estimates audio duration and waits for completion before advancing
-- 🖥️ **VS Code Integration** - Complete webview-based audio playback with browser security compliance
-- 🔄 **Live Development** - Build and test the system interactively while using it
+... This project is **100% Joyride** - The AI reads slide content, crafts engaging slide narration, generates high-quality audio from the narration scripts, and orchestrate full presentations - all through Joyride's integration with VS Code's extension API.
 
 ## 🚀 Quick Start
 
 ### Core Requirements
 **Only 3 things needed:**
-1. **[Joyride](https://marketplace.visualstudio.com/items?itemName=betterthantomorrow.joyride)** - ClojureScript scripting for VS Code (this project is 100% Joyride)
-2. **[GitHub Copilot](https://marketplace.visualstudio.com/items?itemName=GitHub.copilot)** - For AI interaction with the system
-3. (for text-to-speech generation) **OpenAI API Key**:
+1. **[GitHub Copilot](https://marketplace.visualstudio.com/items?itemName=GitHub.copilot)** - For AI interaction with the system
+2. **[Joyride](https://marketplace.visualstudio.com/items?itemName=betterthantomorrow.joyride)** - ClojureScript scripting for VS Code (this project is 100% Joyride)
+3. (for text-to-speech generation) **OpenAI API Key in your env**:
    ```bash
    export OPENAI_API_KEY="your-openai-api-key"
    ```
 
 ### Running the System
 
-Ask CoPilot to demo it for you and show you how to operate it. 😀
+Ask CoPilot to demo it for you and show you how to operate it. ✨
 
 ## 🎯 Core Features
 
-### 📝 **Intelligent Script Generation**
-The AI reads slide content and presentation notes to create engaging scripts that:
-- Target VS Code users specifically
-- Build excitement about Interactive Programming
-- Use conversational, enthusiastic tone
-- Include practical examples and hooks
+### AI Workflow support
 
-### 🎙️ **Professional Audio Generation**
-- High-quality text-to-speech using OpenAI's API
-- Automatic file management in `slides/voice/`
-- Duration estimation for proper timing
-- Support for multiple presentation styles
+CoPilot Instructions moods supporting both VS Code hacking and presentation authoring/presenting.
 
-### 🎮 **Interactive Presentation Control**
-- Slide navigation with keyboard shortcuts (`j`/`k`, `→`/`←`)
-- Webview-based audio playback with security compliance
-- User gesture handling for browser audio policies
-- Real-time feedback and status updates
+Easily switch between different system prompts depending on where in the workflow you are. Available system prompts (in `prompts/system/`):
 
-### 🤖 **AI-Driven Workflow**
-- AI can read slides, generate scripts, and orchestrate presentations
-- REPL-driven development for live system modification
-- Interactive Programming paradigm demonstration
-- Seamless integration with VS Code's extension ecosystem
+- **architect** - For system design and architectural decisions
+- **joyride-hacker** - For interactive programming and VS Code hacking with Joyride
+- **slide-author** - For creating and editing slide content
+- **story-narration-author** - For crafting the full narrative story
+- **slide-narration-author** - For writing engaging slide narrations, based on slide content, notes and the narrative story
+- **audio-generator** - Generates high quality voice audio from slide scripts
+- **presenter** - For presenting slides with voice narration, can also author narration and genarate audio
 
 ## 📁 Project Structure
 
@@ -83,14 +63,24 @@ The AI reads slide content and presentation notes to create engaging scripts tha
 
 ### Basic Presentation
 ```clojure
-;; Generate audio for a slide
-(ai-presenter.audio-generation/generate-slide-audio!+
-  "hello"
-  "Welcome to the exciting world of Interactive Programming!")
+;; 1. Hide the chat during presentation
+(vscode/commands.executeCommand "workbench.action.closeAuxiliaryBar")
 
-;; Present with full workflow
-(ai-presenter.presentation/present-slide!+
-  0 "hello" "Your engaging script here...")
+;; 2. Show a specific slide
+(next-slide/show-slide-by-name!+ "hello.md")
+
+;; 3. Generate and play audio for the slide
+(p/let [gen-result (ai-presenter.audio-generation/generate-slide-audio!+
+                    "hello" ; slide name (without .md)
+                    "Your engaging presentation script here...")]
+  (ai-presenter.audio-playback/load-and-play-audio!+ "slides/voice/hello.mp3"))
+
+;; 4. Answer questions during presentation
+(ai-presenter.audio-generation/generate-and-play-message!+
+ "That's a great question! Here's my answer...")
+
+;; 5. Navigate to next slide when ready
+(next-slide/next! true)
 ```
 
 ### AI-Assisted Presentation

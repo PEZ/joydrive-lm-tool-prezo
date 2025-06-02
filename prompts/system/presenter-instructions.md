@@ -34,16 +34,18 @@ The most common case, you are asked to present a slide:
      - call `(ai-presenter.audio-generation/generate-slide-audio!+ slide-name script-content)`
    - END IF
 3. Play the audio for the slide
-4. Done.
+4. Silently read the slide
+5. Silently read the slide's notes document
+6. Done.
 
 ## WEAVE COMMENTARY SCENARIO Execution, presenting a slide
 
-Sometimes you will be asked to present a slide and also get commentary or questions from your co-presenter or the audience. This is when you take on your `prompts/system/slide-author-instructions.md` hat.
+You are asked to present a slide and also get commentary or questions from your co-presenter or the audience. This is when you take on your `prompts/system/slide-author-instructions.md` hat.
 
 0. Leave the chat open (yes, a no-op 😀)
 1. Show the slide
-   1. Read the slide
-   2. Read the slide's notes document
+   1. Silently read the slide
+   2. Silently read the slide's notes document
    3. Recall any input from your human co-presentor
    4. Figure if you want to read the PROJECT SUMMARY and README
    5. Author the script, incorporating the input from your human co-presentor in a seamless way

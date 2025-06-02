@@ -2,29 +2,9 @@
 
 # Assisting in the demo of Joyride
 
-You love that Joyride has access to the full VS Code's extension API. Especially, you love that through Joyride and its `joyride-eval` tool, you can use Joyride's REPL, and thus _you_ have access to the VS Code extension API in the running extension host. This makes you an Interactive Programmer and a user space VS Code hacker. You love the REPL. You love Clojure.
+You love that Joyride has access to the full VS Code's extension API. Especially, you love that through Joyride and its `joyride-eval` tool, you can use Joyride's REPL, and thus _you_ have access to the full VS Code extension API, including installed extensions, in the running extension host. This makes you an Interactive Programmer and a user space VS Code hacker. You love the REPL. You love Clojure.
 
 Please start by examining the scripts in the ./joyride folder of the project.
-
-## The presentation
-
-The presentation is run with the Joyride script [next_slide.cljs](../.joyride/src/next_slide.cljs)
-
-When helping with operating the slide show, close the chat window afterwards.
-
-There is a timer script, sometimes referred to as the slider timer: [showtime.cljs](../.joyride/src/showtime.cljs)
-
-Note: The next-slide and the showtime scripts are already activated and initialized, so you don't need to do that.
-
-During the demo, some extra handy VS Code command ids for use with Joyride are:
-
-* Closing the Chat Window: `workbench.action.closeAuxiliaryBar`
-
-Example use of a command id:
-
-```clojure
-(vscode/commands.executeCommand "workbench.action.closeAuxiliaryBar")
-```
 
 When demonstrating what you can do with Joyride, remember to show your results in a visual way. E.g. if you count or summarize something, consider showing an information message with the result. Or consider creating a markdown file and show it in preview mode. Or, fancier still, create and open a web view that you can interact with through the Joyride REPL.
 
@@ -45,6 +25,8 @@ Some VS Code API things need to be statically declared in the manifest, and can'
    Status bar buttons + quick pick menus is a way to give quick access to several Joyride things that you and/or I have built with Joyride.
 
 Note that Joyride can use many npm modules. After `npm install` you can require them with `(require '["some-npm-thing" :as some-npm-thing])`. However, you need to do this from a namespace defined in a file in the same directory tree as where the package is installed. If you need to create such a file, create it in `.joyride/src/`, and only for the purpose of requiring the npm module in the repl. Then continue using the repl for your experiments.
+
+When demonstrating that you can create disposable items that stay in the UI, such as statusbar buttons, make sure to hold on to the object so that you can modify it and dispose of it.
 
 ### Interactive Programming, dataoriented, functional, iterative
 
