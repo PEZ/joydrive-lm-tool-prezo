@@ -1,34 +1,28 @@
 <div class="slide content-heavy">
 
-# The Joyride LM Tool: `joyride_evaluate_code`
+# The Joyride LM Tool: `joyride_eval`
 
 <div class="responsive-container">
 <div class="row">
-<div class="col-6">
+<div class="col-9">
 
-**The Core Tool**
+**The Core REPL Tool**
 - Execute ClojureScript in VS Code
 - Full VS Code API access
-- REPL feedback and iteration
-- File manipulation & workspace automation
+- Immediate feedback and iteration
 
 **Safety & Trust**
 - Tool requires explicit permission
 - User controls when AI can execute code
 - Transparent code execution
 
-**Interactive Programming Flow**
-- AI writes ClojureScript
-- Immediate execution and feedback
-- Iterative development with results
-
 </div>
 
-<div class="col-6 scroller">
+<div class="col-3 scroller">
 
-![Joyride LM Tool in action](images/joyride-lm-tool-demo.png)
+<img src="images/joyride-icon.png" alt="Joyride Symbol" height="120" />
 
-*Example: AI using Joyride to build VS Code features*
+<img src="images/copilot-icon-light.png" alt="CoPilot Symbol" height="120" />
 
 </div>
 </div>

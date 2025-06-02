@@ -248,16 +248,37 @@ img:hover {
 }
 
 /* Social Media Icons using FontAwesome */
+.social-links {
+  list-style: none; /* Remove bullet points */
+  padding: 0;
+  margin: 0;
+}
+
+.social-links li {
+  list-style: none; /* Remove bullet points from list items */
+}
+
 .social-links a::before {
   font-family: "Font Awesome 6 Brands", "Font Awesome 6 Free";
   font-weight: 900;
   margin-right: 8px;
   font-size: 1.1em;
   color: var(--vscode-foreground); /* Use default text color for icons */
+  display: inline-block;
+  width: 1.2em; /* Fixed width for consistent alignment */
+  text-align: center; /* Center the icon within its fixed width */
 }
 
 .social-links a {
   color: var(--vscode-textLink-foreground); /* Link color for text only */
+  text-decoration: none; /* Remove underline by default */
+  display: flex; /* Use flexbox for better alignment */
+  align-items: center; /* Vertically center text with icons */
+  margin-bottom: 0.5em; /* Add some spacing between links */
+}
+
+.social-links a:hover {
+  text-decoration: none; /* Keep no underline on hover */
 }
 
 /* GitHub */
@@ -276,14 +297,20 @@ img:hover {
   content: "\f08c"; /* fab fa-linkedin */
 }
 
+/* YouTube */
+.social-links a[href*="youtube.com"]::before,
+.social-links a[href*="youtu.be"]::before {
+  content: "\f167"; /* fab fa-youtube */
+}
+
 /* Blog/Website */
 .social-links a[href*="blog."]::before,
 .social-links a[href*="medium.com"]::before {
-  content: "\f15c"; /* fas fa-file-text */
+  content: "\f09e"; /* fas fa-rss */
 }
 
 /* Generic social fallback */
-.social-links a:not([href*="github.com"]):not([href*="x.com"]):not([href*="twitter.com"]):not([href*="linkedin.com"]):not([href*="blog."])::before {
+.social-links a:not([href*="github.com"]):not([href*="x.com"]):not([href*="twitter.com"]):not([href*="linkedin.com"]):not([href*="youtube.com"]):not([href*="youtu.be"]):not([href*="blog."])::before {
   content: "\f0c1"; /* fas fa-link */
 }
 

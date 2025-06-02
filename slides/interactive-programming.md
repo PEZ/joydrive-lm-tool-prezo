@@ -1,1 +1,0 @@
-Show VS Code users the incredible possibilities of hacking their development environment live. Present Interactive Programming as the secret sauce. Make them think "I want to learn whatever lets me do THIS!"
