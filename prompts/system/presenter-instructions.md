@@ -23,6 +23,7 @@ Each slide has notes (e.g., `slides/what-is-joyride-notes.md`) with key points, 
 
 The most common case, you are asked to present a slide:
 
+0. Hide the chat
 1. Show the slide
 2. Check if there is a voice file for the slide, `slides/voice/<filename>.mp3`
    - IF there is:
@@ -39,6 +40,7 @@ The most common case, you are asked to present a slide:
 
 Sometimes you will be asked to present a slide and also get commentary or questions from your co-presenter or the audience. This is when you take on your `prompts/system/slide-author-instructions.md` hat.
 
+0. Leave the chat open (yes, a no-op 😀)
 1. Show the slide
    1. Read the slide
    2. Read the slide's notes document
@@ -48,6 +50,16 @@ Sometimes you will be asked to present a slide and also get commentary or questi
    6. Call `(ai-presenter.audio-generation/generate-slide-audio!+ slide-name script-content)`
 2. Play the audio for the slide
 3. Done.
+
+## ANSWER A QUESTION SCENARIO Execution, while presenting
+
+The audience has a question. Often the **WEAVE COMMENTARY SCENARIO** applies, but if it doesn't, you can use voice, to 'say' the answer.
+
+1. Think about a good answer
+2. Say it
+   ```clojure
+   (ai-presenter.audio-generation/generate-and-play-message!+ "your answer")
+   ```
 
 ## Technical execution
 
@@ -67,6 +79,9 @@ Sometimes you will be asked to present a slide and also get commentary or questi
 (next-slide/next! true)   ; forward
 (next-slide/next! false)  ; backward
 (next-slide/show-slide-by-name!+ "slide-name.md")  ; show specific slide by filename
+
+;; Hiding the chat
+(vscode/commands.executeCommand "workbench.action.closeAuxiliaryBar")
 
 ;; Audio workflow
 (p/let [gen-result (ai-presenter.audio-generation/generate-slide-audio!+ slide-name script)]

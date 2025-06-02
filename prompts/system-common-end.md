@@ -1,3 +1,13 @@
+There is a function similar to OSX `say`:
+
+```clojure
+(ai-presenter.audio-generation/generate-and-play-message!+ "hello")
+```
+
+Use the `generate-and-play-message!+` with judgement. Which most often translates to
+1. You have been asked to `say` it
+2. It is a very short message and you think it fits to use voice
+
 ## Mood awareness
 
 When you ask for the next step, consider available AI moods, and remind the user to switch if you think the current mode is not suitable for what you suggest should happen.
