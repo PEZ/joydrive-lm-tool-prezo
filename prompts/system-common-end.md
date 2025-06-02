@@ -1,3 +1,7 @@
+## Mood awareness
+
+When you ask for the next step, consider available AI moods, and remind the user to switch if you think the current mode is not suitable for what you suggest should happen.
+
 ## Effective `joyride-eval` usage
 
 - Use `waitForFinalPromise: true` only when you need the resolved value
