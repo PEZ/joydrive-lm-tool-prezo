@@ -1,8 +1,6 @@
 <div class="slide title-slide">
 
-Can AI modify your VS Code environment while you are using it?
-
-# Joyride + LM Tools
+# About PEZ
 
 <div class="responsive-container">
 <div class="row">
@@ -13,35 +11,31 @@ Can AI modify your VS Code environment while you are using it?
 </div>
 <div class="col-5">
 
-* Peter Strömberg (aka PEZ)
+* Peter Strömberg
 * Wife and five kids.
 * Hobbies:
   * Open Source
   * Sharpening kitchen knives
+* EDC: VS Code + Clojure
 
 </div>
-<div class="col-5">
+<div class="col-5 center">
 
-* https://github.com/PEZ
-* https://twitter.com/pappapez
-* https://www.linkedin.com/in/cospaia/
-* https://blog.agical.se/en/authors/peter-stromberg
+Employer and open source patreon:
+
+<img src="images/agical.svg" alt="Agical logo" />
 
 </div>
 </div>
 
 <div class="row" style="margin-top: 20px;">
 <div class="col-2"></div>
-<div class="col-5 center">
+<div class="col-5 social-links">
 
-<img src="images/agical.svg" alt="Agical logo" />
-
-</div>
-<div class="col-5 vcenter">
-
-* **80%** Clojure contractor
-* **20%** Open Source developer
-* **100%** Salary
+* [github.com/PEZ](https://github.com/PEZ)
+* [x.com/pappapez](https://x.com/pappapez)
+* [linkedin.com/in/cospaia/](https://www.linkedin.com/in/cospaia/)
+* [blog.agical.se/en/authors/peter-stromberg](https://blog.agical.se/en/authors/peter-stromberg)
 
 </div>
 </div>

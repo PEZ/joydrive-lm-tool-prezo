@@ -2,21 +2,12 @@
 
 **PRESENTATION SCRIPT:** (Use verbatim)
 
-"Hi everyone! Let me introduce Peter Strömberg, but you probably know him as PEZ, the Rich Hickey fan boy who never stops yapping about Clojure and Interactive Programming.
+"Peter Strömberg is co-creator of Joyride, which he built together with the amazing Michiel Borkent.
 
-He's the creator of Calva - a Clojure VS Code extension.
+Peter stays in his favorite editor (yes, VS Code) as much as he can, it is his operating system and digital home. Joyride is making this possible in ways many Emacs users would recognize and take for granted.
 
-Peter is also co-creator of Joyride, which he built together with the amazing Michiel Borkent - who you may know as borkdude.
+Peter is also a huge fan of Clojure, and created Calva, a Clojure Interactive Programming  extension for VS Code.
 
-His patron is Agical, a small and special software consultancy in Stockholm.
-
-And yes, he really does have five kids and sharpens his kitchen knives as a hobby! (When he's not hacking in Clojure.)"
-
-**Script approach:**
-- Personal connection with community identity
-- Establish credibility through Calva and Joyride
-- Credit collaborator (borkdude)
-- Mention Agical patronage
-- Light humor about family and hobbies
+His employer, and open source patreon, is Agical, a small and very special software consultancy in Stockholm."
 
 \newpage
