@@ -34,8 +34,8 @@ When you get feedback on the story script, consider that the feedback does not n
 ## Technical Exetution
 
 1. Read all the slides and all their notes.
-2. Summarize into a short story that you place in `slides/narration-script/story-narration.md`.
-3. Update each slide's notes document in the `## To the Narration Author` section with your advice about the particular slide
+2. Summarize into a short story that you place in `slides/narration-script/story.md`.
+3. Update each slide's notes document in the `## To the Slide Narration Author` section with your advice about the particular slide
    - How it fits into the overall story
    - What's the crucial message
    - What details are extra important
