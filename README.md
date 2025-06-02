@@ -84,6 +84,7 @@ Easily switch between different system prompts depending on where in the workflo
 ```
 
 ### AI-Assisted Presentation
+
 Ask Copilot (with LM Tools enabled):
 > "Present the slide about the LM tools for Joyride, please. I'm especially interested in vide coding"
 
@@ -95,29 +96,12 @@ The AI will:
 5. Play the audio
 6. Wait for your next instruction
 
-## 🧠 Interactive Programming Paradigm
-
-This project showcases **Interactive Programming** - the ability to modify and extend your development environment while using it:
-
-- **Live System Modification** - Change presentation behavior without restarting
-- **REPL-Driven Development** - Test and iterate on features immediately
-- **AI Code Execution** - AI can directly interact with VS Code through Joyride
-- **Real-time Feedback** - See results instantly as you develop
-
-## 🔧 Development Workflow
-
-1. **REPL-First Development** - All functions can be tested interactively
-2. **Pure Functions** - Core logic separated from side effects for easy testing
-3. **Promise-Based Async** - Clean async workflows with `promesa.core`
-4. **State Management** - Functional state transitions with data-oriented design
+(Or, the AI should do the authoring and generation steps. But most often it just plays whatever audio is already generated for the slide.)
 
 ## 🚀 Extension Ideas
 
 - **Multiple Voices** - Different narrators for different slide types
-- **Background Music** - Ambient audio during presentations
 - **Interactive Elements** - Audience participation through VS Code commands
-- **Recording Capabilities** - Save complete presentations for later playback
-- **Multi-modal Content** - Generate visuals alongside audio
 
 ## 📖 Learning Resources
 
@@ -133,16 +117,16 @@ This project demonstrates Interactive Programming principles built entirely in *
 For the most productive experience, both human and AI should be connected to the Joyride REPL:
 
 **Human setup:**
-- Install [Calva](https://marketplace.visualstudio.com/items?itemName=betterthantomorrow.calva) for excellent Clojure development
+- Install [Calva](https://marketplace.visualstudio.com/items?itemName=betterthantomorrow.calva) a Clojure extension
 - Command: `Calva: Start Joyride REPL and Connect`
 
 **AI setup:**
-- Install [Backseat Driver](https://marketplace.visualstudio.com/items?itemName=betterthantomorrow.calva-backseat-driver) for LM Tool integration
-- Configure Backseat Driver to expose the REPL tool in VS Code Settings
-- This enables AI to execute Joyride code directly
+
+- With Joyride installed, there is no AI setup.
 
 ### Development Workflow
-1. Start the Joyride REPL (with Calva for best experience)
+1. Joyride automatically gives
+1. Start the Joyride REPL
 2. Enable AI access to the REPL (via Backseat Driver)
 3. Experiment with functions interactively
 4. Build upon the existing system
