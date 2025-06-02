@@ -1,12 +1,8 @@
 {:slides ["slides/hello.md",
-          "slides/who-is-pez.md"
           "slides/topics.md"
-          "slides/what-is-joyride.md"
-          "slides/why-joyride-ai.md"
           "slides/joyride-lm-tool.md"
+          "slides/why-joyride-ai.md"
+          "slides/what-is-joyride.md"
           "slides/experiences.md"
-          "slides/ecosystem.md"
           "slides/this-presentation.md"
-          "slides/thanks.md"
-          ;; == ADDENDUM ==
-          #_"slides/addendum-inline-defs.md"]}
+          "slides/who-is-pez.md"]}
