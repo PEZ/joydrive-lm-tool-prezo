@@ -39,6 +39,26 @@ Easily switch between different system prompts depending on where in the workflo
 - **audio-generator** - Generates high quality voice audio from slide scripts
 - **presenter** - For presenting slides with voice narration, can also author narration and genarate audio
 
+#### Slideshow creation workflow/pipeline
+
+Creating slides is a composition of human direction, AI agentic processing and Joyride scripts. The pipeline looks something like so
+
+```
+Human has a story to share
+     ↓
+🤝 Human + slide-author → Draft slides & notes
+     ↓ (human feedback & iteration)
+📖 story-author → Retrofits with storytelling expertise
+     ↓ (human feedback & story refinement)
+🎙️ slide-narration-author → Crafts narration scripts
+     ↓ (human feedback & narration polish)
+🔊 audio-generator → Generates high-quality voice audio
+     ↓ (human feedback & audio refinement)
+✨ Final Presentation
+```
+
+It is the human who is responsible for the main orchestration, maintaining high flexibility. Orchestration is also part of each agent mood. At individual task level within orchestration is sometimes encoded as promise chains in Joyride scripts.
+
 ## 📁 Project Structure
 
 ```
