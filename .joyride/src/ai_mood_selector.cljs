@@ -22,10 +22,8 @@
     {:content content
      :first-line first-line}))
 
-(defn create-quick-pick-item [filename file-uri first-line content]
-  (clj->js {:label filename
-            :description first-line
-            :detail content
+(defn create-quick-pick-item [filename file-uri]
+  (clj->js {:label (string/replace filename #"-instructions.md$" "")
             :uri file-uri}))
 
 (defn get-prompt-files+ []
@@ -39,8 +37,7 @@
                        (map first))]
       (p/all (map (fn [filename]
                     (let [file-uri (vscode/Uri.joinPath prompts-dir filename)]
-                      (p/let [{:keys [first-line content]} (read-file-content+ file-uri)]
-                        (create-quick-pick-item filename file-uri first-line content))))
+                      (create-quick-pick-item filename file-uri)))
                   files)))))
 
 ;; Function to read the begin and end common files
@@ -101,8 +98,6 @@
 
            target-uri (vscode/Uri.joinPath (ws-root) ".github" "copilot-instructions.md")
            mood-name (extract-mood-name filename)]
-     (def filename filename)
-
      (.writeFile vscode/workspace.fs target-uri (js/Buffer.from full-content "utf-8"))
      (update-status-bar! mood-name))))
 
