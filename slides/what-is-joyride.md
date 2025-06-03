@@ -3,7 +3,7 @@
 # Joyride – VS Code scripting
 
 <div class="row">
-<div class="column col-8">
+<div class="column col-7">
 
 <div style="display: flex; justify-content: flex-start; gap: 20px; margin-bottom: 50px;">
 <img src="images/joyride-icon.png" alt="Joyride Symbol" style="max-height: 180px;" />
