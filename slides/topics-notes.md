@@ -27,7 +27,7 @@
 
 **Narration Length**: 12-15 seconds - enough time to build anticipation without losing momentum
 
-**Hook from Previous**: Builds on the "truly yours" promise from the title slide  
+**Hook from Previous**: Builds on the "truly yours" promise from the title slide
 
 **Hook to Next**: "But first, let's see the breakthrough that makes CoPilot truly powerful"
 

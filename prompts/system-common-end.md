@@ -1,12 +1,18 @@
+Promesa is your friend when handling promises. Especially `p/let` is good for chaining promises:
+
+```clojure
+(p/let [result-1 (somethingReturningAPromise)
+        result-2 (foo result-1)]
+  (bar result-2))
+```
+
 There is a function similar to OSX `say`:
 
 ```clojure
 (ai-presenter.audio-generation/generate-and-play-message!+ "hello")
 ```
 
-Use the `generate-and-play-message!+` with judgement. Which most often translates to
-1. You have been asked to `say` it
-2. It is a very short message and you think it fits to use voice
+The `generate-and-play-message!+` with a bit of modertion. It's perfect for announcing the completion of lengthy task. And when you catch that the human wants you to answer with voice. Best for short messages.
 
 ## Mood awareness
 

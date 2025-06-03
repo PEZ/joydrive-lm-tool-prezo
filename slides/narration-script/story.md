@@ -96,7 +96,7 @@ The presentation itself embodies its message - it's built using Joyride + CoPilo
 
 The story succeeds if CoPilot users leave thinking:
 - "I never thought CoPilot could do more than suggest code"
-- "I want to try making VS Code truly mine with CoPilot as my partner"  
+- "I want to try making VS Code truly mine with CoPilot as my partner"
 - "CoPilot + Interactive Programming could revolutionize how I work"
 - "I want to connect with PEZ and learn more about Joyride"
 
@@ -145,7 +145,7 @@ The story works if CoPilot users think:
 CoPilot users have already experienced the magic of AI assistance with code. They understand AI's potential and trust it as a development partner. But they've also experienced its limitations:
 
 - CoPilot suggests code but can't modify their environment
-- Great at generating functions but can't automate workflows  
+- Great at generating functions but can't automate workflows
 - Helpful with syntax but can't customize VS Code itself
 - Amazing at code completion but can't make extensions work together
 
