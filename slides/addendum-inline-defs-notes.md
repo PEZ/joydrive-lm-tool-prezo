@@ -1,5 +1,11 @@
 # ADDENDUM: Advanced Interactive Debugging
 
+## Stakeholder Input
+
+**Notes from the human participants to guide the work of the AI agents.**
+
+*--- End Stakeholder Input Section ---*
+
 ## To Story and Slide Narrators
 
 These are instructions for the AI. Please target the narration to CoPilot.

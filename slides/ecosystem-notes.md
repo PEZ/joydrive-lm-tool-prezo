@@ -1,5 +1,9 @@
 # Joyride + Complementary Extensions
 
+## Stakeholder Input
+
+**Notes from the human participants to guide the work of the AI agents.**
+
 **Essential Partners:**
 
 * **Calva**: Clojure development in VS Code
@@ -12,6 +16,8 @@
   * Provides more specialized Clojure AI assistance
 
 **Workflow**: Calva for app development, Joyride for VS Code automation, Backseat Driver for enhanced AI support.
+
+*--- End Stakeholder Input Section ---*
 
 ## To Story and Slide Narrators
 

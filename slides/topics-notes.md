@@ -1,5 +1,11 @@
 # AI Hacking VS Code with Interactive Programming
 
+## Stakeholder Input
+
+**Notes from the human participants to guide the work of the AI agents.**
+
+*--- End Stakeholder Input Section ---*
+
 ## To Story and Slide Narrators
 
 **Narrative Foundation**: Build on the extension marketplace frustration established in the opening. The journey from "VS Code + tons of extensions + still not quite right" to "perfectly composed, exactly-as-I-want-it development environment" is the core transformation story.

@@ -1,5 +1,11 @@
 # Why Joyride + AI Tools?
 
+## Stakeholder Input
+
+**Notes from the human participants to guide the work of the AI agents.**
+
+*--- End Stakeholder Input Section ---*
+
 ## To Story and Slide Narrators
 
 *--- End Story and Slide Narrators Section ---*

@@ -1,5 +1,11 @@
 # Joyride + LM Tools
 
+## Stakeholder Input
+
+**Notes from the human participants to guide the work of the AI agents.**
+
+*--- End Stakeholder Input Section ---*
+
 ## To Story and Slide Narrators
 
 **Key Painpoint**: VS Code + tons of extensions + still not quite right = universal developer frustration.
