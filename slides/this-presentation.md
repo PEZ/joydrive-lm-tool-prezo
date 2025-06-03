@@ -6,9 +6,9 @@
 <div class="row">
 <div class="col-6">
 
-## Made with Joyride
+## Made with Joyride by CoPilot
 
-* CoPilot hacks VS Code
+* Presentation system
   * Authoring slides
   * Narrating slides
   * Generate voice audio

@@ -15,6 +15,11 @@
 - Full VS Code API access
 - **NEW:** LM Tool integration for AI
 
+<div class="col-10 social-links" style="margin-left: -1rem; margin-top: 2rem;">
+
+* [github.com/BetterThanTomorrow/joyride](https://github.com/BetterThanTomorrow/joyride)
+</div>
+
 </div>
 
 <div class="column col-6 icon-gallery center">
