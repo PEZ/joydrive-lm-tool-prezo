@@ -14,22 +14,22 @@ The Clojure REPL is the real cure for AI hallucinations, because the application
 
 ## To the Story Author
 
-**Story Position**: **The Magic Reveal** - This is where we show the actual mechanism that makes everything possible
+**Story Position**: **The Magic Reveal** - This is where we show the actual mechanism that transforms CoPilot from code assistant to VS Code hacker
 
-**Crucial Message**: The REPL is what makes AI truly intelligent about VS Code - it's the reality check that prevents hallucinations
+**Crucial Message**: The REPL is what makes CoPilot truly intelligent about VS Code - it's the reality check that turns suggestions into working automations
 
 **Key Details**:
-- The technical details matter less than the *why* - emphasize the safety and transparency
-- "Immediate feedback and iteration" is the key phrase - this is what changes everything
-- User control is paramount - this isn't AI running wild, it's AI as a controlled partner
+- The technical details matter less than the *why* - emphasize how this transforms CoPilot's capabilities
+- "Immediate feedback and iteration" is the key phrase - this is what evolves CoPilot from passive to active
+- User control is paramount - this isn't CoPilot running wild, it's CoPilot as a controlled, intelligent partner
 
-**Dramaturgic Mood**: **Confident demonstration with emphasis on trust** - like showing someone the engine of a car before they drive it
+**Dramaturgic Mood**: **Confident demonstration with emphasis on trust** - like showing someone the engine upgrade that transforms their car
 
 **Narration Length**: 15-18 seconds - this is a key technical concept that needs clear explanation
 
-**Hook from Previous**: "Here's the magic that makes it possible"
+**Hook from Previous**: "Here's the breakthrough that transforms CoPilot"
 
-**Hook to Next**: "But why is this combination so powerful?"
+**Hook to Next**: "But why is this CoPilot + Interactive Programming combination so revolutionary?"
 
 *--- End Story Author Section ---*
 

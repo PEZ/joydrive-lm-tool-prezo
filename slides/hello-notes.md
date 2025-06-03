@@ -18,22 +18,22 @@
 
 ## To the Story Author
 
-**Story Position**: **The Opening Hook** - This is where we grab attention and establish the central problem
+**Story Position**: **The Opening Hook** - This is where we grab CoPilot users' attention and establish the central problem
 
-**Crucial Message**: VS Code + CoPilot users have a universal frustration - their environment is *almost* perfect, but not quite theirs
+**Crucial Message**: VS Code + CoPilot users have a universal frustration - CoPilot helps with code but their environment is still *almost* perfect, but not quite theirs
 
 **Key Details**:
-- The title promises transformation: "truly yours" is the key phrase
-- Visual pairing of Joyride + CoPilot logos suggests partnership, not replacement
-- This isn't about throwing away what they have - it's about making it perfect
+- The title promises transformation: "truly yours" is the key phrase that goes beyond code suggestions
+- Visual pairing of Joyride + CoPilot logos suggests partnership and evolution, not replacement
+- This isn't about throwing away CoPilot - it's about unleashing its full potential
 
-**Dramaturgic Mood**: **Recognition and intrigue** - start with a knowing nod to shared frustration, then hint at the solution
+**Dramaturgic Mood**: **Recognition and intrigue** - start with a knowing nod to shared CoPilot limitations, then hint at the breakthrough
 
-**Narration Length**: 15-20 seconds - quick hook that gets right to the point
+**Narration Length**: 15-20 seconds - quick hook that gets right to the CoPilot user's pain point
 
 **Hook from Previous**: N/A (opening slide)
 
-**Hook to Next**: "So what's the journey we're taking together?"
+**Hook to Next**: "So what's the journey we're taking together to unlock CoPilot's hidden power?"
 
 *--- End Story Author Section ---*
 

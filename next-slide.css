@@ -6,15 +6,28 @@ body {
   margin: 0;
   padding: 0;
   /* padding-top: 20px; */
-  overflow: hidden;
   line-height: 1.5;
 }
 
 /* Slide Container */
 .slide {
+  overflow: hidden;
   max-width: 100%;
   padding: 20px;
   position: relative;
+  box-sizing: border-box;
+}
+
+/* When body contains slides, prevent scrolling */
+body:has(.slide) {
+  overflow: hidden;
+  height: 100vh;
+}
+
+/* Alternative: Use explicit slide-mode class on body */
+body.slide-mode {
+  overflow: hidden;
+  height: 100vh;
 }
 
 /* Typography */

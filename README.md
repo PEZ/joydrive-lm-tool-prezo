@@ -41,7 +41,7 @@ Easily switch between different system prompts depending on where in the workflo
 
 #### Slideshow creation workflow/pipeline
 
-Creating slides is a composition of human direction, AI agentic processing and Joyride scripts. The pipeline looks something like so
+Creating slides is a composition of human direction, AI agentic processing and Joyride scripts. The main pipeline looks something like so
 
 ```
 Human has a story to share

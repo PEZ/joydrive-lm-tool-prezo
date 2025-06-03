@@ -16,22 +16,22 @@
 
 ## To the Story Author
 
-**Story Position**: **The Foundation Explanation** - What Joyride actually is and why the LM Tool integration is revolutionary
+**Story Position**: **The Foundation Explanation** - What Joyride actually is and why the LM Tool integration revolutionizes CoPilot
 
-**Crucial Message**: Joyride isn't about replacing your extensions - it's about making them work perfectly together and beyond their original design
+**Crucial Message**: Joyride isn't about replacing CoPilot or your extensions - it's about making CoPilot capable of building and customizing your entire VS Code environment
 
 **Key Details**:
-- "User space automation" is key - this is about personal empowerment, not system administration
-- The "NEW" LM Tool integration is what makes the AI partnership possible
-- Visual of VS Code + ClojureScript reinforces the "it's still VS Code" message
+- "User space automation" is key - this is about empowering CoPilot users, not system administration
+- The "NEW" LM Tool integration is what transforms CoPilot from suggester to builder
+- Visual of VS Code + ClojureScript reinforces the "it's still your VS Code, just supercharged" message
 
-**Dramaturgic Mood**: **Solid foundation building** - like explaining the ground rules before the magic show
+**Dramaturgic Mood**: **Solid foundation building** - like explaining the platform that enables CoPilot's superpowers
 
 **Narration Length**: 12-15 seconds - clear and straightforward explanation
 
-**Hook from Previous**: "Joyride is your secret weapon for making VS Code truly yours"
+**Hook from Previous**: "Joyride is the secret sauce that transforms CoPilot into your VS Code building partner"
 
-**Hook to Next**: "But how does this work in practice? Let me share some real experiences"
+**Hook to Next**: "But how does this work in practice? Let me share some real experiences with CoPilot + Joyride"
 
 *--- End Story Author Section ---*
 

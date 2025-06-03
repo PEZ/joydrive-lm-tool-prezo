@@ -14,22 +14,22 @@ The Clojure REPL is the real cure for AI hallucinations, because the application
 
 ## To the Story Author
 
-**Story Position**: **The Reality Check** - Honest assessment of what works and what's still evolving
+**Story Position**: **The Reality Check** - Honest assessment of what works and what's still evolving with CoPilot + Joyride
 
-**Crucial Message**: This is real technology with real benefits, but also real challenges - we're honest about both
+**Crucial Message**: This is real technology with real benefits, but also real challenges - we're honest about both sides of the CoPilot transformation
 
 **Key Details**:
-- "Great for live demos" is both a strength and a subtle joke about demo gods
-- The microphone emoji suggests this is tested in real presentation contexts
-- Balance enthusiasm with honesty - this builds trust and realistic expectations
+- "Great for live demos" is both a strength and a subtle nod to the demo gods (with humor)
+- The microphone emoji suggests this is tested in real presentation contexts with real CoPilot interactions
+- Balance enthusiasm with honesty about the CoPilot learning curve - this builds trust and realistic expectations
 
-**Dramaturgic Mood**: **Honest excitement with a touch of humor** - like a friend giving you the real scoop
+**Dramaturgic Mood**: **Honest excitement with a touch of humor** - like a trusted friend giving you the real scoop on CoPilot's capabilities
 
-**Narration Length**: 20-22 seconds - take time to be thoughtful about both sides
+**Narration Length**: 20-22 seconds - take time to be thoughtful about both the successes and challenges
 
-**Hook from Previous**: "The reality of working with AI and Interactive Programming is both exciting and humbling"
+**Hook from Previous**: "The reality of working with CoPilot and Interactive Programming is both exciting and humbling"
 
-**Hook to Next**: "And speaking of live demos, let me show you something special about this very presentation"
+**Hook to Next**: "And speaking of live demos, let me show you something special about this very presentation built with CoPilot"
 
 *--- End Story Author Section ---*
 

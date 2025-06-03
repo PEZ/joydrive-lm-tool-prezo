@@ -14,22 +14,22 @@
 
 ## To the Story Author
 
-**Story Position**: **The Journey Map** - Setting expectations and building anticipation for the transformation ahead
+**Story Position**: **The Journey Map** - Setting expectations and building anticipation for the CoPilot transformation ahead
 
-**Crucial Message**: This isn't just a technical presentation - it's a guided journey from VS Code user to VS Code hacker
+**Crucial Message**: This isn't just a technical presentation - it's a guided journey from CoPilot user to VS Code hacker with CoPilot as partner
 
 **Key Details**:
-- Notice the progression: starts with "What is" and ends with "Where next?" - this is a complete journey
-- Each bullet point represents a chapter in the transformation story
+- Notice the progression: starts with "What is" and ends with "Where next?" - this is a complete transformation journey
+- Each bullet point represents a chapter in the CoPilot evolution story
 - The visual trinity (VS Code + CoPilot + Joyride) reinforces the partnership narrative
 
-**Dramaturgic Mood**: **Confident guidance and building excitement** - like a good tour guide setting expectations
+**Dramaturgic Mood**: **Confident guidance and building excitement** - like a good tour guide setting expectations for an amazing journey
 
 **Narration Length**: 12-15 seconds - enough time to build anticipation without losing momentum
 
-**Hook from Previous**: Builds on the "truly yours" promise from the title slide
+**Hook from Previous**: Builds on the "truly yours" promise from the title slide  
 
-**Hook to Next**: "But first, let's see the magic that makes this possible"
+**Hook to Next**: "But first, let's see the breakthrough that makes CoPilot truly powerful"
 
 *--- End Story Author Section ---*
 
