@@ -50,11 +50,11 @@ Before the AI tooling Joyride could seem a bit hard to get started with. Both be
 
 Joyride is VS Code scripting that happens in user space. That means you can hack VS Code while you're using it. No restarts, no complex development environments.
 
-The secret is ClojureScript and its REPL. You can develop and query your VS Code extensions while they're running. Change something, see it immediately. Ask VS Code what's happening, get an answer.
+The secret is Joyride and its REPL. You can develop and query your VS Code extensions while they're running. Change something, see it immediately. Ask VS Code what's happening, get an answer.
 
-Joyride has always had full access to VS Code's API and the APIs of any installed extensions. That extension that almost does what you need? Joyride can make it do exactly what you need.
+Joyride has full access to VS Code's API and the APIs of any installed extensions. That extension that *almost* does what you need? Joyride can make it do *exactly* what you need.
 
-Before AI assistance, getting started felt daunting. New concept, unfamiliar language. Two barriers at once.
+Before AI assistance, getting started could feel daunting. New concept, unfamiliar language. Two barriers at once.
 
 Now? Install Joyride. Ask CoPilot to hack VS Code. Iterate until it works. The threshold dropped to practically zero.
 

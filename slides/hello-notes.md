@@ -49,7 +49,7 @@ End with:
 
 ## Narration Script
 
-What if: Instead of searching for, and installing, an extension that does almost, but not quite, what you want - you could ask CoPilot to script VS Code to do _exactly_ what you want?
+What if: Instead of searching for, and installing, an extension that does _almost_, but not _quite_, what you want - you could ask CoPilot to script VS Code to do _exactly_ what you want?
 
 Today, you can make that happen. Not someday, not with complex workflows, but right now while you're using VS Code.
 
