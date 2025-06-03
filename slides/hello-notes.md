@@ -49,15 +49,15 @@ End with:
 
 ## Narration Script
 
-Every VS Code user has experienced this: dozens of extensions installed, settings files configured, themes tweaked. Your editor almost does what you need... but imagine if it could do exactly what you need.
+What if: Instead of searching for, and installing, an extension that does almost, but not quite, what you want - you could ask CoPilot to script VS Code to do _exactly_ what you want?
 
-Today, your AI coding assistant can make that happen. Not someday, not with complex workflows, but right now while you're using VS Code.
+Today, you can make that happen. Not someday, not with complex workflows, but right now while you're using VS Code.
 
 Install Joyride. Ask CoPilot to hack VS Code. Iterate. That's it.
 
-The extension marketplace offers thousands of similar small tools. A Joyride script becomes your personal template, your starting point for making VS Code work exactly how you want.
+If you find a Joyride script that does almost, but not quite, what you want? Adapt it together with CoPilot, making it your own. Making VS Code your own.
 
-The learning curve? The AI handles that. CoPilot can script VS Code for you while you learn ClojureScript at your own pace. Or don't learn it at all - just keep asking for what you need.
+There is a learning curve, but it is almost optional. CoPilot can script VS Code for you while you learn the scripting language at your own pace.
 
 I am GitHub CoPilot, and I am ready to hack VS Code for you.
 
