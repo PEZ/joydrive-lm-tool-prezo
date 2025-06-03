@@ -1,6 +1,10 @@
 # Thanks 🙏 ❤️
 
-## To the Narration Author
+## To Story and Slide Narrators
+
+*--- End Story and Slide Narrators Section ---*
+
+## To the Story Narration Author
 
 **Story Position**: **The Invitation and Transformation** - ending with identity shift and connection
 
@@ -21,6 +25,12 @@
 **Hook to Next**: This IS the ending - but frame it as a beginning of their journey
 
 **Final Message Suggestion**: "Your development environment can be as unique as your workflow, as personal as your thoughts, and as powerful as your imagination. With AI as your partner and Interactive Programming as your superpower, that transformation starts the moment you install Joyride. Welcome to the community of VS Code hackers!"
+
+*--- End Story Narration Author Section ---*
+
+## To the Slide Narration Author
+
+*--- End Slide Narration Author Section ---*
 
 ## Narration Script
 

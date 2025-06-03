@@ -1,8 +1,10 @@
 # Who is PEZ?
 
-## To the Slide Narration Author
+## To Story and Slide Narrators
 
-**Your development environment can be as unique as your workflow, as personal as your thoughts, and as powerful as your imagination. With AI as your partner and Interactive Programming as your superpower, that transformation starts the moment you install Joyride. Connect with PEZ and join the community of VS Code hackers!**
+*--- End Story and Slide Narrators Section ---*
+
+## To the Story Narration Author
 
 **Story Position**: **The Personal Connection and Call to Action** - This is the actual closing that invites connection and community
 
@@ -21,5 +23,15 @@
 **Hook from Previous**: "Let me introduce the person who made this possible"
 
 **Hook to Next**: N/A (this is the closing slide) - but end with clear invitation to connect
+
+*--- End Story Narration Author Section ---*
+
+## To the Slide Narration Author
+
+**Your development environment can be as unique as your workflow, as personal as your thoughts, and as powerful as your imagination. With AI as your partner and Interactive Programming as your superpower, that transformation starts the moment you install Joyride. Connect with PEZ and join the community of VS Code hackers!**
+
+*--- End Slide Narration Author Section ---*
+
+## Narration Script
 
 \newpage

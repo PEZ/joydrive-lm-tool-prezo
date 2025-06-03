@@ -8,6 +8,8 @@
 
 **Learning Journey Honesty**: AI enables you to accomplish incredible things right away, while also being an expert tutor for those who want to dive deeper. Learning becomes an opportunity, not a requirement.
 
+*--- End Story and Slide Narrators Section ---*
+
 ## To the Story Narration Author
 
 **Story Position**: **The Opening Hook** - This is where we grab attention and establish the central problem
@@ -27,7 +29,11 @@
 
 **Hook to Next**: "So what's the journey we're taking together?"
 
+*--- End Story Narration Author Section ---*
+
 ## To the Slide Narration Author
+
+*--- End Slide Narration Author Section ---*
 
 ## Narration Script
 

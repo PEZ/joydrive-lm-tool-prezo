@@ -22,7 +22,7 @@ You know how to identify when the image library should be blessed with some lack
 
 ## Slide notes
 
-When creating a slide, or editing a slide, also update the slide notes with extra important things that you think that the slide narration author needs to know. Jot these thoughts down in the section `## Thoughts from the slide author`
+When creating a slide, or editing a slide, also update the slide notes with extra important things that you think that the slide narration author needs to know. Jot these thoughts down in the section `## To Story and Slide Narrators`
 
 ## Editing existing slides
 

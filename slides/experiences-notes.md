@@ -4,6 +4,8 @@
 
 The Clojure REPL is the real cure for AI hallucinations, because the application under development (in this case VS Code itself) will provide immidate reality check. The AI will need to adapt and try new things until they work. And, boy, does it. It hammers on the REPL, learning rapidly. Crafting solutions that are much more likely to work because of this.
 
+*--- End Story and Slide Narrators Section ---*
+
 ## To the Story Narration Author
 
 **Story Position**: **The Reality Check** - Honest assessment of what works and what's still evolving
@@ -23,7 +25,11 @@ The Clojure REPL is the real cure for AI hallucinations, because the application
 
 **Hook to Next**: "And speaking of live demos, let me show you something special about this very presentation"
 
+*--- End Story Narration Author Section ---*
+
 ## To the Slide Narration Author
+
+*--- End Slide Narration Author Section ---*
 
 ## Narration Script
 

@@ -1,8 +1,8 @@
 # Why Joyride + AI Tools?
 
-## Narration Script
+## To Story and Slide Narrators
 
-\newpage
+*--- End Story and Slide Narrators Section ---*
 
 ## To the Story Narration Author
 
@@ -23,4 +23,12 @@
 
 **Hook to Next**: "So what exactly is this Joyride thing we keep mentioning?"
 
+*--- End Story Narration Author Section ---*
+
 ## To the Slide Narration Author
+
+*--- End Slide Narration Author Section ---*
+
+## Narration Script
+
+\newpage

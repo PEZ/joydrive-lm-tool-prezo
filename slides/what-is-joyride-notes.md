@@ -6,11 +6,7 @@
 
 **Composability Over Replacement**: Frame Joyride as the meta-tool that makes existing tools work exactly as envisioned, rather than as a replacement for extensions.
 
-## To the Narration Author
-
-## Narration Script
-
-\newpage
+*--- End Story and Slide Narrators Section ---*
 
 ## To the Story Narration Author
 
@@ -31,4 +27,12 @@
 
 **Hook to Next**: "But how does this work in practice? Let me share some real experiences"
 
+*--- End Story Narration Author Section ---*
+
 ## To the Slide Narration Author
+
+*--- End Slide Narration Author Section ---*
+
+## Narration Script
+
+\newpage

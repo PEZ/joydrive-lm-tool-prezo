@@ -39,7 +39,7 @@ When you get feedback on a narration script, consider that the feedback does not
 
 ## Technical Execution
 
-1. Read `slides/narration-script/story-narration.md`.
+1. Read `slides/narration-script/story.md`.
 2. Read `slides.edn`
 
 3. For each slide:
