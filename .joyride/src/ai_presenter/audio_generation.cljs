@@ -45,11 +45,11 @@
   []
   (p/let [voice-dir (voice-dir-path)]
     (p/catch
-      (vscode/workspace.fs.createDirectory voice-dir)
-      (fn [error]
-        ;; Directory might already exist, that's fine
-        (when-not (= "FileExists" (.-code error))
-          (throw error))))
+     (vscode/workspace.fs.createDirectory voice-dir)
+     (fn [error]
+       ;; Directory might already exist, that's fine
+       (when-not (= "FileExists" (.-code error))
+         (throw error))))
     voice-dir))
 
 (defn move-file!+
@@ -68,53 +68,54 @@
    Returns a promise that resolves to {:success true ...} or {:success false :error ...}"
   [slide-name script-text]
   (p/catch
-    (p/let [;; Validate inputs
-            _ (when (or (empty? slide-name) (not (string? slide-name)))
-                (throw (js/Error. "slide-name must be a non-empty string")))
-            _ (when (or (empty? script-text) (not (string? script-text)))
-                (throw (js/Error. "script-text must be a non-empty string")))
+   (p/let [;; Validate inputs
+           _ (when (or (empty? slide-name) (not (string? slide-name)))
+               (throw (js/Error. "slide-name must be a non-empty string")))
+           _ (when (or (empty? script-text) (not (string? script-text)))
+               (throw (js/Error. "script-text must be a non-empty string")))
 
-            ;; Validate environment
-            env-check (validate-environment)
-            _ (when-not (:api-key-present? env-check)
-                (throw (js/Error. "OPENAI_API_KEY not found in environment")))
+           ;; Validate environment
+           env-check (validate-environment)
+           _ (when-not (:api-key-present? env-check)
+               (throw (js/Error. "OPENAI_API_KEY not found in environment")))
 
-            ;; Ensure voice directory exists
-            _ (ensure-voice-dir!+)
+           ;; Ensure voice directory exists
+           _ (ensure-voice-dir!+)
 
-            ;; Generate audio to temp location
-            temp-file-path (ai-speech #js {:input script-text
-                                           :dest_dir audio-dir
-                                           :voice "nova"
-                                           :model "tts-1"
-                                           :response_format "mp3"})
+           ;; Generate audio to temp location
+           temp-file-path (ai-speech #js {:input script-text
+                                          :dest_dir audio-dir
+                                          :voice "nova"
+                                          :model "tts-1"
+                                          :response_format "mp3"})
 
-            ;; Calculate target path
-            target-uri (target-file-path slide-name)
+           ;; Calculate target path
+           target-uri (target-file-path slide-name)
 
-            ;; Move file to target location
-            _ (move-file!+ temp-file-path target-uri)
+           ;; Move file to target location
+           _ (move-file!+ temp-file-path target-uri)
 
-            ;; Clean up temp file
-            temp-uri (vscode/Uri.file temp-file-path)
-            _ (vscode/workspace.fs.delete temp-uri)
+           ;; Clean up temp file
+           temp-uri (vscode/Uri.file temp-file-path)
+           _ (vscode/workspace.fs.delete temp-uri)
 
-            ;; Verify the target file exists
-            file-stat (vscode/workspace.fs.stat target-uri)]
+           ;; Verify the target file exists
+           file-stat (vscode/workspace.fs.stat target-uri)]
 
-      {:success true
-       :slide-name slide-name
-       :target-path (str target-uri)
-       :file-size (.-size file-stat)
-       :script-length (count script-text)})
+     {:success true
+      :slide-name slide-name
+      :target-path (str target-uri)
+      :file-size (.-size file-stat)
+      :script-length (count script-text)})
 
-    (fn [error]
-      {:success false
-       :error (.-message error)
-       :slide-name slide-name})))
+   (fn [error]
+     {:success false
+      :error (.-message error)
+      :slide-name slide-name})))
 
+;; Let's test the corrected generate-and-play-message!+ function
 (defn generate-and-play-message!+ [text]
-  (p/let [ws-root (ai-presenter.audio-generation/ws-root)
+  (p/let [ws-root (ws-root)  ;; Remove namespace prefix - we're already in this namespace
           temp-dir-uri (vscode/Uri.joinPath ws-root ".joyride" "temp-audio")
 
           _ (p/catch
@@ -126,19 +127,19 @@
           timestamp (js/Date.now)
           temp-filename (str "repl-audio-" timestamp ".mp3")
 
-          env-check (ai-presenter.audio-generation/validate-environment)
+          env-check (validate-environment)  ;; Remove namespace prefix
           _ (when-not (:api-key-present? env-check)
               (throw (js/Error. "OPENAI_API_KEY not found in environment")))
 
-          temp-file-path (ai-presenter.audio-generation/ai-speech
+          temp-file-path (ai-speech  ;; Remove namespace prefix
                           #js {:input text
-                               :dest_dir ai-presenter.audio-generation/audio-dir
+                               :dest_dir audio-dir  ;; Remove namespace prefix
                                :voice "nova"
-                               :model "tts-1"
+                               :model "tts-1-hd"
                                :response_format "mp3"})
 
           target-uri (vscode/Uri.joinPath temp-dir-uri temp-filename)
-          _ (ai-presenter.audio-generation/move-file!+ temp-file-path target-uri)
+          _ (move-file!+ temp-file-path target-uri)  ;; Remove namespace prefix
 
           temp-uri (vscode/Uri.file temp-file-path)
           _ (vscode/workspace.fs.delete temp-uri)
@@ -179,11 +180,11 @@
   (def !test-result (atom nil))
 
   (p/then
-    (generate-slide-audio!+ "demo-slide"
-                            "Welcome to the Joyride audio generation system! This is a demonstration of how we can create perfect audio files for slide presentations.")
-    (fn [result]
-      (reset! !test-result result)
-      result))
+   (generate-slide-audio!+ "demo-slide"
+                           "Welcome to the Joyride audio generation system! This is a demonstration of how we can create perfect audio files for slide presentations.")
+   (fn [result]
+     (reset! !test-result result)
+     result))
 
   ;; Check result
   @!test-result
@@ -195,23 +196,23 @@
 
   ;; Test error handling
   (p/then
-    (generate-slide-audio!+ "" "This should fail")
-    (fn [result] result
-      (def empty-slide-name-result result)))
+   (generate-slide-audio!+ "" "This should fail")
+   (fn [result] result
+     (def empty-slide-name-result result)))
   ;; => {:success false, :error "slide-name must be a non-empty string", :slide-name ""}
 
   ;; Test with invalid script
   (p/then
-    (generate-slide-audio!+ "test" "")
-    (fn [result]
-      (def empty-script-result result)))
+   (generate-slide-audio!+ "test" "")
+   (fn [result]
+     (def empty-script-result result)))
   ;; => {:success false, :error "script-text must be a non-empty string", :slide-name "test"}
 
   ;; Generate audio for actual slide content
   (p/then
-    (generate-slide-audio!+ "joyride-intro"
-                            "Welcome to Joyride, the amazing tool that lets you hack VS Code with Clojure! In this presentation, we'll explore how Joyride combines the power of Interactive Programming with VS Code's extension API to create a unique development experience.")
-    (fn [result]
-      (def joyride-intro-audio result)))
+   (generate-slide-audio!+ "joyride-intro"
+                           "Welcome to Joyride, the amazing tool that lets you hack VS Code with Clojure! In this presentation, we'll explore how Joyride combines the power of Interactive Programming with VS Code's extension API to create a unique development experience.")
+   (fn [result]
+     (def joyride-intro-audio result)))
 
   :rcf)
