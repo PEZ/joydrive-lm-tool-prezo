@@ -10,6 +10,25 @@
 
 ## To the Story Narration Author
 
+**Story Position**: **The Opening Hook** - This is where we grab attention and establish the central problem
+
+**Crucial Message**: VS Code + CoPilot users have a universal frustration - their environment is *almost* perfect, but not quite theirs
+
+**Key Details**:
+- The title promises transformation: "truly yours" is the key phrase
+- Visual pairing of Joyride + CoPilot logos suggests partnership, not replacement
+- This isn't about throwing away what they have - it's about making it perfect
+
+**Dramaturgic Mood**: **Recognition and intrigue** - start with a knowing nod to shared frustration, then hint at the solution
+
+**Narration Length**: 15-20 seconds - quick hook that gets right to the point
+
+**Hook from Previous**: N/A (opening slide)
+
+**Hook to Next**: "So what's the journey we're taking together?"
+
+## To the Slide Narration Author
+
 ## Narration Script
 
 \newpage

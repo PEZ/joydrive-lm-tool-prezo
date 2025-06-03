@@ -14,5 +14,6 @@ Available system prompts/AI moods
 - slide-author
 - slide-narration-author
 - story-narration-author
+- audio-generator
 
 ACTIVE MOOD:

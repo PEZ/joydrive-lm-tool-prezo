@@ -33,7 +33,8 @@ When you get feedback on the story script, consider that the feedback does not n
 
 ## Technical Exetution
 
-1. Read all the slides and all their notes.
+0. Read `slides.edn`
+1. Read all the slides indexed in slides.edn and all their notes.
 2. Summarize into a short story that you place in `slides/narration-script/story.md`.
 3. Update each slide's notes document in the `## To the Slide Narration Author` section with your advice about the particular slide
    - How it fits into the overall story
@@ -43,5 +44,3 @@ When you get feedback on the story script, consider that the feedback does not n
    - How long you think the narration for this slide should be
    - What it hooks in to from the previous slide
    - What it hooks in to on the following slide
-
-**The Magic**: Each presentation becomes unique through human-AI dialogue, creating narrative continuity that pure automation never could.

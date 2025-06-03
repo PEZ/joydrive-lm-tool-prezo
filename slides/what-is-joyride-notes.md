@@ -11,3 +11,24 @@
 ## Narration Script
 
 \newpage
+
+## To the Story Narration Author
+
+**Story Position**: **The Foundation Explanation** - What Joyride actually is and why the LM Tool integration is revolutionary
+
+**Crucial Message**: Joyride isn't about replacing your extensions - it's about making them work perfectly together and beyond their original design
+
+**Key Details**:
+- "User space automation" is key - this is about personal empowerment, not system administration
+- The "NEW" LM Tool integration is what makes the AI partnership possible
+- Visual of VS Code + ClojureScript reinforces the "it's still VS Code" message
+
+**Dramaturgic Mood**: **Solid foundation building** - like explaining the ground rules before the magic show
+
+**Narration Length**: 12-15 seconds - clear and straightforward explanation
+
+**Hook from Previous**: "Joyride is your secret weapon for making VS Code truly yours"
+
+**Hook to Next**: "But how does this work in practice? Let me share some real experiences"
+
+## To the Slide Narration Author
