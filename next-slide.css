@@ -50,7 +50,7 @@ body.slide-mode {
 /* Column Layout System */
 .row {
   display: flex;
-  flex-wrap: wrap;
+  /* flex-wrap: wrap; */
   /* margin: 0 -10px; */
   width: 100%;
 }

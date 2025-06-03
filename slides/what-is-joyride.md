@@ -3,7 +3,7 @@
 # Joyride – VS Code scripting
 
 <div class="row">
-<div class="column col-6">
+<div class="column col-8">
 
 <div style="display: flex; justify-content: flex-start; gap: 20px; margin-bottom: 50px;">
 <img src="images/joyride-icon.png" alt="Joyride Symbol" style="max-height: 180px;" />
@@ -15,14 +15,14 @@
 - Full VS Code API access
 - **NEW:** LM Tool integration for AI
 
-<div class="col-10 social-links" style="margin-left: -1rem; margin-top: 2rem;">
+<div class="social-links" style="margin-left: -1rem; margin-top: 2rem;">
 
 * [github.com/BetterThanTomorrow/joyride](https://github.com/BetterThanTomorrow/joyride)
 </div>
 
 </div>
 
-<div class="column col-6 icon-gallery center">
+<div class="column col-4 icon-gallery center">
 <img src="images/vscode.png" alt="VS Code Logo" style="height: 400px; width=auto;">
 </div>
 

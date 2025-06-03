@@ -28,7 +28,7 @@ Employer and open source patreon:
 </div>
 </div>
 
-<div class="row" style="margin-top: 20px;">
+<div class="row" style="margin-left: -1rem;">
 <div class="col-2"></div>
 <div class="col-10 social-links">
 
