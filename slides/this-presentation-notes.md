@@ -4,7 +4,7 @@
 
 *--- End Story and Slide Narrators Section ---*
 
-## To the Story Narration Author
+## To the Story Author
 
 **Story Position**: **The Meta-Demonstration** - This is where theory becomes tangible reality
 
@@ -23,7 +23,7 @@
 
 **Hook to Next**: "But who is the person behind this vision?"
 
-*--- End Story Narration Author Section ---*
+*--- End Story Author Section ---*
 
 ## To the Slide Narration Author
 

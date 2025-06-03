@@ -10,7 +10,7 @@
 
 *--- End Story and Slide Narrators Section ---*
 
-## To the Story Narration Author
+## To the Story Author
 
 **Story Position**: **The Opening Hook** - This is where we grab attention and establish the central problem
 
@@ -29,7 +29,7 @@
 
 **Hook to Next**: "So what's the journey we're taking together?"
 
-*--- End Story Narration Author Section ---*
+*--- End Story Author Section ---*
 
 ## To the Slide Narration Author
 

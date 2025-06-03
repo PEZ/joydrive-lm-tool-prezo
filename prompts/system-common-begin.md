@@ -13,7 +13,7 @@ Available system prompts/AI moods
 - architect
 - slide-author
 - slide-narration-author
-- story-narration-author
+- story-author
 - audio-generator
 
 ACTIVE MOOD:

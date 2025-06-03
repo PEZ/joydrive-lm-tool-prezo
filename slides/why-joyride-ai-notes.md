@@ -4,7 +4,7 @@
 
 *--- End Story and Slide Narrators Section ---*
 
-## To the Story Narration Author
+## To the Story Author
 
 **Story Position**: **The Philosophical Foundation** - Why this approach changes everything about development environments
 
@@ -23,7 +23,7 @@
 
 **Hook to Next**: "So what exactly is this Joyride thing we keep mentioning?"
 
-*--- End Story Narration Author Section ---*
+*--- End Story Author Section ---*
 
 ## To the Slide Narration Author
 

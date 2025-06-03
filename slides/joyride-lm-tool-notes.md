@@ -6,7 +6,7 @@ The Clojure REPL is the real cure for AI hallucinations, because the application
 
 *--- End Story and Slide Narrators Section ---*
 
-## To the Story Narration Author
+## To the Story Author
 
 **Story Position**: **The Magic Reveal** - This is where we show the actual mechanism that makes everything possible
 
@@ -25,7 +25,7 @@ The Clojure REPL is the real cure for AI hallucinations, because the application
 
 **Hook to Next**: "But why is this combination so powerful?"
 
-*--- End Story Narration Author Section ---*
+*--- End Story Author Section ---*
 
 ## To the Slide Narration Author
 

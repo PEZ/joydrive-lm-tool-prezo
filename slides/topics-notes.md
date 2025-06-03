@@ -6,7 +6,7 @@
 
 *--- End Story and Slide Narrators Section ---*
 
-## To the Story Narration Author
+## To the Story Author
 
 **Story Position**: **The Journey Map** - Setting expectations and building anticipation for the transformation ahead
 
@@ -25,7 +25,7 @@
 
 **Hook to Next**: "But first, let's see the magic that makes this possible"
 
-*--- End Story Narration Author Section ---*
+*--- End Story Author Section ---*
 
 ## To the Slide Narration Author
 

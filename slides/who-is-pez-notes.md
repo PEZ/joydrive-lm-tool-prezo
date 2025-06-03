@@ -4,7 +4,7 @@
 
 *--- End Story and Slide Narrators Section ---*
 
-## To the Story Narration Author
+## To the Story Author
 
 **Story Position**: **The Personal Connection and Call to Action** - This is the actual closing that invites connection and community
 
@@ -24,7 +24,7 @@
 
 **Hook to Next**: N/A (this is the closing slide) - but end with clear invitation to connect
 
-*--- End Story Narration Author Section ---*
+*--- End Story Author Section ---*
 
 ## To the Slide Narration Author
 

@@ -34,7 +34,7 @@ Easily switch between different system prompts depending on where in the workflo
 - **architect** - For system design and architectural decisions
 - **joyride-hacker** - For interactive programming and VS Code hacking with Joyride
 - **slide-author** - For creating and editing slide content
-- **story-narration-author** - For crafting the full narrative story
+- **story-author** - For crafting the full narrative story
 - **slide-narration-author** - For writing engaging slide narrations, based on slide content, notes and the narrative story
 - **audio-generator** - Generates high quality voice audio from slide scripts
 - **presenter** - For presenting slides with voice narration, can also author narration and genarate audio

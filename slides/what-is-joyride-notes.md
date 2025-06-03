@@ -8,7 +8,7 @@
 
 *--- End Story and Slide Narrators Section ---*
 
-## To the Story Narration Author
+## To the Story Author
 
 **Story Position**: **The Foundation Explanation** - What Joyride actually is and why the LM Tool integration is revolutionary
 
@@ -27,7 +27,7 @@
 
 **Hook to Next**: "But how does this work in practice? Let me share some real experiences"
 
-*--- End Story Narration Author Section ---*
+*--- End Story Author Section ---*
 
 ## To the Slide Narration Author
 
