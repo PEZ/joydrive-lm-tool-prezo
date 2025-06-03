@@ -1,20 +1,26 @@
 <div class="slide">
 
-# Joyride – What is it?
+# Joyride – VS Code scripting
 
 <div class="row">
-<div class="column col-5">
+<div class="column col-6">
 
-- VS Code scripting with ClojureScript
-- User space automation & customization
+<div style="display: flex; justify-content: flex-start; gap: 20px; margin-bottom: 50px;">
+<img src="images/joyride-icon.png" alt="Joyride Symbol" style="max-height: 180px;" />
+<img src="images/copilot-icon-light.png" alt="CoPilot Symbol" style="max-height: 180px;" />
+</div>
+
+- Extend VS Code in user space
+  - Automation & customization
 - Full VS Code API access
-- REPL-driven development
 - **NEW:** LM Tool integration for AI
 
 </div>
 
-<div class="column col-7">
-<img src="images/vscode.png" alt="VS Code + ClojureScript" style="max-height: 300px;">
+<div class="column col-6 icon-gallery center">
+<img src="images/vscode.png" alt="VS Code Logo" style="height: 400px; width=auto;">
+</div>
+
 </div>
 
 </div>

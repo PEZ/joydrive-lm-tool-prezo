@@ -1,10 +1,10 @@
-<div class="slide content-heavy">
+<div class="slide">
 
 # The Joyride LM Tool: `joyride_eval`
 
-<div class="responsive-container">
 <div class="row">
-<div class="col-9">
+
+<div class="col-7">
 
 **The Core REPL Tool**
 - Execute ClojureScript in VS Code
@@ -18,12 +18,12 @@
 
 </div>
 
-<div class="col-3 scroller">
+<div class="col-5 center icon-gallery vcenter">
 
 <img src="images/joyride-icon.png" alt="Joyride Symbol" height="120" />
 
 <img src="images/copilot-icon-light.png" alt="CoPilot Symbol" height="120" />
 
 </div>
-</div>
+
 </div>

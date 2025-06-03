@@ -4,11 +4,11 @@
 
 **Notes from the human participants to guide the work of the AI agents.**
 
+These are instructions for the AI. Please target the narration to CoPilot.
+
 *--- End Stakeholder Input Section ---*
 
 ## To Story and Slide Narrators
-
-These are instructions for the AI. Please target the narration to CoPilot.
 
 *--- End Story and Slide Narrators Section ---*
 

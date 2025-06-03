@@ -1,22 +1,22 @@
 <div class="slide">
 
-# This Very Presentation!
+# This Project - Modifying the editor while presenting
 
 <div class="responsive-container">
 <div class="row">
 <div class="col-6">
 
-## What We Just Built
+## Made with Joyride
 
-* **AI-Powered Presentation System**
-  * Joyride + ClojureScript magic
-  * Dynamic slide navigation
-  * AI-generated voice narration
-  * Real-time audio playback
-  * AI controlled, dynamic, Copilot Instructions
+* CoPilot hacks VS Code
+  * Authoring slides
+  * Narrating slides
+  * Generate voice audio
+  * Navigate slides
+  * Playing audio
 
-* **Live VS Code Hacking**
-  * Modified the editor while presenting
+* **AI Workflow**
+  * Dynamic Copilot Instructions (aka moods)
 
 </div>
 <div class="col-6">
@@ -26,6 +26,11 @@
 * Vibe code your tools while using them
 * All new features need not even be saved
   * The AI can build them again, when you need them
+
+<div style="display: flex; justify-content: flex-start; gap: 20px; margin-top: 50px;">
+<img src="images/joyride-icon.png" alt="Joyride Symbol" style="max-height: 180px;" />
+<img src="images/copilot-icon-light.png" alt="CoPilot Symbol" style="max-height: 180px;" />
+</div>
 
 </div>
 </div>

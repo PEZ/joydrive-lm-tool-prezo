@@ -4,6 +4,8 @@
 
 **Notes from the human participants to guide the work of the AI agents.**
 
+Invite the audience to the community of VS Code hackers. Tell them to get in contact and that I (PEZ) am eager to learn what they do with Joyride now that they have CoPilot, the expert Joyrider, to assist them.
+
 *--- End Stakeholder Input Section ---*
 
 ## To Story and Slide Narrators

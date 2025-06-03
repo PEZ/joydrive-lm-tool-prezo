@@ -1,6 +1,6 @@
 <div class="slide">
 
-# AI Hacking VS Code with Interactive Programming
+# Enabling the AI to Hack VS Code
 
 
 <div class="row">
@@ -8,12 +8,12 @@
 
 ## Joyride + LM Tools
 
-- What is Joyride?
+- Joyride
 - The new LM Tool integration
-- Interactive Programming with AI
+- Enabling the AI to Hack VS Code
 - Demo: AI building VS Code features
 - Experiences and learnings
-- Joyride and Calva together
+- A REPL each for you and AI
 - Where next?
 
 </div>

@@ -2,11 +2,11 @@
 
 ## The Core Story Arc
 
-This presentation tells the transformation story of VS Code CoPilot users discovering they can make their development environment truly their own through AI-powered Interactive Programming with Joyride.
+This presentation tells the transformation story of GitHub CoPilot users discovering they can make their development environment truly their own through AI-powered Interactive Programming with Joyride.
 
 ### The Universal Problem (Opening Hook)
 
-Every VS Code CoPilot user knows this frustration: You've carefully curated dozens of extensions, tweaked countless settings, and CoPilot helps with code... but your development environment still feels *almost* right. Not quite yours. Extensions don't talk to each other the way you want. CoPilot suggests code but can't customize your workflow. Your unique needs fall between the cracks of existing tools.
+Every GitHub CoPilot user knows this frustration: You've carefully curated dozens of extensions, tweaked countless settings, and CoPilot helps with code... but your development environment still feels *almost* right. Not quite yours. Extensions don't talk to each other the way you want. CoPilot suggests code but can't customize your workflow. Your unique needs fall between the cracks of existing tools.
 
 ### The Revelation (What's Different Now)
 

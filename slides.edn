@@ -1,8 +1,5 @@
 {:slides ["slides/hello.md",
-          "slides/topics.md"
-          "slides/joyride-lm-tool.md"
-          "slides/why-joyride-ai.md"
           "slides/what-is-joyride.md"
-          "slides/experiences.md"
           "slides/this-presentation.md"
+          "slides/experiences.md"
           "slides/who-is-pez.md"]}

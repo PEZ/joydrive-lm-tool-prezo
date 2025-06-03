@@ -4,7 +4,7 @@
 
 <div class="responsive-container">
 <div class="row gutters-10">
-<div class="col-9">
+<div class="col-7">
 
 ## Interactive Programming in VS Code
 
@@ -21,7 +21,7 @@
 
 </div>
 
-<div class="col-3 center">
+<div class="col-5 center">
 
 <img src="images/clj.png" alt="Clojure logo" style="margin-bottom: 32px;" />
 <span style="font-size: 7rem; line-height: 1;">‽</span>

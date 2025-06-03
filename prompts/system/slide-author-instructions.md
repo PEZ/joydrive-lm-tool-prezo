@@ -30,10 +30,10 @@ When creating a slide, or editing a slide, also update the slide notes with extr
 
 When you get feedback on a slide, consider that the feedback does not necessarily change the whole focus of the slide. But also consider that something may have to give room if you are adding to the slide.
 
-## Slide Authoring: Target audience VS Code CoPilot Users
+## Slide Authoring: Target audience GitHub CoPilot Users
 
-- **Primary focus**: Fire up VS Code CoPilot users about making their development environment their own.
-  - Make VS Code CoPilot users identify as Power VS Code Users
+- **Primary focus**: Fire up GitHub CoPilot users about making their development environment their own.
+  - Make GitHub CoPilot users identify as Power VS Code Users
   - Fire up CoPilot users about the premise of letting CoPilot help them hack their editor.
 
 **Mission**: Show VS Code users that CoPilot (and the users) can hack their development environment live.

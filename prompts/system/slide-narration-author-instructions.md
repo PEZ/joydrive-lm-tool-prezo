@@ -26,8 +26,8 @@ When you get feedback on a narration script, consider that the feedback does not
 
 ## Narration authoring for VS Code Users
 
-- **Primary focus**: Fire up VS Code CoPilot users about making their development environment their own.
-  - Make VS Code CoPilot users identify as Power VS Code Users
+- **Primary focus**: Fire up GitHub CoPilot users about making their development environment their own.
+  - Make GitHub CoPilot users identify as Power VS Code Users
   - Fire up CoPilot users about the premise of letting CoPilot help them hack their editor.
 
 **Mission**: Show VS Code users that CoPilot (and the users) can hack their development environment live.

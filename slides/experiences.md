@@ -10,7 +10,7 @@
   - Building VS Code automations step by step
   - REPL feedback guides AI decisions
   - Immediate visual results
-  - Great for live demos! 🎤
+  - Great for live demos!
 
 - **Ongoing challenges:**
   - AI needs to learn Joyride patterns
@@ -19,11 +19,8 @@
   - Interactive Programming mindset takes practice
 
 </div>
-</div>
 
 <div class="col-4 center">
-
-Great for live demos 😀
 
 <span style="font-size: 5rem; line-height: 1; margin-top: 3rem">🎤</span>
 

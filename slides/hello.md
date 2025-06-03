@@ -4,7 +4,7 @@
 <div class="row">
 <div class="col-12 center">
 
-# Now CoPilot can make VS Code truly yours
+# VS Code User → VS Code Hacker
 
 <div class="row" style="margin: 60px 0; align-items: center; justify-content: center;">
 <div class="col-9 center">
@@ -14,6 +14,8 @@
 <img src="images/copilot-icon-light.png" alt="CoPilot Symbol" height="120" />
 </div>
 </div>
+
+Now CoPilot can script VS Code while you are using it.
 
 (Narrations by Claude Sonnet 4)
 

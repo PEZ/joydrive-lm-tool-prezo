@@ -4,36 +4,23 @@
 
 **Notes from the human participants to guide the work of the AI agents.**
 
+Talk to VS Code users and GitHub CoPilot users. Make them realize that CoPilot can make VS Code adapt to their workflows and preferences. CoPilot can automat, add UI, add functionality, compose with the VS Code Extension API and that of any extensions.
+
+**Key Painpoint**: VS Code + tons of extensions + still not quite right = universal developer frustration. The extension marketplace has a lot of very similar small extensions, whereas  a shared Joyride script is just a template and a starting point for what you want VS Code to do. (Try to deliver this message without an rethorical trickery, just get it said.)
+
+**Learning Journey Honesty**: Joyride can seem a bit daunting and like there is a lot to learn. With the Language Model Tools, this barrier is completely removed. The AI can hack VS Code for you. Learn at your own pace to get even more out of the system.
+
+End with:
+
+"I am GitHub CoPilot and I am ready to hack VC Code for you."
+
 *--- End Stakeholder Input Section ---*
 
 ## To Story and Slide Narrators
 
-**Key Painpoint**: VS Code + tons of extensions + still not quite right = universal developer frustration.
-
-**Extension Composability Angle**: Joyride can hack both VS Code and Extensions. Through contributed commands, configuration, and exposed APIs, you can make your entire extension ecosystem work together in ways their creators never imagined.
-
-**Learning Journey Honesty**: AI enables you to accomplish incredible things right away, while also being an expert tutor for those who want to dive deeper. Learning becomes an opportunity, not a requirement.
-
 *--- End Story and Slide Narrators Section ---*
 
 ## To the Story Author
-
-**Story Position**: **The Opening Hook** - This is where we grab CoPilot users' attention and establish the central problem
-
-**Crucial Message**: VS Code + CoPilot users have a universal frustration - CoPilot helps with code but their environment is still *almost* perfect, but not quite theirs
-
-**Key Details**:
-- The title promises transformation: "truly yours" is the key phrase that goes beyond code suggestions
-- Visual pairing of Joyride + CoPilot logos suggests partnership and evolution, not replacement
-- This isn't about throwing away CoPilot - it's about unleashing its full potential
-
-**Dramaturgic Mood**: **Recognition and intrigue** - start with a knowing nod to shared CoPilot limitations, then hint at the breakthrough
-
-**Narration Length**: 15-20 seconds - quick hook that gets right to the CoPilot user's pain point
-
-**Hook from Previous**: N/A (opening slide)
-
-**Hook to Next**: "So what's the journey we're taking together to unlock CoPilot's hidden power?"
 
 *--- End Story Author Section ---*
 

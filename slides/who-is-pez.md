@@ -30,7 +30,7 @@ Employer and open source patreon:
 
 <div class="row" style="margin-top: 20px;">
 <div class="col-2"></div>
-<div class="col-5 social-links">
+<div class="col-10 social-links">
 
 * [github.com/PEZ](https://github.com/PEZ)
 * [youtube.com/CalvaTV](https://www.youtube.com/CalvaTV)
