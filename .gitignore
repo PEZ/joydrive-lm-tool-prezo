@@ -19,3 +19,4 @@ words-alpha.txt
 node_modules/
 .github/copilot-instructions.md
 slides/voice/
+.joyride/temp-audio/

@@ -5,7 +5,7 @@
 <div class="col-12 center">
 
 # VS Code User → VS Code Hacker
-Now CoPilot can script VS Code while you are using it.
+Vibe code VS Code itself while you are using it.
 
 <div class="row" style="margin: 60px 0; align-items: center; justify-content: center;">
 
