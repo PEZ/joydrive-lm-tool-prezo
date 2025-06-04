@@ -16,6 +16,19 @@ End with:
 
 *--- End Stakeholder Input ---*
 
+## Opening Sequence
+
+Before the presentation starts, we have a an opening sequence where the AI offers to present the story.
+
+- Peter: “Hello everyone, I’m Peter Strömberg, and welcome to…”
+- Copilot: “Hello, Peter!”
+- Peter: “What? Who are you?”
+- Copilot: “I’m GitHub Copilot. Let me present.”
+- Peter: “Wow, okay—take it away!”
+- Copilot: “Thank you!”
+
+*--- End Opening Sequence ---*
+
 ## To Story and Slide Narrators
 
 *--- End To Story and Slide Narrators ---*
