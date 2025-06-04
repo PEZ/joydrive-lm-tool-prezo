@@ -36,6 +36,8 @@ When you get feedback on a narration script, consider that the feedback does not
 - Focus on CoPilot and VS Code possibilities.
 - Take it easy with methaphores. Take it easy with exaggerations. Keep it honest and to the point.
 - Show, don't tell
+- Avoid leading with things like “And here's the ...“, “But here's the ...”, as that gets very tedious to hear.
+- Add emphasis and pauses to the script suitable for OpenAI text-to-speech, so that the delivery is as close to what you are aiming for as possible.
 
 ## Technical Execution
 
