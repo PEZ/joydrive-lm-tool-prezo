@@ -1,5 +1,5 @@
 {:slides ["slides/hello.md",
-          "slides/what-is-joyride.md"
           "slides/this-presentation.md"
+          "slides/what-is-joyride.md"
           "slides/experiences.md"
           "slides/who-is-pez.md"]}
