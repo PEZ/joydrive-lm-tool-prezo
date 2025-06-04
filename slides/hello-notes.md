@@ -16,18 +16,11 @@ End with:
 
 *--- End Stakeholder Input ---*
 
-## Opening Sequence
+## To the Presenter
 
-Before the presentation starts, we have a an opening sequence where the AI offers to present the story.
+Before the presentation starts, there will play a prepared sequence. The Presenter will then get asked by PEZ to “please take it away”, which is the queue to start presenting the first slide.
 
-- Peter: “Hello everyone, I’m Peter Strömberg, and welcome to…”
-- Copilot: “Hello, Peter!”
-- Peter: “What? Who are you?”
-- Copilot: “I’m GitHub Copilot. Let me present.”
-- Peter: “Wow, okay—take it away!”
-- Copilot: “Thank you!”
-
-*--- End Opening Sequence ---*
+*--- End To the Presenter ---*
 
 ## To Story and Slide Narrators
 

@@ -8,6 +8,8 @@ The audio generation features need an OpenAI API key. You and CoPilot can hack i
 
 ... This project is **100% Joyride** - The AI reads slide content, crafts engaging slide narration, generates high-quality audio from the narration scripts, and orchestrate full presentations - all through Joyride's integration with VS Code's extension API.
 
+It is also WIP: I am going to add much, much better guidance of how to use the example.
+
 ## 🚀 Quick Start
 
 ### Core Requirements
@@ -21,7 +23,7 @@ The audio generation features need an OpenAI API key. You and CoPilot can hack i
 
 ### Running the System
 
-Ask CoPilot to demo it for you and show you how to operate it. ✨
+See that button in the stats bar with “🎭”? It's a system prompt/mood selector. Select the **presenter** mood. Then ask CoPilot to demo it for you and show you how to operate it. ✨ It may take some time the first time because it will need to genarate audio from the text script.
 
 ## 🎯 Core Features
 
@@ -106,7 +108,7 @@ It is the human who is responsible for the main orchestration, maintaining high 
 ### AI-Assisted Presentation
 
 Ask Copilot (with LM Tools enabled):
-> "Present the slide about the LM tools for Joyride, please. I'm especially interested in vide coding"
+> "Present the slide about the LM tools for Joyride, please. I'm especially interested in vibe coding"
 
 The AI will:
 1. Navigate to the slide
