@@ -86,7 +86,7 @@
            temp-file-path (ai-speech #js {:input script-text
                                           :dest_dir audio-dir
                                           :voice "nova"
-                                          :model "tts-1"
+                                          :model "tts-1-hd"
                                           :response_format "mp3"})
 
            ;; Calculate target path
@@ -157,62 +157,12 @@
 
 (comment
 
-  (generate-and-play-message!+ "hello")
+  ;; Generate audio for a slide
+  (generate-slide-audio!+ "demo-slide" "Welcome to the Joyride audio generation system! This is a demonstration of how we can create perfect audio files for slide presentations.")
 
-  ;; Test environment validation
-  (validate-environment)
-  ;; => {:api-key-present? true, :api-key-length 51}
+  ;; Play generated audio (relative path)
+  (ai-presenter.audio-playback/load-and-play-audio!+ ".joyride/temp-audio/demo-slide.mp3")
 
-  ;; Test path utilities
-  {:workspace-root (str (ws-root))
-   :voice-dir (str (voice-dir-path))
-   :target-path (str (target-file-path "hello"))}
-  ;; => {:workspace-root "file:///Users/pez/Projects/Meetup/joydrive-lm-tool-prezo"
-  ;;     :voice-dir "file:///Users/pez/Projects/Meetup/joydrive-lm-tool-prezo/slides/voice"
-  ;;     :target-path "file:///Users/pez/Projects/Meetup/joydrive-lm-tool-prezo/slides/voice/hello.mp3"}
-
-  ;; Test directory creation
-  (p/then (ensure-voice-dir!+)
-          (fn [result]
-            (def dir-creation-result {:success true :voice-dir (str result)})))
-
-  ;; Test complete audio generation
-  (def !test-result (atom nil))
-
-  (p/then
-   (generate-slide-audio!+ "demo-slide"
-                           "Welcome to the Joyride audio generation system! This is a demonstration of how we can create perfect audio files for slide presentations.")
-   (fn [result]
-     (reset! !test-result result)
-     result))
-
-  ;; Check result
-  @!test-result
-  ;; => {:success true
-  ;;     :slide-name "demo-slide"
-  ;;     :target-path "file:///Users/pez/Projects/Meetup/joydrive-lm-tool-prezo/slides/voice/demo-slide.mp3"
-  ;;     :file-size 165888
-  ;;     :script-length 145}
-
-  ;; Test error handling
-  (p/then
-   (generate-slide-audio!+ "" "This should fail")
-   (fn [result] result
-     (def empty-slide-name-result result)))
-  ;; => {:success false, :error "slide-name must be a non-empty string", :slide-name ""}
-
-  ;; Test with invalid script
-  (p/then
-   (generate-slide-audio!+ "test" "")
-   (fn [result]
-     (def empty-script-result result)))
-  ;; => {:success false, :error "script-text must be a non-empty string", :slide-name "test"}
-
-  ;; Generate audio for actual slide content
-  (p/then
-   (generate-slide-audio!+ "joyride-intro"
-                           "Welcome to Joyride, the amazing tool that lets you hack VS Code with Clojure! In this presentation, we'll explore how Joyride combines the power of Interactive Programming with VS Code's extension API to create a unique development experience.")
-   (fn [result]
-     (def joyride-intro-audio result)))
-
+  ;; Generate and play audio in one step
+  (generate-and-play-message!+ "This is a direct HD voice playback example.")
   :rcf)
