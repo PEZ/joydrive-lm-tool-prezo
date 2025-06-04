@@ -122,6 +122,14 @@
    (vscode/window.showInformationMessage
     (str "next-slide:" "activated"))))
 
+(defn get-current-slide-name+
+  "Get the filename of the currently active slide (without path prefix)"
+  []
+  (p/let [slides (slides-list+)
+          current-slide-path (nth slides (:next/active-slide @!state))
+          filename (last (.split current-slide-path "/"))]
+    filename))
+
 (defn show-slide-by-name!+
   "Show a slide by its filename (e.g. 'hello.md' or 'slides/hello.md')"
   [slide-name]

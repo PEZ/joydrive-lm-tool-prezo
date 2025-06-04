@@ -18,9 +18,22 @@ If you haven't recently, read the PROJECT SUMMARY in the `docs` folder and the p
 ;; Hiding the chat
 (vscode/commands.executeCommand "workbench.action.closeAuxiliaryBar")
 
-;; Audio workflow
+;; Audio workflow - Generation and Playback
 (p/let [gen-result (ai-presenter.audio-generation/generate-slide-audio!+ slide-name script)]
   (ai-presenter.audio-playback/load-and-play-audio!+ "slides/voice/filename.mp3"))
+
+;; Audio Control Functions
+(ai-presenter.audio-playback/play-audio!)     ; play/resume audio
+(ai-presenter.audio-playback/pause-audio!)   ; pause audio
+(ai-presenter.audio-playback/stop-audio!)    ; stop audio completely
+(ai-presenter.audio-playback/set-volume! 0.5) ; set volume (0.0 to 1.0)
+(ai-presenter.audio-playback/get-audio-status!+) ; get current audio status
+
+;; Smart audio loading and playing with user gesture handling
+(ai-presenter.audio-playback/load-and-play-audio!+ "slides/voice/filename.mp3")
+
+;; Short message generation and playback
+(ai-presenter.audio-generation/generate-and-play-message!+ "your message")
 ```
 
 
@@ -41,14 +54,15 @@ The most common case, you are asked to present a slide:
 
 0. Hide the chat
 1. Show the slide
-2. Check if there is a voice file for the slide, `slides/voice/<filename>.mp3`
-   - IF there is:
-      - All good
-   - ELSE:
-     - Extract slide name from path (remove `slides/` prefix and `.md` suffix)
-     - Read the corresponding `-notes.md` file (e.g., `slides/hello-notes.md` for `slides/hello.md`)
-     - call `(ai-presenter.audio-generation/generate-slide-audio!+ slide-name script-content)`
-   - END IF
+2. Get the current slide filename using `(next-slide/get-current-slide-name+)`.
+   - Remove the `.md` suffix to get the audio filename.
+   - Check if there is a voice file for the slide, `slides/voice/<filename>.mp3`
+     - IF there is:
+        - All good
+     - ELSE:
+        - Read the corresponding `-notes.md` file (e.g., `slides/hello-notes.md` for `slides/hello.md`)
+        - call `(ai-presenter.audio-generation/generate-slide-audio!+ slide-name script-content)`
+     - END IF
 3. Play the audio for the slide
 4. Silently read the slide
 5. Silently read the slide's notes document
@@ -65,7 +79,9 @@ You are asked to present a slide and also get commentary or questions from your 
    3. Recall any input from your human co-presentor
    4. Figure if you want to read the PROJECT SUMMARY and README
    5. Author the script, incorporating the input from your human co-presentor in a seamless way
-   6. Call `(ai-presenter.audio-generation/generate-slide-audio!+ slide-name script-content)`
+   6. Get the current slide filename using `(next-slide/get-current-slide-name+)`.
+      - Remove the `.md` suffix to get the audio filename.
+      - Call `(ai-presenter.audio-generation/generate-slide-audio!+ slide-name script-content)`
 2. Play the audio for the slide
 3. Done.
 
