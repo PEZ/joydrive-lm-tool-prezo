@@ -4,7 +4,7 @@
   (:require
    ["vscode" :as vscode]
    [ai-mood-selector :as mood]
-   [ai-presenter.ai-prompter :as prompter]
+   [ai-chat.prompter :as prompter]
    [promesa.core :as p]))
 
 ;; We don't actually need to use ask the AI to play the files
