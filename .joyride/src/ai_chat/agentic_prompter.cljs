@@ -75,7 +75,8 @@ Be proactive, creative, and goal-oriented. Drive the conversation forward!")
 (defn process-tool-results-for-ai
   "Convert tool results to readable format for AI consumption, handling promises properly"
   [results]
-  (p/let [processed-results (p/all (map extract-tool-result results))]
+  (p/let [processed-results (p/all (map (comp extract-tool-result :result) results))]
+    (def results results)
     processed-results))
 
 (defn build-agentic-messages
@@ -241,6 +242,15 @@ Be proactive, creative, and goal-oriented. Drive the conversation forward!")
     :show-in-ui? true}))
 
 (comment
+  (defn test-tool-processing []
+    (let [mock-tool-result {:call-id "test" :tool-name "joyride_evaluate_code" :result 5}
+          results [mock-tool-result]]
+      (p/let [processed (process-tool-results-for-ai results)]
+        (println "Processed results:" processed)
+        (def processed processed)
+        processed)))
+
+  (test-tool-processing)
   ;; Simple usage
   (start-agentic-agent!+ "Count all .cljs files and show the result")
   (start-agentic-agent!+ "Show an information message that says 'Hello from the adaptive AI agent!' using VS Code APIs")
