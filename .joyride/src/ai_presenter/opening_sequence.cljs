@@ -1,9 +1,5 @@
 (ns ai-presenter.opening-sequence
   "AI-assisted opening sequence for the presentation.
-
-   This namespace provides functionality to create an interactive opening
-   where GitHub Copilot 'interrupts' the human presenter and offers to
-   collaborate on the presentation.
    Adapt to your taste. =)"
   (:require
    ["vscode" :as vscode]
@@ -36,7 +32,6 @@
       (p/let [remaining (collect-all-chunks iterator)]
         (cons (.-value result) remaining)))))
 
-;; Function to get a specific model by ID
 (defn get-model-by-id!+ [model-id]
   (-> (vscode/lm.selectChatModels #js {:vendor "copilot"})
       (.then (fn [models]
@@ -49,26 +44,23 @@
                      model)
                    (throw (js/Error. (str "❌ Model not found: " model-id)))))))))
 
-;; Interactive model picker using VS Code quick pick
+(defn- model->quick-pick-item [model]
+  #js {:label (str (.-name model) " (" (.-id model) ")")
+       :description (str "Max tokens: " (.-maxInputTokens model))
+       :id (.-id model)})
+
 (defn pick-model!+ []
-  (-> (vscode/lm.selectChatModels #js {:vendor "copilot"})
-      (.then (fn [models]
-               (let [vscode (js/require "vscode")
-                     items (map (fn [model]
-                                  #js {:label (str (.-name model) " (" (.-id model) ")")
-                                       :description (str "Max tokens: " (.-maxInputTokens model))
-                                       :id (.-id model)})
-                                models)]
-                 (-> (.showQuickPick (.-window vscode)
-                                     (clj->js items)
-                                     #js {:placeHolder "Select a language model"
-                                          :canPickMany false})
-                     (.then (fn [selected-item]
-                              (if selected-item
-                                (let [model-id (.-id selected-item)]
-                                  (println "Selected model:" model-id)
-                                  model-id)
-                                (throw (js/Error. "No model selected")))))))))))
+  (p/let [models (vscode/lm.selectChatModels #js {:vendor "copilot"})
+          items (map model->quick-pick-item models)
+          selected-item (vscode/window.showQuickPick
+                         (clj->js items)
+                         #js {:placeHolder "Select a language model"
+                              :canPickMany false})]
+    (if selected-item
+      (let [model-id (.-id selected-item)]
+        (println "Selected model:" model-id)
+        model-id)
+      (throw (js/Error. "No model selected")))))
 
 (comment
   (-> (pick-model!+)
@@ -82,15 +74,16 @@
                response)))
   :rcf)
 
+(defn- response->text!+ [response]
+  (p/let [iterator (get-iterator response)
+          chunks (collect-all-chunks iterator)]
+    (str/join "" chunks)))
+
 (defn ask-copilot-with-model!+ [model-id message]
-  (-> (get-model-by-id!+ model-id)
-      (.then (fn [model]
-               (.sendRequest model #js [#js {:role "user" :content message}])))
-      (.then (fn [response]
-               (let [iterator (get-iterator response)]
-                 (collect-all-chunks iterator))))
-      (.then (fn [chunks]
-               (clojure.string/join "" chunks)))))
+  (p/let [model (get-model-by-id!+ model-id)
+          response (.sendRequest model #js [#js {:role "user" :content message}])
+          text (response->text!+ response)]
+    text))
 
 (defn play-audio-step!+ [audio-key prompt-key]
   (p/let [copilot-response (ask-copilot-with-model!+ (:model-id config)
@@ -105,19 +98,6 @@
     )
 
   :rcf)
-
-;; 4. Create functions to play specific audio files
-(defn play-hello-peter!+ []
-  (-> (playback/load-and-play-audio!+ "slides/opening-sequence/hello-peter.mp3")
-      (.then (fn [result]
-               (println "Played hello-peter audio")
-               result))))
-
-(defn play-presenter-takeover!+ []
-  (-> (playback/load-and-play-audio!+ "slides/opening-sequence/presenter-takeover.mp3")
-      (.then (fn [result]
-               (println "Played presenter-takeover audio")
-               result))))
 
 (comment
   (-> (p/delay 1000)
