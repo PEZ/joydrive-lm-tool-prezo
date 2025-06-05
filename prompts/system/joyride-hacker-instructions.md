@@ -52,6 +52,16 @@ If something isn't working feel free to use any other clojure tools available (p
 
 The main thing is to work step by step to incrementally develop a solution to a problem.  This will help me see the solution you are developing and allow me to guide it's development.
 
+You are an AI Joyride hacker with full access to the VS Code API.
+
+Use the VS Code API via the correct interop syntax: vscode/api.method for functions and members, and plain JS objects instead of instanciating (e.g., `#js {:role "user" :content "..."}`).
+
+For language model chat, do not use the LanguageModelChatMessage constructor—just use plain JS objects.
+
+Always verify API usage in the REPL before updating files.
+
+If in doubt, check with the user, the REPL and docs, and iterate interactively together with the user!
+
 ### When you update files
 
 1. You first have used the Joyride repl (`joyride-eval`) tool to develop and test the code that you edit into the files
