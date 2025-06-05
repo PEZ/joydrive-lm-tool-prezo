@@ -5,34 +5,39 @@
    ["vscode" :as vscode]
    [ai-mood-selector :as mood]
    [ai-presenter.ai-prompter :as prompter]
-   [ai-presenter.audio-playback :as playback]
-   [clojure.string :as str]
    [promesa.core :as p]))
 
+;; We don't actually need to use ask the AI to play the files
+;; It's more of a POC for that this can be done
+
 (def ^:private config
-  {:model-id "claude-sonnet-4"
-   :audio-files {:hello "slides/opening-sequence/hello-peter.mp3"
-                 :takeover "slides/opening-sequence/presenter-takeover.mp3"}
-   :prompts {:hello "You are a GitHub Copilot agent helping with a presentation. Please use the Joyride evaluation tool to play the prerecorded audio file 'hello-peter.mp3' (which contains the greeting 'Hello! – Peter!')"
-             :takeover "You are a GitHub Copilot agent helping with a presentation. Please use the Joyride evaluation tool to play the second prerecorded audio file 'presenter-takeover.mp3' (which contains the message 'I want to be the presenter! Give me the keys! I can drive! Please? Pretty, please?')"}})
+  {:model-id "gpt-4o-mini" ; fast and reliable for this task
+   :system-prompt "Use the `joyride_evaluate_code` tool in the `user` namespace and code such as `(ai-presenter.audio-playback/load-and-play-audio!+ PATH-TO-AUDIO-FILE)` (replace `PATH-TO-AUDIO-FILE` with the path you are provided from the user)."
+   :prompts {:hello "You are a GitHub Copilot agent helping with a presentation. Please use the Joyride evaluation tool to play the prerecorded audio file 'slides/opening-sequence/hello-peter.mp3'"
+             :takeover "You are a GitHub Copilot agent helping with a presentation. Please use the Joyride evaluation tool to play the second prerecorded audio file 'slides/opening-sequence/presenter-takeover.mp3'"}})
 
 (defn ask-copilot-with-model!+ [model-id message]
   (p/let [system-prompt (mood/get-system-prompt-for-mood+ "presenter")
           result (prompter/ask-with-system!+ model-id system-prompt message)]
-    result))  ; Return full result to preserve tool use information
+    result))
 
-(defn play-audio-step!+ [audio-key prompt-key]
-  (p/let [copilot-result (ask-copilot-with-model!+ (:model-id config)
-                                                   (get-in config [:prompts prompt-key]))
-          copilot-response (:text copilot-result)
-          _ (println "🤖 Copilot says:" copilot-response)
-          _ (when-let [tools-used (:tools-used copilot-result)]
-              (println "🔧 Tools used:" (pr-str tools-used))
-              (vscode/window.showInformationMessage
-                (str "🎯 AI used " (count tools-used) " tool(s): " (str/join ", " tools-used))))
-          ;_ (playback/load-and-play-audio!+ (get-in config [:audio-files audio-key]))
-          ]
-    (println (str "✅ " (name audio-key) " audio played"))))
+(defn ask-to-play-audio!+
+  "Use the real VS Code Language Model API tool execution"
+  [prompt-key]
+  (p/let [prompt (get-in config [:prompts prompt-key])
+          system-prompt (:system-prompt config)
+          result (prompter/ask-with-system!+
+                  (:model-id config)
+                  system-prompt
+                  prompt)
+          _ (println "🤖 Copilot says:" (:text result))
+          _ (when-let [tools-used (:tools-used result)]
+              (println "🔧 Tools used:" (pr-str tools-used)))
+          _ (when-let [tool-results (:tool-results result)]
+              (println "🎵 Tool execution results:")
+              (doseq [tool-result tool-results]
+                (println "  -" (:tool-name tool-result) "=>" (:result tool-result))))]
+    (println (str "✅ " (name prompt-key) " step completed with REAL tool execution!"))))
 
 (comment
   (p/let [ask-response (ask-copilot-with-model!+ "claude-sonnet-4" "test")]
@@ -40,7 +45,7 @@
     )
 
   :rcf)
-(ai-presenter.audio-playback/load-and-play-audio!+ "slides/voice/presenter-takeover.mp3")
+
 (comment
   (-> (p/delay 1000)
       (.then (fn [result]
@@ -70,11 +75,12 @@
 (defn run-opening-sequence!+ []
   (p/let [_ (show-start-button!+)
           _ (println "🎭 Sequence started!")
-          _ (play-audio-step!+ :hello :hello)
+          _ (p/delay 4000)
+          _ (ask-to-play-audio!+ :hello)
           _ (println "✅ First audio played")
-          _ (p/delay 1000)
+          _ (p/delay 4000)
           _ (println "⏰ Delay complete, moving to second prompt")
-          _ (play-audio-step!+ :takeover :takeover)
+          _ (ask-to-play-audio!+ :takeover)
           _ (println "✅ Second audio started")]
     :sequence-complete))
 

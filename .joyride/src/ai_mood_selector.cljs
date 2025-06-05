@@ -97,6 +97,20 @@
           mood-content (-> (js/Buffer.from mood-data) (.toString "utf-8"))]
     (merge common-files {:mood mood-content})))
 
+(defn get-current-system-instructions+
+  "Read the current system instructions from the active mood."
+  []
+  (let [current-mood (get-current-mood)]
+    (if current-mood
+      (p/let [instructions-uri (vscode/Uri.joinPath
+                                (ws-root)
+                                ".github"
+                                "copilot-instructions.md")
+              file-data (vscode/workspace.fs.readFile instructions-uri)
+              content (-> (js/Buffer.from file-data) (.toString "utf-8"))]
+        content)
+      (p/resolved nil))))
+
 (defn get-system-prompt-for-mood+
   "Get the complete system prompt for a given mood name"
   [mood-name]
