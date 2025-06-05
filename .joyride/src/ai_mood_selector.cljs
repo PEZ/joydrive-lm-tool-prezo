@@ -40,7 +40,6 @@
                       (create-quick-pick-item filename file-uri)))
                   files)))))
 
-;; Function to read the begin and end common files
 (defn read-common-files+ []
   (let [begin-uri (vscode/Uri.joinPath (ws-root) "prompts" "system-common-begin.md")
         end-uri (vscode/Uri.joinPath (ws-root) "prompts" "system-common-end.md")]
@@ -51,14 +50,12 @@
       {:begin begin-content
        :end end-content})))
 
-;; Function to extract mood name from filename
 (defn extract-mood-name [filename]
   (-> filename
       (string/replace #"-instructions\.md$" "")
       (string/replace #"-" " ")
       (string/capitalize)))
 
-;; Function to create or update status bar item
 (defn update-status-bar! [mood-name]
   (let [item (or (:status-bar-item @!mood-state)
                  (vscode/window.createStatusBarItem vscode/StatusBarAlignment.Left -1001))]
@@ -74,32 +71,57 @@
                     (swap! !mood-state dissoc :status-bar-item)
                     (.dispose item))}))
 
-;; Enhanced function to activate mood with concatenation
+;; New pure functions
+(defn compose-mood-content
+  "Pure function to compose the full mood content from its parts"
+  [begin-content mood-content end-content]
+  (str begin-content
+       (when (seq begin-content) "\n\n")
+       mood-content
+       (when (seq end-content) "\n\n")
+       end-content))
+
+(defn build-mood-config
+  "Pure function to build mood configuration data"
+  [mood-name source-uri target-uri]
+  {:mood-name mood-name
+   :source-uri source-uri
+   :target-uri target-uri})
+
+;; New I/O functions
+(defn gather-mood-sources+
+  "Gather all source content needed for mood activation"
+  [config]
+  (p/let [common-files (read-common-files+)
+          mood-data (.readFile vscode/workspace.fs (:source-uri config))
+          mood-content (-> (js/Buffer.from mood-data) (.toString "utf-8"))]
+    (merge common-files {:mood mood-content})))
+
+(defn write-mood-file!+
+  "Write the composed mood content to target file"
+  [config content]
+  (.writeFile vscode/workspace.fs (:target-uri config)
+              (js/Buffer.from content "utf-8")))
+
+;; Refactored main function
 (defn activate-mood!
-  "Activate an AI mood. Can be called with either:
-   - (activate-mood! 'mood-name') - convenient string-based activation
-   - (activate-mood! source-uri filename) - URI-based activation"
+  "Activate an AI mood with data-oriented approach"
   ([mood-name]
    (let [filename (str mood-name "-instructions.md")
          prompts-dir (vscode/Uri.joinPath (ws-root) "prompts" "system")
          source-uri (vscode/Uri.joinPath prompts-dir filename)]
      (activate-mood! source-uri filename)))
   ([source-uri filename]
-   (p/let [common-files (read-common-files+)
-           mood-data (.readFile vscode/workspace.fs source-uri)
-           mood-content (-> (js/Buffer.from mood-data) (.toString "utf-8"))
-
-           ;; Concatenate: begin + mood + end
-           full-content (str (:begin common-files)
-                            (when (not= "" (:begin common-files)) "\n\n")
-                            mood-content
-                            (when (not= "" (:end common-files)) "\n\n")
-                            (:end common-files))
-
-           target-uri (vscode/Uri.joinPath (ws-root) ".github" "copilot-instructions.md")
-           mood-name (extract-mood-name filename)]
-     (.writeFile vscode/workspace.fs target-uri (js/Buffer.from full-content "utf-8"))
-     (update-status-bar! mood-name))))
+   (let [config (build-mood-config
+                 (extract-mood-name filename)
+                 source-uri
+                 (vscode/Uri.joinPath (ws-root) ".github" "copilot-instructions.md"))]
+     (p/let [sources (gather-mood-sources+ config)
+             content (compose-mood-content (:begin sources)
+                                           (:mood sources)
+                                           (:end sources))]
+       (write-mood-file!+ config content)
+       (update-status-bar! (:mood-name config))))))
 
 (defn show-ai-mood-picker! []
   (p/let [items (get-prompt-files+)
