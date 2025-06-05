@@ -63,12 +63,15 @@
                       (println "🎯 Invoking tool:" tool-name)
                       (println "📝 Input:" (pr-str input))
                       (p/let [raw-result (vscode/lm.invokeTool tool-name #js {:input input})
+                              _ (def raw-result raw-result)
                               result (mapv (fn [o]
                                              (-> o
                                                  .-value
                                                  js/JSON.parse
                                                  js->clj))
-                                           (.-content raw-result))]
+                                           (.-content raw-result))
+                              _ (def result result)
+                              ]
                         (println "✅ Tool execution result:" result)
                         {:call-id call-id
                          :tool-name tool-name
