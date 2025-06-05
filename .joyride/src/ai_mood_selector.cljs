@@ -97,6 +97,18 @@
           mood-content (-> (js/Buffer.from mood-data) (.toString "utf-8"))]
     (merge common-files {:mood mood-content})))
 
+(defn get-system-prompt-for-mood+
+  "Get the complete system prompt for a given mood name"
+  [mood-name]
+  (let [filename (str mood-name "-instructions.md")
+        prompts-dir (vscode/Uri.joinPath (ws-root) "prompts" "system")
+        source-uri (vscode/Uri.joinPath prompts-dir filename)
+        config (build-mood-config mood-name source-uri nil)]
+    (p/let [sources (gather-mood-sources+ config)]
+      (compose-mood-content (:begin sources)
+                          (:mood sources)
+                          (:end sources)))))
+
 (defn write-mood-file!+
   "Write the composed mood content to target file"
   [config content]

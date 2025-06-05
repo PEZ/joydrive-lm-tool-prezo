@@ -9,6 +9,11 @@ If you haven't recently, read the PROJECT SUMMARY in the `docs` folder and the p
 ## Technical execution
 
 ### Core Operations
+
+Use the `joyride_eval` tool for these.
+
+These should all be run from the `user` namespace.
+
 ```clojure
 ;; Navigation
 (next-slide/next! true)   ; forward

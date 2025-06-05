@@ -6,7 +6,6 @@
    [ai-mood-selector :as mood]
    [promesa.core :as p]))
 
-
 (defn create-chat-message
   "Create a VS Code Language Model chat message as a plain JS object.
    Args: {:role :system|:user|:assistant, :content string, :name string (optional)}"
@@ -69,17 +68,31 @@
       system-msg (cons system-msg))))
 
 (defn send-prompt-request!+
-  "Send a prompt request with optional system instructions.
+  "Send a prompt request with optional system instructions and tool use.
    Args: {:model-id string, :system-prompt string (optional), :messages vector, :options map (optional)}"
   [{:keys [model-id system-prompt messages options]}]
+  (def model-id model-id)
+  (def system-prompt system-prompt)
+  (def messages messages)
+  (def options options)
   (p/let [model (get-model-by-id!+ model-id)
           ;; Use provided system prompt or fall back to current mood instructions
+          _ (def model model)
           final-system-prompt (or system-prompt (get-current-system-instructions+))
+          _ (def final-system-prompt final-system-prompt)
           message-chain (build-message-chain {:system-prompt final-system-prompt
                                               :messages messages})
+          _ (def message-chain message-chain)
           js-messages (clj->js message-chain)
-          response (. model sendRequest js-messages (clj->js (or options {})))]
+          _ (def js-messages js-messages)
+          ;; Enable tool use by default if not explicitly disabled
+          final-options (merge {:tools vscode/lm.tools
+                                :toolMode vscode/LanguageModelChatToolMode.Auto}
+                               options)
+          response (.sendRequest model js-messages (clj->js final-options))]
+    (def response response)
     response))
+
 
 (defn collect-response-text!+
   "Collect all text from a streaming response."
@@ -94,28 +107,54 @@
                   (collect-chunks (str acc (.-value result))))))]
       (collect-chunks ""))))
 
+(defn collect-response-with-tools!+
+  "Collect all text and tool calls from a streaming response."
+  [response]
+  (p/let [stream (.-stream response)
+          async-iter-symbol js/Symbol.asyncIterator
+          iterator-fn (aget stream async-iter-symbol)
+          iterator (.call iterator-fn stream)]
+    (letfn [(collect-parts [text-acc tool-calls]
+              (p/let [result (.next iterator)]
+                (if (.-done result)
+                  {:text text-acc :tool-calls tool-calls :response response}
+                  (let [part (.-value result)]
+                    ;; Check if this is a tool call part
+                    (cond
+                      ;; Regular text part
+                      (and (.-value part) (string? (.-value part)))
+                      (collect-parts (str text-acc (.-value part)) tool-calls)
+
+                      ;; Tool call part
+                      (and (.-callId part) (.-name part))
+                      (collect-parts text-acc (conj tool-calls part))
+
+                      ;; Other parts - continue
+                      :else
+                      (collect-parts text-acc tool-calls))))))]
+      (collect-parts "" []))))
+
 (defn prompt-and-collect!+
   "Send a prompt and collect the full response text.
-   Convenience function that combines send-prompt-request!+ and collect-response-text!+"
+   Enhanced to show when tools are used behind the scenes."
   [prompt-args]
   (p/let [response (send-prompt-request!+ prompt-args)
-          text (collect-response-text!+ response)]
-    {:response response
-     :text text}))
+          result (collect-response-with-tools!+ response)]
+    ;; Show tool usage in console for debugging
+    (when (seq (:tool-calls result))
+      (js/console.log "🔧 Tools used:" (map #(.-name %) (:tool-calls result))))
+    {:response (:response result)
+     :text (:text result)
+     :tools-used (map #(.-name %) (:tool-calls result))}))
 
 ;; Convenience functions for common patterns
 (defn ask-with-system!+
   "Ask a question with explicit system instructions."
   [model-id system-prompt user-question]
-  (prompt-and-collect!+ {:model-id model-id
-                         :system-prompt system-prompt
-                         :messages [{:role :user :content user-question}]}))
-
-(defn ask-with-current-mood!+
-  "Ask a question using the current AI mood as system instructions."
-  [model-id user-question]
-  (prompt-and-collect!+ {:model-id model-id
-                         :messages [{:role :user :content user-question}]}))
+  (p/let [answer (prompt-and-collect!+ {:model-id model-id
+                                        :system-prompt system-prompt
+                                        :messages [{:role :user :content user-question}]})]
+    answer))
 
 (defn continue-conversation!+
   "Continue a conversation with message history."
@@ -140,6 +179,30 @@
         (println "Selected model:" model-id)
         model-id)
       (throw (js/Error. "No model selected")))))
+
+;; Convenience functions for tool use control
+(defn disable-tools-options
+  "Options to disable tool use - for when we want pure Joyride solutions"
+  []
+  {:tools []})
+
+(defn enable-specific-tools
+  "Enable only specific tools by name"
+  [tool-names]
+  (let [available-tools (.-tools vscode/lm)
+        filtered-tools (filter #(contains? (set tool-names) (.-name %)) available-tools)]
+    {:tools filtered-tools
+     :toolMode (.-Auto vscode/LanguageModelChatToolMode)}))
+
+(defn force-tool-use
+  "Force the model to use exactly one tool (Required mode)"
+  [tool-name]
+  (let [available-tools (.-tools vscode/lm)
+        target-tool (first (filter #(= (.-name %) tool-name) available-tools))]
+    (if target-tool
+      {:tools [target-tool]
+       :toolMode (.-Required vscode/LanguageModelChatToolMode)}
+      (throw (js/Error. (str "Tool not found: " tool-name))))))
 
 (comment
   (-> (pick-model!+)
