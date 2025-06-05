@@ -38,45 +38,71 @@ AVAILABLE TOOLS:
 Be proactive, creative, and goal-oriented. Drive the conversation forward!")
 
 (defn extract-tool-result
-  "Extract meaningful result from tool response, waiting for promises if needed"
+  "Extract meaningful result from Joyride tool response, handling the actual array structure"
   [result]
   (cond
-    ;; If it's a promise, we need to wait for it
+    ;; Handle Joyride result arrays (the actual structure we get)
+    (and (vector? result) (seq result))
+    (let [first-result (first result)
+          result-type (get first-result "type")
+          stdout (get first-result "stdout" "")
+          stderr (get first-result "stderr" "")]
+      (case result-type
+        "success"
+        (let [result-data (get first-result "result")]
+          (cond
+            ;; Check if it's a promise result
+            (and (map? result-data)
+                 (= (get result-data "type") "promise"))
+            "✅ Code executed successfully (returned a promise)"
+
+            ;; Check if there's actual result data with meaningful content
+            (and (map? result-data) (not= result-data {}))
+            (str "✅ Result: " (pr-str result-data))
+
+            ;; Check stdout for output
+            (not-empty stdout)
+            (str "✅ Output: " stdout)
+
+            ;; For successful execution without specific result
+            :else
+            "✅ Code executed successfully"))
+
+        "error"
+        (let [error-msg (get first-result "error")]
+          (str "❌ Error: " error-msg
+               (when (not-empty stderr) (str " | " stderr))))
+
+        (str "⚠️ Unknown result type: " result-type)))
+
+    ;; Handle promise results (though we shouldn't get these with proper array handling)
     (and (object? result) (.-then result))
     (p/let [resolved result]
-      (str "Evaluation result: " resolved))
+      (str "✅ Evaluation result: " resolved))
 
-    ;; If it's a string, use it directly
-    (string? result)
-    result
+    ;; Handle primitives
+    (string? result) result
+    (number? result) (str "✅ Result: " result)
+    (boolean? result) (str "✅ Result: " result)
 
-    ;; If it's a number, convert to string
-    (number? result)
-    (str result)
-
-    ;; If it's a boolean, convert to string
-    (boolean? result)
-    (str result)
-
-    ;; For objects, try to extract meaningful info
+    ;; Handle objects
     (object? result)
     (try
       (let [stringified (js/JSON.stringify result nil 2)]
         (if (= stringified "{}")
-          "Tool executed successfully (no return value)"
-          (str "Result: " stringified)))
+          "✅ Tool executed successfully (no return value)"
+          (str "✅ Result: " stringified)))
       (catch js/Error _
-        "Tool executed successfully"))
+        "✅ Tool executed successfully"))
 
-    ;; For everything else
+    ;; Fallback
     :else
-    (str "Result: " result)))
+    (str "⚠️ Unexpected result format: " (pr-str result))))
 
 (defn process-tool-results-for-ai
-  "Convert tool results to readable format for AI consumption, handling promises properly"
+  "Convert tool results to readable format for AI consumption, handling Joyride's array structure"
   [results]
   (p/let [processed-results (p/all (map (comp extract-tool-result :result) results))]
-    (def results results)
     processed-results))
 
 (defn build-agentic-messages
@@ -220,14 +246,16 @@ Be proactive, creative, and goal-oriented. Drive the conversation forward!")
                      :max-turns max-turns
                      :progress-callback show-progress})]
 
-      ;; Show final summary
-      (let [summary (str "🎯 Agentic task "
+      ;; Show final summary with proper turn counting
+      (let [;; Count actual turns by counting assistant messages
+            actual-turns (count (filter #(= (:role %) :assistant) (:history result)))
+            summary (str "🎯 Agentic task "
                          (case (:reason result)
                            :task-complete "COMPLETED successfully!"
                            :max-turns-reached "reached max turns"
                            :agent-finished "finished"
                            "ended unexpectedly")
-                         " (" (count (:history result)) " conversation steps)")]
+                         " (" actual-turns " turns, " (count (:history result)) " conversation steps)")]
         (show-progress summary))
 
       result)))
@@ -264,7 +292,7 @@ Be proactive, creative, and goal-oriented. Drive the conversation forward!")
   ;; Full control
   (agentic-conversation!+
    {:model-id "gpt-4o"
-    :goal "Implement a new feature with tests"
+    :goal "Generate the fibonacci sequence without writing a function, but instead by starting with evaluating `[0 1]` and then each step read the result and evaluate `[second-number sum-of-first-and-second-number]`. In the last step evaluate just `second-number`."
     :max-turns 12
     :progress-callback (fn [step]
                          (println "🔄" step)
