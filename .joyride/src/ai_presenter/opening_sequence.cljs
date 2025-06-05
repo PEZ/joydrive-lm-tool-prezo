@@ -16,10 +16,20 @@
    :prompts {:hello "You are a GitHub Copilot agent helping with a presentation. Please use the Joyride evaluation tool to play the prerecorded audio file 'slides/opening-sequence/hello-peter.mp3'"
              :takeover "You are a GitHub Copilot agent helping with a presentation. Please use the Joyride evaluation tool to play the second prerecorded audio file 'slides/opening-sequence/presenter-takeover.mp3'"}})
 
-(defn ask-copilot-with-model!+ [model-id message]
-  (p/let [system-prompt (mood/get-system-prompt-for-mood+ "presenter")
-          result (prompter/ask-with-system!+ model-id system-prompt message)]
+(defn ask-copilot-with-model!+ [model-id system-prompt message]
+  (p/let [result (prompter/ask-with-system!+
+                  model-id system-prompt message)]
     result))
+
+(comment
+  (p/let [prompt (mood/get-system-prompt-for-mood+ "presenter")
+          ask-response (ask-copilot-with-model!+
+                        "claude-sonnet-4"
+                        prompt
+                        "please show the first slide and then the next, as two separate tool calls")]
+    (def ask-response ask-response))
+
+  :rcf)
 
 (defn ask-to-play-audio!+
   "Use the real VS Code Language Model API tool execution"
@@ -38,20 +48,6 @@
               (doseq [tool-result tool-results]
                 (println "  -" (:tool-name tool-result) "=>" (:result tool-result))))]
     (println (str "✅ " (name prompt-key) " step completed with REAL tool execution!"))))
-
-(comment
-  (p/let [ask-response (ask-copilot-with-model!+ "claude-sonnet-4" "test")]
-    (def ask-response ask-response)
-    )
-
-  :rcf)
-
-(comment
-  (-> (p/delay 1000)
-      (.then (fn [result]
-               (println "Delay completed:" result)
-               result)))
-  :rcf)
 
 (defn show-start-button!+ []
   (p/let [choice (.showInformationMessage (.-window vscode)
