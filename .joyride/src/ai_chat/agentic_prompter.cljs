@@ -67,27 +67,7 @@ Be proactive, creative, and goal-oriented. Drive the conversation forward!")
   [ai-text]
   (when ai-text
     (boolean
-     (re-find #"(?i)(task.*(complete|done|finished)|goal.*(achieved|reached|accomplished)|mission.*(complete|success)|successfully (completed|finished))" ai-text))))
-
-(defn should-continue-agentic?
-  "Determine if the agentic conversation should continue"
-  [ai-text tool-calls turn-count max-turns]
-  (cond
-    ;; Stop if we've reached max turns
-    (>= turn-count max-turns) false
-
-    ;; Stop if AI indicates completion
-    (agent-indicates-completion? ai-text) false
-
-    ;; Continue if there are tool calls (agent is actively working)
-    (seq tool-calls) true
-
-    ;; Continue if AI explicitly says it wants to continue
-    (and ai-text
-         (re-find #"(?i)(next.*(step|action)|now.*(i.will|let.me)|continuing|proceeding)" ai-text)) true
-
-    ;; Otherwise, stop
-    :else false))
+     (re-find #"(?i)(task.*(?!\bnot\b).*(complete|done|finished)|goal.*(?!\bnot\b).*(achieved|reached|accomplished)|mission.*(?!\bnot\b).*(complete|success)|successfully (completed|finished))" ai-text))))
 
 (defn add-assistant-response
   "Add AI assistant response to conversation history"
@@ -120,7 +100,7 @@ Be proactive, creative, and goal-oriented. Drive the conversation forward!")
     (seq tool-calls)
     {:continue? true :reason :tools-executing}
 
-    (and ai-text (re-find #"(?i)(next.*(step|action)|now.*(i.will|let.me)|continuing|proceeding)" ai-text))
+    (and ai-text (re-find #"(?i)(next.*(step|action)|i'll|i.will|let.me|continu|proceed)" ai-text))
     {:continue? true :reason :agent-continuing}
 
     :else
@@ -161,7 +141,7 @@ Be proactive, creative, and goal-oriented. Drive the conversation forward!")
   [{:keys [model-id goal max-turns progress-callback tools-args]} history turn-count last-response]
   (progress-callback (str "Turn " turn-count "/" max-turns))
 
-  (if (>= turn-count max-turns)
+  (if (> turn-count max-turns)
     (format-completion-result history :max-turns-reached last-response)
 
     (p/let [;; Execute the conversation turn
@@ -205,9 +185,10 @@ Be proactive, creative, and goal-oriented. Drive the conversation forward!")
 (defn agentic-conversation!+
   "Create an autonomous AI conversation that drives itself toward a goal"
   [{:keys [model-id goal max-turns progress-callback]
-    :or {max-turns 10 progress-callback (fn [step] (println "Progress:" step))}}]
+    :or {max-turns 10
+         progress-callback (fn [step]
+                             (println "Progress:" step))}}]
   (p/let [tools-args (util/enable-joyride-tools)]
-    ;; Start the conversation
     (println "🚀 Starting agentic conversation with goal:" goal)
     (continue-conversation-loop
      {:model-id model-id
@@ -262,24 +243,20 @@ Be proactive, creative, and goal-oriented. Drive the conversation forward!")
   (autonomous-conversation!+ "Show an information message that says 'Hello from the adaptive AI agent!' using VS Code APIs")
 
   ;; Advanced usage
-  (autonomous-conversation!+
-   {:model-id "claude-sonnet-4"
-    :goal "Analyze this project structure and create documentation"
-    :max-turns 10
-    :show-progress? true})
+  (autonomous-conversation!+ "Analyze this project structure and create documentation"
+                             {:model-id "claude-sonnet-4"
+                              :max-turns 10
+                              :show-progress? true})
 
-  (autonomous-conversation!+
-   {:model-id "claude-sonnet-4"
-    :goal "Analyze the `ai-chat.agentic-prompter` namespace and its dependencies and create documentation in `docs/agent-dispatch/`."
-    :max-turns 12
-    :show-progress? true})
+  (autonomous-conversation!+ "Analyze the `ai-chat.agentic-prompter` namespace and its dependencies and create documentation in `docs/agent-dispatch/`."
+                             {:model-id "claude-sonnet-4"
+                              :max-turns 15
+                              :show-progress? true})
 
-  ;; Full control (matches old agentic-conversation!+ behavior - still available)
-  (agentic-conversation!+
-   {:model-id "gpt-4o-mini"
-    :goal "Generate the fibonacci sequence without writing a function, but instead by starting with evaluating `[0 1]` and then each step read the result and evaluate `[second-number sum-of-first-and-second-number]`. In the last step evaluate just `second-number`."
-    :max-turns 12
-    :progress-callback (fn [step]
-                         (println "🔄" step)
-                         (vscode/window.showInformationMessage step))})
+  (autonomous-conversation!+ "Generate the eight first numbers in the fibonacci sequence without writing a function, but instead by starting with evaluating `[0 1]` and then each step read the result and evaluate `[second-number sum-of-first-and-second-number]`. In the last step evaluate just `second-number`."
+                             {:model-id "gpt-4o-mini"
+                              :max-turns 12
+                              :progress-callback (fn [step]
+                                                   (println "🔄" step)
+                                                   (vscode/window.showInformationMessage step))})
   :rcf)

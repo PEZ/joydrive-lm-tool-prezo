@@ -91,3 +91,54 @@
         (is (= [] (:history result)) "Should handle empty history")
         (is (= :unknown-reason (:reason result)) "Should handle unknown reason")
         (is (nil? (:final-response result)) "Should handle nil response")))))
+
+;; Test the core bug fix
+(deftest test-max-turns-bug-fix
+  (testing "Fixed logic uses next turn count"
+    ;; Turn 3 of max 3: next would be 4, should stop
+    (is (= :max-turns-reached
+           (:reason (agentic/determine-conversation-outcome "continuing..." [] 4 3))))
+
+    ;; Turn 2 of max 3: next would be 3, should continue
+    (is (= :agent-continuing
+           (:reason (agentic/determine-conversation-outcome "continuing..." [] 2 3))))))
+
+(defn simulate-conversation-turns
+  "Simulate a conversation loop for testing max-turns behavior"
+  [responses max-turns]
+  (loop [turn 1
+         remaining-responses responses
+         conversation-log []]
+
+    (if (empty? remaining-responses)
+      conversation-log
+
+      (let [ai-text (first remaining-responses)
+            next-turn (inc turn)
+            outcome (agentic/determine-conversation-outcome ai-text [] next-turn max-turns)
+
+            turn-record {:turn turn
+                         :ai-text ai-text
+                         :next-turn-count next-turn
+                         :outcome outcome
+                         :continues (:continue? outcome)
+                         :stop-reason (:reason outcome)}
+            updated-log (conj conversation-log turn-record)]
+
+        (if (:continue? outcome)
+          ;; Continue: increment turn, use rest of responses
+          (recur (inc turn)
+                 (rest remaining-responses)
+                 updated-log)
+          ;; Stop: return the log as-is
+          updated-log)))))
+
+;; Test conversation simulation
+(deftest test-conversation-executes-exact-turns
+  (testing "3-turn conversation"
+    (let [result (simulate-conversation-turns ["next step 1"
+                                               "next step 2"
+                                               "next step 3"
+                                               "next step 4"] 3)]
+      (is (= 3 (count result)) "Should execute exactly 3 turns")
+      (is (= :max-turns-reached (:stop-reason (last result)))))))
