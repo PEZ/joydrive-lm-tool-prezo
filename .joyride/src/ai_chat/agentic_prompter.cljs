@@ -89,77 +89,135 @@ Be proactive, creative, and goal-oriented. Drive the conversation forward!")
     ;; Otherwise, stop
     :else false))
 
+(defn add-assistant-response
+  "Add AI assistant response to conversation history"
+  [history ai-text tool-calls turn-count]
+  (conj history
+        {:role :assistant
+         :content ai-text
+         :tool-calls tool-calls
+         :turn turn-count}))
+
+(defn add-tool-results
+  "Add tool execution results to conversation history"
+  [history tool-results turn-count]
+  (conj history
+        {:role :tool-results
+         :results tool-results
+         :processed-results tool-results
+         :turn turn-count}))
+
+(defn determine-conversation-outcome
+  "Determine if conversation should continue and why"
+  [ai-text tool-calls turn-count max-turns]
+  (cond
+    (>= turn-count max-turns)
+    {:continue? false :reason :max-turns-reached}
+
+    (agent-indicates-completion? ai-text)
+    {:continue? false :reason :task-complete}
+
+    (seq tool-calls)
+    {:continue? true :reason :tools-executing}
+
+    (and ai-text (re-find #"(?i)(next.*(step|action)|now.*(i.will|let.me)|continuing|proceeding)" ai-text))
+    {:continue? true :reason :agent-continuing}
+
+    :else
+    {:continue? false :reason :agent-finished}))
+
+(defn format-completion-result
+  "Format the final conversation result"
+  [history reason final-response]
+  {:history history
+   :reason reason
+   :final-response final-response})
+
+(defn execute-conversation-turn
+  "Execute a single conversation turn - handles request/response cycle"
+  [{:keys [model-id goal history turn-count tools-args]}]
+  (p/let [messages (build-agentic-messages history goal turn-count)
+          response (util/send-prompt-request!+
+                    {:model-id model-id
+                     :system-prompt agentic-system-prompt
+                     :messages messages
+                     :options tools-args})
+          result (util/collect-response-with-tools!+ response)]
+    (assoc result :turn turn-count)))
+
+(defn execute-tools-if-present!+
+  "Execute tool calls if present, return updated history"
+  [history tool-calls turn-count]
+  (if (seq tool-calls)
+    (do
+      (println "\n🔧 AI Agent executing" (count tool-calls) "tool(s)")
+      (p/let [tool-results (util/execute-tool-calls!+ tool-calls)]
+        (println "✅ Tools executed, processed results:" tool-results)
+        (add-tool-results history tool-results turn-count)))
+    history))
+
+(defn continue-conversation-loop
+  "Main conversation loop using extracted pure functions"
+  [{:keys [model-id goal max-turns progress-callback tools-args]} history turn-count last-response]
+  (progress-callback (str "Turn " turn-count "/" max-turns))
+
+  (if (>= turn-count max-turns)
+    (format-completion-result history :max-turns-reached last-response)
+
+    (p/let [;; Execute the conversation turn
+            turn-result (execute-conversation-turn
+                         {:model-id model-id
+                          :goal goal
+                          :history history
+                          :turn-count turn-count
+                          :tools-args tools-args})
+
+            ai-text (:text turn-result)
+            tool-calls (:tool-calls turn-result)
+
+            ;; Log AI's response
+            _ (when ai-text
+                (println "\n🤖 AI Agent says:")
+                (println ai-text))
+
+            ;; Add AI response to history
+            history-with-assistant (add-assistant-response history ai-text tool-calls turn-count)
+
+            ;; Execute tools and update history
+            final-history (execute-tools-if-present!+ history-with-assistant tool-calls turn-count)
+
+            ;; Determine what to do next
+            outcome (determine-conversation-outcome ai-text tool-calls turn-count max-turns)]
+
+      (if (:continue? outcome)
+        (do
+          (println "\n↻ AI Agent continuing to next step...")
+          (continue-conversation-loop
+           {:model-id model-id :goal goal :max-turns max-turns
+            :progress-callback progress-callback :tools-args tools-args}
+           final-history
+           (inc turn-count)
+           turn-result))
+        (do
+          (println "\n🎯 Agentic conversation ended:" (name (:reason outcome)))
+          (format-completion-result final-history (:reason outcome) turn-result))))))
+
 (defn agentic-conversation!+
   "Create an autonomous AI conversation that drives itself toward a goal"
   [{:keys [model-id goal max-turns progress-callback]
     :or {max-turns 10 progress-callback (fn [step] (println "Progress:" step))}}]
-
-  (p/let [tools-args (util/enable-joyride-tools)
-          conversation-history []]
-
-    (letfn [(continue-agentic-conversation [history turn-count last-response]
-              (progress-callback (str "Turn " turn-count "/" max-turns))
-
-              (if (>= turn-count max-turns)
-                {:history history :reason :max-turns-reached :final-response last-response}
-
-                (p/let [;; Build messages - include processed tool results in conversation
-                        messages (build-agentic-messages history goal turn-count)
-
-                        ;; Send request
-                        response (util/send-prompt-request!+
-                                  {:model-id model-id
-                                   :system-prompt agentic-system-prompt
-                                   :messages messages
-                                   :options tools-args})
-
-                        ;; Collect response
-                        result (util/collect-response-with-tools!+ response)
-                        ai-text (:text result)
-                        tool-calls (:tool-calls result)
-
-                        ;; Log AI's thinking
-                        _ (when ai-text
-                            (println "\n🤖 AI Agent says:")
-                            (println ai-text))
-
-                        ;; Add AI response to history
-                        updated-history (conj history
-                                              {:role :assistant
-                                               :content ai-text
-                                               :tool-calls tool-calls
-                                               :turn turn-count})
-
-                        ;; Execute tools if present and process results properly
-                        final-history (if (seq tool-calls)
-                                        (do
-                                          (println "\n🔧 AI Agent executing" (count tool-calls) "tool(s)")
-                                          (p/let [tool-results (util/execute-tool-calls!+ tool-calls)]
-                                            (println "✅ Tools executed, processed results:" tool-results)
-                                            (conj updated-history
-                                                  {:role :tool-results
-                                                   :results tool-results
-                                                   :processed-results tool-results
-                                                   :turn turn-count})))
-                                        updated-history)
-
-                        ;; Decide whether to continue
-                        should-continue? (should-continue-agentic? ai-text tool-calls turn-count max-turns)]
-
-                  (if should-continue?
-                    (do
-                      (println "\n↻ AI Agent continuing to next step...")
-                      (continue-agentic-conversation final-history (inc turn-count) result))
-                    (let [reason (cond
-                                   (>= turn-count max-turns) :max-turns-reached
-                                   (agent-indicates-completion? ai-text) :task-complete
-                                   :else :agent-finished)]
-                      (println "\n🎯 Agentic conversation ended:" (name reason))
-                      {:history final-history :reason reason :final-response result})))))]
-
-      ;; Start the agentic conversation
-      (println "🚀 Starting agentic conversation with goal:" goal)
-      (continue-agentic-conversation conversation-history 1 nil))))
+  (p/let [tools-args (util/enable-joyride-tools)]
+    ;; Start the conversation
+    (println "🚀 Starting agentic conversation with goal:" goal)
+    (continue-conversation-loop
+     {:model-id model-id
+      :goal goal
+      :max-turns max-turns
+      :progress-callback progress-callback
+      :tools-args tools-args}
+     [] ; empty initial history
+     1  ; start at turn 1
+     nil)))
 
 (defn autonomous-conversation!+
   "Start an autonomous AI conversation toward a goal with flexible configuration"
@@ -218,7 +276,7 @@ Be proactive, creative, and goal-oriented. Drive the conversation forward!")
 
   ;; Full control (matches old agentic-conversation!+ behavior - still available)
   (agentic-conversation!+
-   {:model-id "claude-sonnet-4"
+   {:model-id "gpt-4o-mini"
     :goal "Generate the fibonacci sequence without writing a function, but instead by starting with evaluating `[0 1]` and then each step read the result and evaluate `[second-number sum-of-first-and-second-number]`. In the last step evaluate just `second-number`."
     :max-turns 12
     :progress-callback (fn [step]
