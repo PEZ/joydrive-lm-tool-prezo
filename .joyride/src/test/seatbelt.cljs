@@ -10,7 +10,8 @@
 
 (defn- writeln [& xs]
   (apply write xs)
-  (js/process.stdout.write "\n"))
+  (js/process.stdout.write "\n")
+  (apply println (into xs "\n")))
 
 ;; Simple custom reporting that avoids recursion
 (defn handle-end-run-tests [_m]
@@ -34,18 +35,20 @@
             (write "."))
     :fail (do
             (swap! db/!state update :fail inc)
+            (swap! db/!state update :failures conj m)
             (write "F"))
     :error (do
              (swap! db/!state update :error inc)
+             (swap! db/!state update :errors conj m)
              (write "E"))
     :begin-test-ns (writeln (str "\nTesting " (:ns m)))
     :end-test-ns (writeln (str "Completed " (:test m) " tests"))
     :end-run-tests (do
-                     (handle-end-run-tests m)
                      (writeln (str "\nResults: " (:pass @db/!state) " passed, "
                                    (:fail @db/!state) " failed, "
-                                   (:error @db/!state) " errors")))
-    :summary nil ;; Skip default summary to avoid duplication
+                                   (:error @db/!state) " errors"))
+                     (handle-end-run-tests m))
+    :summary nil
     nil))
 
 ;; Install the custom report function
@@ -69,7 +72,7 @@
 
 (defn- run-nss-syms! [nss-syms]
   (-> (p/do
-        (println "Running tests in" nss-syms)
+        (writeln "Running tests in" nss-syms)
         (apply require nss-syms)
         (apply cljs.test/run-tests nss-syms)
         (:running @db/!state))
@@ -81,7 +84,13 @@
     (swap! db/!state assoc :running running)
     (p/let [nss-syms (find-test-nss+ src-path)
             p (run-nss-syms! nss-syms)]
-      (println "Runner: tests run, results:" (select-keys  @db/!state [:pass :fail :error]))
+      (doseq [failure (:failures @db/!state)]
+        (writeln "---")
+        (writeln failure))
+      (doseq [error (:errors @db/!state)]
+        (writeln "---")
+        (writeln error))
+      (writeln)
       (swap! db/!state merge db/default-db)
       p)
     running))
