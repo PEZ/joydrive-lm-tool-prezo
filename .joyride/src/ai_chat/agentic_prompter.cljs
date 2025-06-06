@@ -206,36 +206,30 @@ Be proactive, creative, and goal-oriented. Drive the conversation forward!")
    (autonomous-conversation!+ goal
                               {:model-id "gpt-4o-mini"
                                :max-turns 6
-                               :show-progress? true}))
+                               :progress-callback #(println % "\n")}))
 
-  ([goal {:keys [model-id max-turns show-progress?]
+  ([goal {:keys [model-id max-turns progress-callback]
           :or {model-id "gpt-4o-mini"
-               max-turns 8
-               show-progress? false}}]
+               max-turns 8}}]
 
-   (letfn [(show-progress [message]
-             (println message)
-             (when show-progress?
-               (vscode/window.showInformationMessage message)))]
+   (p/let [result (agentic-conversation!+
+                   {:model-id model-id
+                    :goal goal
+                    :max-turns max-turns
+                    :progress-callback progress-callback})]
 
-     (p/let [result (agentic-conversation!+
-                     {:model-id model-id
-                      :goal goal
-                      :max-turns max-turns
-                      :progress-callback show-progress})]
+     ;; Show final summary with proper turn counting
+     (let [actual-turns (count (filter #(= (:role %) :assistant) (:history result)))
+           summary (str "🎯 Agentic task "
+                        (case (:reason result)
+                          :task-complete "COMPLETED successfully!"
+                          :max-turns-reached "reached max turns"
+                          :agent-finished "finished"
+                          "ended unexpectedly")
+                        " (" actual-turns " turns, " (count (:history result)) " conversation steps)")]
+       (progress-callback summary))
 
-       ;; Show final summary with proper turn counting
-       (let [actual-turns (count (filter #(= (:role %) :assistant) (:history result)))
-             summary (str "🎯 Agentic task "
-                          (case (:reason result)
-                            :task-complete "COMPLETED successfully!"
-                            :max-turns-reached "reached max turns"
-                            :agent-finished "finished"
-                            "ended unexpectedly")
-                          " (" actual-turns " turns, " (count (:history result)) " conversation steps)")]
-         (show-progress summary))
-
-       result))))
+     result)))
 
 (comment
   ;; Simple usage
@@ -246,12 +240,14 @@ Be proactive, creative, and goal-oriented. Drive the conversation forward!")
   (autonomous-conversation!+ "Analyze this project structure and create documentation"
                              {:model-id "claude-sonnet-4"
                               :max-turns 10
-                              :show-progress? true})
+                              :progress-callback #(println % "\n")})
 
-  (autonomous-conversation!+ "Analyze the `ai-chat.agentic-prompter` namespace and its dependencies and create documentation in `docs/agent-dispatch/`."
+  (autonomous-conversation!+ "Analyze the `ai-chat.agentic-prompter` namespace and its dependencies and tests. Then create documentation in `docs/agent-dispatch/`."
                              {:model-id "claude-sonnet-4"
                               :max-turns 15
-                              :show-progress? true})
+                              :progress-callback (fn [step]
+                                                   (println "🔄" step)
+                                                   (vscode/window.showInformationMessage step))})
 
   (autonomous-conversation!+ "Generate the eight first numbers in the fibonacci sequence without writing a function, but instead by starting with evaluating `[0 1]` and then each step read the result and evaluate `[second-number sum-of-first-and-second-number]`. In the last step evaluate just `second-number`."
                              {:model-id "gpt-4o-mini"
