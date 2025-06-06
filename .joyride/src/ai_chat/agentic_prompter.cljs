@@ -94,14 +94,14 @@ Be proactive, creative, and goal-oriented. Drive the conversation forward!")
     (>= turn-count max-turns)
     {:continue? false :reason :max-turns-reached}
 
-    (agent-indicates-completion? ai-text)
-    {:continue? false :reason :task-complete}
-
     (seq tool-calls)
     {:continue? true :reason :tools-executing}
 
     (and ai-text (re-find #"(?i)(next.*(step|action)|i'll|i.will|let.me|continu|proceed)" ai-text))
     {:continue? true :reason :agent-continuing}
+
+    (agent-indicates-completion? ai-text)
+    {:continue? false :reason :task-complete}
 
     :else
     {:continue? false :reason :agent-finished}))

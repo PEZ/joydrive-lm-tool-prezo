@@ -115,7 +115,7 @@
 
       (let [ai-text (first remaining-responses)
             next-turn (inc turn)
-            outcome (agentic/determine-conversation-outcome ai-text [] next-turn max-turns)
+            outcome (agentic/determine-conversation-outcome ai-text [] turn max-turns)
 
             turn-record {:turn turn
                          :ai-text ai-text
