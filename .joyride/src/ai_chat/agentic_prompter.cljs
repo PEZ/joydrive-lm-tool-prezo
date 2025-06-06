@@ -161,63 +161,62 @@ Be proactive, creative, and goal-oriented. Drive the conversation forward!")
       (println "🚀 Starting agentic conversation with goal:" goal)
       (continue-agentic-conversation conversation-history 1 nil))))
 
-(defn advanced-agentic-conversation!+
-  "Advanced agentic AI that can drive complex multi-step tasks"
-  [{:keys [model-id goal max-turns show-in-ui?]
-    :or {max-turns 8 show-in-ui? false}}]
+(defn autonomous-conversation!+
+  "Start an autonomous AI conversation toward a goal with flexible configuration"
+  ([goal]
+   (autonomous-conversation!+ goal
+                              {:model-id "gpt-4o-mini"
+                               :max-turns 6
+                               :show-progress? true}))
 
-  (letfn [(show-progress [message]
-            (println message)
-            (when show-in-ui?
-              (vscode/window.showInformationMessage message)))]
+  ([goal {:keys [model-id max-turns show-progress?]
+          :or {model-id "gpt-4o-mini"
+               max-turns 8
+               show-progress? false}}]
 
-    (p/let [result (agentic-conversation!+
-                    {:model-id model-id
-                     :goal goal
-                     :max-turns max-turns
-                     :progress-callback show-progress})]
+   (letfn [(show-progress [message]
+             (println message)
+             (when show-progress?
+               (vscode/window.showInformationMessage message)))]
 
-      ;; Show final summary with proper turn counting
-      (let [;; Count actual turns by counting assistant messages
-            actual-turns (count (filter #(= (:role %) :assistant) (:history result)))
-            summary (str "🎯 Agentic task "
-                         (case (:reason result)
-                           :task-complete "COMPLETED successfully!"
-                           :max-turns-reached "reached max turns"
-                           :agent-finished "finished"
-                           "ended unexpectedly")
-                         " (" actual-turns " turns, " (count (:history result)) " conversation steps)")]
-        (show-progress summary))
+     (p/let [result (agentic-conversation!+
+                     {:model-id model-id
+                      :goal goal
+                      :max-turns max-turns
+                      :progress-callback show-progress})]
 
-      result)))
+       ;; Show final summary with proper turn counting
+       (let [actual-turns (count (filter #(= (:role %) :assistant) (:history result)))
+             summary (str "🎯 Agentic task "
+                          (case (:reason result)
+                            :task-complete "COMPLETED successfully!"
+                            :max-turns-reached "reached max turns"
+                            :agent-finished "finished"
+                            "ended unexpectedly")
+                          " (" actual-turns " turns, " (count (:history result)) " conversation steps)")]
+         (show-progress summary))
 
-(defn start-agentic-agent!+
-  "Start an autonomous AI agent with a goal - simple API"
-  [goal]
-  (advanced-agentic-conversation!+
-   {:model-id "gpt-4o-mini"  ; Fast model for experimentation
-    :goal goal
-    :max-turns 6
-    :show-in-ui? true}))
+       result))))
 
 (comment
   ;; Simple usage
-  (start-agentic-agent!+ "Count all .cljs files and show the result")
-  (start-agentic-agent!+ "Show an information message that says 'Hello from the adaptive AI agent!' using VS Code APIs")
+  (autonomous-conversation!+ "Count all .cljs files and show the result")
+  (autonomous-conversation!+ "Show an information message that says 'Hello from the adaptive AI agent!' using VS Code APIs")
+
   ;; Advanced usage
-  (advanced-agentic-conversation!+
+  (autonomous-conversation!+
    {:model-id "claude-sonnet-4"
     :goal "Analyze this project structure and create documentation"
     :max-turns 10
-    :show-in-ui? true})
+    :show-progress? true})
 
-  (advanced-agentic-conversation!+
+  (autonomous-conversation!+
    {:model-id "claude-sonnet-4"
     :goal "Analyze the `ai-chat.agentic-prompter` namespace and its dependencies and create documentation in `docs/agent-dispatch/`."
     :max-turns 12
-    :show-in-ui? true})
+    :show-progress? true})
 
-  ;; Full control
+  ;; Full control (matches old agentic-conversation!+ behavior - still available)
   (agentic-conversation!+
    {:model-id "claude-sonnet-4"
     :goal "Generate the fibonacci sequence without writing a function, but instead by starting with evaluating `[0 1]` and then each step read the result and evaluate `[second-number sum-of-first-and-second-number]`. In the last step evaluate just `second-number`."
