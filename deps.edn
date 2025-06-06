@@ -1,1 +1,1 @@
-{}
+{:paths [".joyride/src" ".joyride/test"]}
