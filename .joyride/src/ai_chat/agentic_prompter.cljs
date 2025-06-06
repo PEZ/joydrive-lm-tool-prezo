@@ -211,6 +211,12 @@ Be proactive, creative, and goal-oriented. Drive the conversation forward!")
     :max-turns 10
     :show-in-ui? true})
 
+  (advanced-agentic-conversation!+
+   {:model-id "claude-sonnet-4"
+    :goal "Analyze the `ai-chat.agentic-prompter` namespace and its dependencies and create documentation in `docs/agent-dispatch/`."
+    :max-turns 12
+    :show-in-ui? true})
+
   ;; Full control
   (agentic-conversation!+
    {:model-id "claude-sonnet-4"
