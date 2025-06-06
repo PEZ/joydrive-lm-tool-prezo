@@ -66,8 +66,11 @@ Be proactive, creative, and goal-oriented. Drive the conversation forward!")
   "Check if AI agent indicates the task is complete"
   [ai-text]
   (when ai-text
-    (boolean
-     (re-find #"(?i)(task.*(?!\bnot\b).*(complete|done|finished)|goal.*(?!\bnot\b).*(achieved|reached|accomplished)|mission.*(?!\bnot\b).*(complete|success)|successfully (completed|finished))" ai-text))))
+    (re-find #"(?i)(task.*(?!\bnot\b).*(complete|done|finished)|goal.*(?!\bnot\b).*(achieved|reached|accomplished)|mission.*(?!\bnot\b).*(complete|success)|successfully (completed|finished))" ai-text)))
+
+(defn- agent-indicates-continuation? [ai-text]
+  (when ai-text
+    (re-find #"(?i)(next.*(step|action)|i'll|i.will|let.me|continu|proceed)" ai-text)))
 
 (defn add-assistant-response
   "Add AI assistant response to conversation history"
@@ -97,7 +100,7 @@ Be proactive, creative, and goal-oriented. Drive the conversation forward!")
     (seq tool-calls)
     {:continue? true :reason :tools-executing}
 
-    (and ai-text (re-find #"(?i)(next.*(step|action)|i'll|i.will|let.me|continu|proceed)" ai-text))
+    (and ai-text (agent-indicates-continuation? ai-text))
     {:continue? true :reason :agent-continuing}
 
     (agent-indicates-completion? ai-text)
