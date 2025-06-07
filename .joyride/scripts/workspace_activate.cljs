@@ -1,6 +1,7 @@
 (ns workspace-activate
   (:require
    ["vscode" :as vscode]
+   ai-chat.human-intelligence
    [ai-mood-selector]
    [ai-presenter.audio-playback :as audio-playback]
    ai-presenter.audio-generation
