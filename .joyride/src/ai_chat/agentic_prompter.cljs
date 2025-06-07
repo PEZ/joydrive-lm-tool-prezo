@@ -119,14 +119,19 @@ Be proactive, creative, and goal-oriented. Drive the conversation forward!")
 (defn execute-conversation-turn
   "Execute a single conversation turn - handles request/response cycle"
   [{:keys [model-id goal history turn-count tools-args]}]
-  (p/let [messages (build-agentic-messages history goal turn-count)
-          response (util/send-prompt-request!+
-                    {:model-id model-id
-                     :system-prompt agentic-system-prompt
-                     :messages messages
-                     :options tools-args})
-          result (util/collect-response-with-tools!+ response)]
-    (assoc result :turn turn-count)))
+  (p/catch
+    (p/let [messages (build-agentic-messages history goal turn-count)
+            response (util/send-prompt-request!+
+                      {:model-id model-id
+                       :system-prompt agentic-system-prompt
+                       :messages messages
+                       :options tools-args})
+            result (util/collect-response-with-tools!+ response)]
+      (assoc result :turn turn-count))
+    (fn [error]
+      {:error true
+       :message (.-message error)
+       :turn turn-count})))
 
 (defn execute-tools-if-present!+
   "Execute tool calls if present, return updated history"
@@ -154,6 +159,10 @@ Be proactive, creative, and goal-oriented. Drive the conversation forward!")
                           :history history
                           :turn-count turn-count
                           :tools-args tools-args})
+
+            ;; Check for errors first
+            _ (when (:error turn-result)
+                (throw (js/Error. (:message turn-result))))
 
             ai-text (:text turn-result)
             tool-calls (:tool-calls turn-result)
@@ -191,17 +200,25 @@ Be proactive, creative, and goal-oriented. Drive the conversation forward!")
     :or {max-turns 10
          progress-callback (fn [step]
                              (println "Progress:" step))}}]
-  (p/let [tools-args (util/enable-joyride-tools)]
-    (println "🚀 Starting agentic conversation with goal:" goal)
-    (continue-conversation-loop
-     {:model-id model-id
-      :goal goal
-      :max-turns max-turns
-      :progress-callback progress-callback
-      :tools-args tools-args}
-     [] ; empty initial history
-     1  ; start at turn 1
-     nil)))
+  (p/catch
+   (p/let [;; Validate model first
+           _ (util/get-model-by-id!+ model-id)
+           tools-args (util/enable-joyride-tools)]
+     (println "🚀 Starting agentic conversation with goal:" goal)
+     (continue-conversation-loop
+      {:model-id model-id
+       :goal goal
+       :max-turns max-turns
+       :progress-callback progress-callback
+       :tools-args tools-args}
+      [] ; empty initial history
+      1  ; start at turn 1
+      nil))
+   (fn [error]
+     {:history []
+      :reason :model-error
+      :error-message (.-message error)
+      :final-response nil})))
 
 (defn autonomous-conversation!+
   "Start an autonomous AI conversation toward a goal with flexible configuration"
@@ -221,18 +238,22 @@ Be proactive, creative, and goal-oriented. Drive the conversation forward!")
                     :max-turns max-turns
                     :progress-callback progress-callback})]
 
-     ;; Show final summary with proper turn counting
-     (let [actual-turns (count (filter #(= (:role %) :assistant) (:history result)))
-           summary (str "🎯 Agentic task "
-                        (case (:reason result)
-                          :task-complete "COMPLETED successfully!"
-                          :max-turns-reached "reached max turns"
-                          :agent-finished "finished"
-                          "ended unexpectedly")
-                        " (" actual-turns " turns, " (count (:history result)) " conversation steps)")]
-       (progress-callback summary))
-
-     result)))
+     ;; Check for model error first
+     (if (= (:reason result) :model-error)
+       (do
+         (progress-callback (str "❌ Model error: " (:error-message result)))
+         result)
+       ;; Show final summary with proper turn counting
+       (let [actual-turns (count (filter #(= (:role %) :assistant) (:history result)))
+             summary (str "🎯 Agentic task "
+                          (case (:reason result)
+                            :task-complete "COMPLETED successfully!"
+                            :max-turns-reached "reached max turns"
+                            :agent-finished "finished"
+                            "ended unexpectedly")
+                          " (" actual-turns " turns, " (count (:history result)) " conversation steps)")]
+         (progress-callback summary)
+         result)))))
 
 (comment
   ;; Simple usage
@@ -253,7 +274,7 @@ Be proactive, creative, and goal-oriented. Drive the conversation forward!")
                                                    (vscode/window.showInformationMessage step))})
 
   (autonomous-conversation!+ "Generate the eight first numbers in the fibonacci sequence without writing a function, but instead by starting with evaluating `[0 1]` and then each step read the result and evaluate `[second-number sum-of-first-and-second-number]`. In the last step evaluate just `second-number`."
-                             {:model-id "gpt-4o-mini"
+                             {:model-id "claude-opus-4"
                               :max-turns 12
                               :progress-callback (fn [step]
                                                    (println "🔄" step)
