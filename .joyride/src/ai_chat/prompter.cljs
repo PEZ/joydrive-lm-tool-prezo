@@ -46,23 +46,6 @@
     (prompt-with-tool-execution!+ {:model-id model-id
                                    :messages messages})))
 
-(defn pick-model!+ []
-  (p/let [models-map (util/get-available-models+)
-          items (map (fn [[id model-info]]
-                       #js {:label (str (:name model-info) " (" id ")")
-                            :description (str "Max tokens: " (:max-input-tokens model-info))
-                            :id id})
-                     models-map)
-          selected-item (vscode/window.showQuickPick
-                         (clj->js items)
-                         #js {:placeHolder "Select a language model"
-                              :canPickMany false})]
-    (if selected-item
-      (let [model-id (.-id selected-item)]
-        (println "Selected model:" model-id)
-        model-id)
-      (throw (js/Error. "No model selected")))))
-
 ;; Convenience functions for tool use control
 (defn disable-tools-options
   "Options to disable tool use - for when we want pure Joyride solutions"
@@ -70,13 +53,5 @@
   {:tools []})
 
 (comment
-  (-> (pick-model!+)
-      (.then (fn [model-id]
-               (ask-with-system!+ "some instructions" "hello, greet the audience, please =) " model-id)))
-      (.then (fn [response]
-               (def response response)
-               (println "Model response:" response)
-               (vscode/showInformationMessage
-                (str "🤖 " response))
-               response)))
+
   :rcf)

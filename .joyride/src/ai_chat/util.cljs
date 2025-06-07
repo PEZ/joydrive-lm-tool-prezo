@@ -122,3 +122,21 @@
           js-messages (into-array message-chain)
           response (.sendRequest model js-messages (clj->js options))]
     response))
+
+(defn get-all-tools
+  "Get all available tools with their properties"
+  []
+  (when vscode/lm.tools
+    (mapv (fn [tool]
+            {:id (.-name tool)
+             :label (.-name tool)
+             :description (.-description tool)})
+          vscode/lm.tools)))
+
+#_(defn format-tool-id-as-label
+  [id]
+  "Format a tool ID into a more readable label"
+  (-> id
+      (clojure.string/replace "_" " ")
+      (clojure.string/replace #"copilot_" "")
+      (clojure.string/replace #"mcp_brave_brave_" "brave ")))
