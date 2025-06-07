@@ -196,14 +196,15 @@ Be proactive, creative, and goal-oriented. Drive the conversation forward!")
 
 (defn agentic-conversation!+
   "Create an autonomous AI conversation that drives itself toward a goal"
-  [{:keys [model-id goal max-turns progress-callback]
+  [{:keys [model-id goal tool-ids max-turns progress-callback]
     :or {max-turns 10
          progress-callback (fn [step]
                              (println "Progress:" step))}}]
+  (def tool-ids tool-ids)
   (p/catch
    (p/let [;; Validate model first
            _ (util/get-model-by-id!+ model-id)
-           tools-args (util/enable-joyride-tools)]
+           tools-args (util/enable-specific-tools tool-ids)]
      (println "🚀 Starting agentic conversation with goal:" goal)
      (continue-conversation-loop
       {:model-id model-id
@@ -224,18 +225,19 @@ Be proactive, creative, and goal-oriented. Drive the conversation forward!")
   "Start an autonomous AI conversation toward a goal with flexible configuration"
   ([goal]
    (autonomous-conversation!+ goal
-                              {:model-id "gpt-4o-mini"
-                               :max-turns 6
-                               :progress-callback #(println % "\n")}))
+                              {}))
 
-  ([goal {:keys [model-id max-turns progress-callback]
+  ([goal {:keys [model-id max-turns tool-ids progress-callback]
           :or {model-id "gpt-4o-mini"
-               max-turns 8}}]
+               tool-ids []
+               max-turns 6
+               progress-callback #(println % "\n")}}]
 
    (p/let [result (agentic-conversation!+
                    {:model-id model-id
                     :goal goal
                     :max-turns max-turns
+                    :tool-ids tool-ids
                     :progress-callback progress-callback})]
 
      ;; Check for model error first
@@ -256,27 +258,54 @@ Be proactive, creative, and goal-oriented. Drive the conversation forward!")
          result)))))
 
 (comment
-  ;; Simple usage
-  (autonomous-conversation!+ "Count all .cljs files and show the result")
-  (autonomous-conversation!+ "Show an information message that says 'Hello from the adaptive AI agent!' using VS Code APIs")
+  (p/let [use-tool-ids (ai-chat.ui/tools-picker+ ["joyride_evaluate_code"
+                                                  "copilot_searchCodebase"
+                                                  "copilot_searchWorkspaceSymbols"
+                                                  "copilot_listCodeUsages"
+                                                  "copilot_getVSCodeAPI"
+                                                  "copilot_findFiles"
+                                                  "copilot_findTextInFiles"
+                                                  "copilot_readFile"
+                                                  "copilot_listDirectory"
+                                                  "copilot_insertEdit"
+                                                  "copilot_createFile"])]
+    (def use-tool-ids (set use-tool-ids))
+    (println (pr-str use-tool-ids) "\n"))
 
-  ;; Advanced usage
-  (autonomous-conversation!+ "Analyze this project structure and create documentation"
+  (autonomous-conversation!+ "Count all .cljs files and show the result"
+                             {:tool-ids use-tool-ids})
+  (autonomous-conversation!+ "Show an information message that says 'Hello from the adaptive AI agent!' using VS Code APIs"
+                             {:tool-ids ["joyride_evaluate_code"
+                                         "copilot_getVSCodeAPI"]})
+
+  (autonomous-conversation!+ "Analyze this project structure and create documentation. Use the repl to verify assumptions."
                              {:model-id "claude-sonnet-4"
                               :max-turns 10
-                              :progress-callback #(println % "\n")})
+                              :progress-callback #(println % "\n")
+                              :tool-ids use-tool-ids})
 
-  (autonomous-conversation!+ "Analyze the `ai-chat.agentic-prompter` namespace and its dependencies and tests. Then create documentation in `docs/agent-dispatch/`."
+  (autonomous-conversation!+ "Analyze the `ai-chat.agentic-prompter` namespace and its dependencies and tests. Then create documentation in `docs/agent-dispatch/agentic-prompter.md`. Use the repl to verify assumptions."
                              {:model-id "claude-sonnet-4"
                               :max-turns 15
                               :progress-callback (fn [step]
                                                    (println "🔄" step)
-                                                   (vscode/window.showInformationMessage step))})
+                                                   (vscode/window.showInformationMessage step))
+                              :tool-ids use-tool-ids})
 
   (autonomous-conversation!+ "Generate the eight first numbers in the fibonacci sequence without writing a function, but instead by starting with evaluating `[0 1]` and then each step read the result and evaluate `[second-number sum-of-first-and-second-number]`. In the last step evaluate just `second-number`."
+                             {:model-id "claude-sonnet-4"
+                              :max-turns 12
+                              :progress-callback (fn [step]
+                                                   (println "🔄" step)
+                                                   (vscode/window.showInformationMessage step))
+                              :tool-ids ["joyride_evaluate_code"]})
+
+  (autonomous-conversation!+ "print a greeting using the joyride repl. For tool calls use this syntax: \n\n<Tool>\n<tool_name>...</tool_name>\n<parameters>\n<some-param>...</some-param>\n<some-other-param>...</some-other-param>\n</parameters>\n</Tool>\n\nThe results from the tool call will be provided to you as part of the next step."
                              {:model-id "claude-opus-4"
                               :max-turns 12
                               :progress-callback (fn [step]
                                                    (println "🔄" step)
-                                                   (vscode/window.showInformationMessage step))})
+                                                   (vscode/window.showInformationMessage step))
+                              :tool-ids ["joyride_evaluate_code"
+                                         "copilot_getVSCodeAPI"]})
   :rcf)
