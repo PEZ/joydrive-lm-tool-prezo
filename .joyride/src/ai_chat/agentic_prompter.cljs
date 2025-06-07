@@ -120,18 +120,17 @@ Be proactive, creative, and goal-oriented. Drive the conversation forward!")
   "Execute a single conversation turn - handles request/response cycle"
   [{:keys [model-id goal history turn-count tools-args]}]
   (p/catch
-    (p/let [messages (build-agentic-messages history goal turn-count)
-            response (util/send-prompt-request!+
-                      {:model-id model-id
-                       :system-prompt agentic-system-prompt
-                       :messages messages
-                       :options tools-args})
-            result (util/collect-response-with-tools!+ response)]
-      (assoc result :turn turn-count))
-    (fn [error]
-      {:error true
-       :message (.-message error)
-       :turn turn-count})))
+   (p/let [messages (build-agentic-messages history goal turn-count)
+           response (util/send-prompt-request!+
+                     {:model-id model-id
+                      :system-prompt agentic-system-prompt
+                      :messages messages
+                      :options tools-args})
+           result (util/collect-response-with-tools!+ response)]
+     (assoc result :turn turn-count))
+   (fn [error]
+     {:message (.-message error)
+      :turn turn-count})))
 
 (defn execute-tools-if-present!+
   "Execute tool calls if present, return updated history"
@@ -200,26 +199,25 @@ Be proactive, creative, and goal-oriented. Drive the conversation forward!")
     :or {max-turns 10
          progress-callback (fn [step]
                              (println "Progress:" step))}}]
-  (def tool-ids tool-ids)
-  (p/catch
-   (p/let [;; Validate model first
-           _ (util/get-model-by-id!+ model-id)
-           tools-args (util/enable-specific-tools tool-ids)]
-     (println "🚀 Starting agentic conversation with goal:" goal)
-     (continue-conversation-loop
-      {:model-id model-id
-       :goal goal
-       :max-turns max-turns
-       :progress-callback progress-callback
-       :tools-args tools-args}
-      [] ; empty initial history
-      1  ; start at turn 1
-      nil))
-   (fn [error]
-     {:history []
-      :reason :model-error
-      :error-message (.-message error)
-      :final-response nil})))
+  (p/let [tools-args (util/enable-specific-tools tool-ids)
+          model-info (util/get-model-by-id!+ model-id)]
+    (if-not model-info
+      {:history []
+       :error? true
+       :reason :model-not-found-error
+       :error-message (str "Model not found: " model-id)
+       :final-response nil}
+      (do
+        (println "🚀 Starting agentic conversation with goal:" goal)
+        (continue-conversation-loop
+         {:model-id model-id
+          :goal goal
+          :max-turns max-turns
+          :progress-callback progress-callback
+          :tools-args tools-args}
+         [] ; empty initial history
+         1  ; start at turn 1
+         nil)))))
 
 (defn autonomous-conversation!+
   "Start an autonomous AI conversation toward a goal with flexible configuration"
@@ -239,9 +237,8 @@ Be proactive, creative, and goal-oriented. Drive the conversation forward!")
                     :max-turns max-turns
                     :tool-ids tool-ids
                     :progress-callback progress-callback})]
-
      ;; Check for model error first
-     (if (= (:reason result) :model-error)
+     (if (:error? result)
        (do
          (progress-callback (str "❌ Model error: " (:error-message result)))
          result)
@@ -284,13 +281,13 @@ Be proactive, creative, and goal-oriented. Drive the conversation forward!")
                               :progress-callback #(println % "\n")
                               :tool-ids use-tool-ids})
 
-  (autonomous-conversation!+ "Analyze the `ai-chat.agentic-prompter` namespace and its dependencies and tests. Then create documentation in `docs/agent-dispatch/agentic-prompter.md`. Use the repl to verify assumptions."
-                             {:model-id "claude-sonnet-4"
+  (autonomous-conversation!+ "Analyze the `ai-chat.agentic-prompter` namespace and its dependencies and tests. Then create documentation in `docs/agent-dispatch/agentic-prompter.md`. Use the repl to verify assumptions. Try clojure.java.io APIs"
+                             {:model-id "shjclaude-sonnet-4"
                               :max-turns 15
                               :progress-callback (fn [step]
                                                    (println "🔄" step)
                                                    (vscode/window.showInformationMessage step))
-                              :tool-ids use-tool-ids})
+                              :tool-ids ["joyride_evaluate_code"]})
 
   (autonomous-conversation!+ "Generate the eight first numbers in the fibonacci sequence without writing a function, but instead by starting with evaluating `[0 1]` and then each step read the result and evaluate `[second-number sum-of-first-and-second-number]`. In the last step evaluate just `second-number`."
                              {:model-id "claude-sonnet-4"

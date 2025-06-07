@@ -31,23 +31,33 @@
   (p/let [models (vscode/lm.selectChatModels #js {:vendor "copilot"})]
     (->> models
          (map (fn [model]
-                {:id (.-id model)
-                 :name (.-name model)
-                 :vendor (.-vendor model)
-                 :family (.-family model)
-                 :version (.-version model)
-                 :max-input-tokens (.-maxInputTokens model)
-                 :model-obj model}))
+                (let [tooled-model (if (= "claude-opus-4" (.-id model))
+                                     (-> model
+                                         js->clj
+                                         (merge {:capabilities
+                                                 {:supportsImageToText
+                                                  true,
+                                                  :supportsToolCalling
+                                                  true}})
+                                         clj->js)
+                                     model)]
+                  {:id (.-id tooled-model)
+                   :name (.-name tooled-model)
+                   :vendor (.-vendor tooled-model)
+                   :family (.-family tooled-model)
+                   :version (.-version tooled-model)
+                   :max-input-tokens (.-maxInputTokens tooled-model)
+                   :model-obj tooled-model})))
          (map (juxt :id identity))
          (into {}))))
+
 
 (defn get-model-by-id!+
   "Get a specific model by ID, with error handling."
   [model-id]
   (p/let [models-map (get-available-models+)]
-    (if-let [model-info (get models-map model-id)]
-      (:model-obj model-info)
-      (throw (js/Error. (str "❌ Model not found: " model-id))))))
+    (when-let [model-info (get models-map model-id)]
+      (:model-obj model-info))))
 
 (defn execute-tool-calls!+
   "Execute tool calls using the official VS Code Language Model API"
