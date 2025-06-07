@@ -12,19 +12,6 @@
                    :assistant "assistant")]
     #js {:role role-str :content content}))
 
-(defn enable-specific-tools
-  "Enable only specific tools by name"
-  [tool-names]
-  (let [available-tools vscode/lm.tools
-        filtered-tools (filter #(contains? (set tool-names) (.-name %)) available-tools)]
-    {:tools (into-array filtered-tools)
-     :toolMode vscode/LanguageModelChatToolMode.Auto}))
-
-(defn enable-joyride-tools
-  "Get only the Joyride evaluation tool"
-  []
-  (enable-specific-tools ["joyride_evaluate_code"]))
-
 (defn get-available-models+
   "Get all available Copilot models as a map with model info."
   []
@@ -185,12 +172,34 @@
           response (.sendRequest model js-messages (clj->js options))]
     response))
 
-(defn get-all-tools
-  "Get all available tools with their properties"
+(defn filter-available-tools
+  "Filter out tools that are not reliably available for direct invocation.
+   Uses selective filtering to keep read-only vscode_editing tools while removing write tools."
+  [tools]
+  (let [unsafe-tool-names #{"copilot_createFile" "copilot_insertEdit" "copilot_createDirectory"
+                            "copilot_editNotebook" "copilot_runInTerminal" "copilot_installExtension"
+                            "copilot_runVscodeCommand" "copilot_createNewWorkspace" "copilot_createAndRunTask"
+                            "copilot_createNewJupyterNotebook"}]
+    (->> tools
+         (remove (fn [tool]
+                   (contains? unsafe-tool-names (.-name tool)))))))
+
+(defn get-available-tools
+  "Get tools that are available for the agentic system to use.
+   Filters out problematic write tools while keeping useful read-only tools."
   []
-  (when vscode/lm.tools
-    (mapv (fn [tool]
-            {:id (.-name tool)
-             :label (.-name tool)
-             :description (.-description tool)})
-          vscode/lm.tools)))
+  (->> vscode/lm.tools
+       filter-available-tools))
+
+(defn enable-specific-tools
+  "Enable only specific tools by name"
+  [tool-names]
+  (let [available-tools (get-available-tools)
+        filtered-tools (filter #(contains? (set tool-names) (.-name %)) available-tools)]
+    {:tools (into-array filtered-tools)
+     :toolMode vscode/LanguageModelChatToolMode.Auto}))
+
+(defn enable-joyride-tools
+  "Get only the Joyride evaluation tool"
+  []
+  (enable-specific-tools ["joyride_evaluate_code"]))

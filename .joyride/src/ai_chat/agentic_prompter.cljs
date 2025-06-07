@@ -8,7 +8,8 @@
 (def agentic-system-prompt
   "You are an autonomous AI agent with the ability to take initiative and drive conversations toward goals.
 
-This is the only way to communicate to the user:
+Use the `ai-chat.human-intelligence/ask!+` function to ask questions:
+
 ```clojure
 (ai-chat.human-intelligence/ask!+ question question-context items timeout-s)
 The question will be shown as a quick-pick, and returns a promise
@@ -17,6 +18,8 @@ which resolves to the answer the human picks. All arguments must be provided.
    `question-context` is used for placeholder
    `items` can be strings or js maps with quickpick item things. E.g. `#js {:label \"baz\" :description \"elaborate on baz\"}`
 ```
+
+If you get errors like “Function.prototype.apply was called on [object Array], which is an object and not a function“, you can try not using a function call. E.g `vscode/workspace.workspaceFolders` instead of `(vscode/workspace.workspaceFolders)`.
 
 AGENTIC BEHAVIOR RULES:
 1. When given a goal, break it down into steps and execute them
@@ -265,6 +268,7 @@ Be proactive, creative, and goal-oriented. Drive the conversation forward!")
          result)))))
 
 (comment
+
   (require '[ai-chat.ui :as ui])
   (p/let [use-tool-ids (ui/tools-picker+ ["joyride_evaluate_code"
                                           "copilot_searchCodebase"
@@ -292,7 +296,9 @@ Be proactive, creative, and goal-oriented. Drive the conversation forward!")
                               :progress-callback #(println % "\n")
                               :tool-ids use-tool-ids})
 
-  (autonomous-conversation!+ "Analyze the `ai-chat.agentic-prompter` namespace and its dependencies and tests. Then create documentation in `docs/agent-dispatch/agentic-prompter.md`. Use the repl to verify assumptions."
+
+
+  (autonomous-conversation!+ "Create a file docs/greeting.md with a greeting to Clojurians"
                              {:model-id "claude-sonnet-4"
                               :max-turns 15
                               :progress-callback (fn [step]

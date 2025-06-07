@@ -39,15 +39,17 @@
   "Display a picker with all available tools and return a vector of selected tool IDs.
    The preselected-ids parameter is a collection of tool IDs to preselect."
   [preselected-ids]
-  (let [all-tools (util/get-all-tools)
+  (let [all-tools (js->clj (util/get-available-tools)
+                           :keywordize-keys true)
         preselected-set (set preselected-ids)
-        items (mapv (fn [{:keys [id label description]}]
-                      #js {:label label
+        items (mapv (fn [{tool-name :name
+                          :keys [description]}]
+                      #js {:label tool-name
                            :description (-> description
                                             (string/split #"\n")
                                             first)
-                           :picked (contains? preselected-set id)
-                           :id id})
+                           :picked (contains? preselected-set tool-name)
+                           :id tool-name})
                     all-tools)]
     (p/let [selected (.showQuickPick vscode/window
                                      (into-array items)
