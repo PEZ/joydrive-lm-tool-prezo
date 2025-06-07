@@ -51,7 +51,6 @@
          (map (juxt :id identity))
          (into {}))))
 
-
 (defn get-model-by-id!+
   "Get a specific model by ID, with error handling."
   [model-id]
@@ -59,38 +58,86 @@
     (when-let [model-info (get models-map model-id)]
       (:model-obj model-info))))
 
+(defn extract-tool-result-content
+  "Extract readable content from VS Code LM tool results"
+  [raw-result]
+  (letfn [(extract-text-from-node [node]
+            (cond
+              ;; If it's a text node with text property
+              (and (.-text node) (string? (.-text node)))
+              (.-text node)
+
+              ;; If it has children, recursively extract from all children
+              (and (.-children node) (array? (.-children node)))
+              (->> (.-children node)
+                   (map extract-text-from-node)
+                   (apply str))
+
+              ;; If it's already a string
+              (string? node)
+              node
+
+              ;; Default fallback
+              :else
+              ""))
+
+          (process-content-item [item]
+            (cond
+              ;; If it has a value property with a node
+              (and (.-value item) (.-node (.-value item)))
+              (extract-text-from-node (.-node (.-value item)))
+
+              ;; If it has a node property directly
+              (.-node item)
+              (extract-text-from-node (.-node item))
+
+              ;; If it has a value property and it's a string
+              (and (.-value item) (string? (.-value item)))
+              (.-value item)
+
+              ;; If it's already a string
+              (string? item)
+              item
+
+              ;; Default fallback
+              :else
+              (str item)))]
+
+    (if (.-content raw-result)
+      (->> (.-content raw-result)
+           (map process-content-item)
+           (apply str))
+      (str raw-result))))
+
 (defn execute-tool-calls!+
-  "Execute tool calls using the official VS Code Language Model API"
+  "Execute tool calls using the official VS Code Language Model API - Fixed version"
   [tool-calls]
-  (when (seq tool-calls)
-    (println "🔧 Executing" (count tool-calls) "tool call(s)...")
-    (p/let [results
-            (p/all
-             (map (fn [tool-call]
-                    (let [tool-name (.-name tool-call)
-                          call-id (.-callId tool-call)
-                          input (.-input tool-call)]
-                      (println "🎯 Invoking tool:" tool-name)
-                      (println "📝 Input:" (pr-str input))
-                      (p/let [raw-result (vscode/lm.invokeTool tool-name #js {:input input})
-                              result (mapv (fn [o]
-                                             (let [value (.-value o)]
-                                               (if (string? value)
-                                                 (try
-                                                   (-> value
-                                                       js/JSON.parse
-                                                       js->clj)
-                                                   (catch :default _e
-                                                     value))
-                                                 (js->clj value))))
-                                           (.-content raw-result))]
-                        (println "✅ Tool execution result:" result)
-                        {:call-id call-id
-                         :tool-name tool-name
-                         :result result})))
-                  tool-calls))]
-      (println "🎉 All tools executed!")
-      results)))
+  (if (seq tool-calls)
+    (do
+      (println "🔧 Executing" (count tool-calls) "tool call(s)...")
+      (p/all
+       (to-array
+        (map (fn [tool-call]
+               (let [tool-name (.-name tool-call)
+                     call-id (.-callId tool-call)
+                     input (.-input tool-call)]
+                 (println "🎯 Invoking tool:" tool-name)
+                 (println "📝 Input:" (pr-str input))
+                 (-> (vscode/lm.invokeTool tool-name #js {:input input})
+                     (.then (fn [raw-result]
+                              (let [result (extract-tool-result-content raw-result)]
+                                (println "✅ Tool execution result for" tool-name ":")
+                                (println result)
+                                {:call-id call-id
+                                 :tool-name tool-name
+                                 :result result})))
+                     (.catch (fn [error]
+                               (println "❌ Tool execution error for" tool-name ":" error)
+                               {:call-id call-id
+                                :tool-name tool-name
+                                :error (str error)})))))
+             tool-calls))))
+    (js/Promise.resolve [])))
 
 (defn collect-response-with-tools!+
   "Collect all text and tool calls from a streaming response."
@@ -147,11 +194,3 @@
              :label (.-name tool)
              :description (.-description tool)})
           vscode/lm.tools)))
-
-#_(defn format-tool-id-as-label
-  [id]
-  "Format a tool ID into a more readable label"
-  (-> id
-      (clojure.string/replace "_" " ")
-      (clojure.string/replace #"copilot_" "")
-      (clojure.string/replace #"mcp_brave_brave_" "brave ")))

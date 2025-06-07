@@ -267,16 +267,16 @@ Be proactive, creative, and goal-oriented. Drive the conversation forward!")
 (comment
   (require '[ai-chat.ui :as ui])
   (p/let [use-tool-ids (ui/tools-picker+ ["joyride_evaluate_code"
-                                                  "copilot_searchCodebase"
-                                                  "copilot_searchWorkspaceSymbols"
-                                                  "copilot_listCodeUsages"
-                                                  "copilot_getVSCodeAPI"
-                                                  "copilot_findFiles"
-                                                  "copilot_findTextInFiles"
-                                                  "copilot_readFile"
-                                                  "copilot_listDirectory"
-                                                  "copilot_insertEdit"
-                                                  "copilot_createFile"])]
+                                          "copilot_searchCodebase"
+                                          "copilot_searchWorkspaceSymbols"
+                                          "copilot_listCodeUsages"
+                                          "copilot_getVSCodeAPI"
+                                          "copilot_findFiles"
+                                          "copilot_findTextInFiles"
+                                          "copilot_readFile"
+                                          "copilot_listDirectory"
+                                          "copilot_insertEdit"
+                                          "copilot_createFile"])]
     (def use-tool-ids (set use-tool-ids))
     (println (pr-str use-tool-ids) "\n"))
 
@@ -298,7 +298,7 @@ Be proactive, creative, and goal-oriented. Drive the conversation forward!")
                               :progress-callback (fn [step]
                                                    (println "🔄" step)
                                                    (vscode/window.showInformationMessage step))
-                              :tool-ids ["joyride_evaluate_code"]})
+                              :tool-ids use-tool-ids})
 
   (autonomous-conversation!+ "Generate the eight first numbers in the fibonacci sequence without writing a function, but instead by starting with evaluating `[0 1]` and then each step read the result and evaluate `[second-number sum-of-first-and-second-number]`. In the last step evaluate just `second-number`."
                              {:model-id "claude-sonnet-4"
