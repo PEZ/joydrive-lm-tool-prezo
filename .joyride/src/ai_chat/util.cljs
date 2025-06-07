@@ -74,10 +74,15 @@
                       (println "📝 Input:" (pr-str input))
                       (p/let [raw-result (vscode/lm.invokeTool tool-name #js {:input input})
                               result (mapv (fn [o]
-                                             (-> o
-                                                 .-value
-                                                 js/JSON.parse
-                                                 js->clj))
+                                             (let [value (.-value o)]
+                                               (if (string? value)
+                                                 (try
+                                                   (-> value
+                                                       js/JSON.parse
+                                                       js->clj)
+                                                   (catch :default _e
+                                                     value))
+                                                 (js->clj value))))
                                            (.-content raw-result))]
                         (println "✅ Tool execution result:" result)
                         {:call-id call-id
