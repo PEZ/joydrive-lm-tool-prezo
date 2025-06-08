@@ -35,18 +35,6 @@
     (when (not-empty clipboard-text)
       (vscode/commands.executeCommand "joyride.runCode" clipboard-text))))
 
-(defn- add-joy-run-item! []
-  (let [item (vscode/window.createStatusBarItem
-              vscode/StatusBarAlignment.Left
-              -1000)]
-    (set! (.-text item) "J! $(play)")
-    (set! (.-command item)
-          (clj->js
-           {:command "joyride.runCode"
-            :arguments ["(workspace-activate/evaluate-clipboard+)"]}))
-    (.show item)
-    item))
-
 (defn- my-main []
   (println "Hello World, from my-main workspace_activate.cljs script")
   (clear-disposables!)
