@@ -12,7 +12,7 @@ The audio generation features need an OpenAI API key. But you and CoPilot can ha
 
 It is also very WIP, and meant to forever be WIP, but your WIP. 😀
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Core Requirements
 
@@ -38,7 +38,7 @@ With your OpenAI API key set in the environment you can then activate the **audi
 To navigate the slides yourelf, with the keyboard or a clicker, you'll need to set up some keyboard shortcuts. See the slide navigation script
 [archive/next_slide.cljs](archive/next_slide.cljs), which starts with a bunch of shortcuts you can use in your keybindings.json file. (Use the **Toggle Line Comment** command to get JSON you can copy.)
 
-## 🎯 Core Features
+## Core Features
 
 ### AI Workflow support
 
@@ -75,7 +75,7 @@ The reason for the story authoring step is so that slide narration is grounded i
 - **joyride-hacker** - For interactive programming and VS Code hacking with Joyride
 - **reviewer** - Review Joyride code to get suggestions for improvements for code quality and maintainability.
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 ├── slides/                       # Markdown presentation slides
@@ -93,7 +93,7 @@ The reason for the story authoring step is so that slide narration is grounded i
     └── PROJECT_SUMMARY.md        # AI generated technical overview
 ```
 
-## 🎬 Example Usage
+## Example Usage
 
 ### Basic Presentation
 ```clojure
@@ -143,7 +143,7 @@ The AI will:
 - [Interactive Programming with Clojure](https://clojure.org/guides/repl/introduction)
 - [VS Code Extension API](https://code.visualstudio.com/api)
 
-## 🤝 Contributing
+## Contributing
 
 This project demonstrates Interactive Programming principles built entirely in **Joyride ClojureScript**.
 
@@ -154,7 +154,7 @@ For the most productive experience, both the human and the artificial intelligen
 **Human setup:**
 
 - Install [Calva](https://marketplace.visualstudio.com/items?itemName=betterthantomorrow.calva) a Clojure extension
-- Command: `Calva: Start Joyride REPL and Connect`
+- Command: **Calva: Start Joyride REPL and Connect**
 
 See [calva.io](https://calva.io) for how to use Calva.
 
