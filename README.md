@@ -78,19 +78,46 @@ The reason for the story authoring step is so that slide narration is grounded i
 ## Project Structure
 
 ```
-├── slides/                       # Markdown presentation slides
-│   ├── *.md                      # Individual slides with HTML/CSS
-│   ├── *-notes.md                # Presentation guidance for each slide
-│   └── voice/                    # Generated audio files
-├── .joyride/src/
-│   ├── next_slide.cljs           # Slide navigation system
-│   └── ai_presenter/             # AI presentation system
-│       ├── audio_generation.cljs # TTS integration
-│       └── audio_playback.cljs   # Webview audio player
-├── .joyride/resources/
-│   └── audio-service.html        # Audio playback webview
-└── docs/
-    └── PROJECT_SUMMARY.md        # AI generated technical overview
+├── slides/                            # Markdown presentation slides
+│   ├── *.md                           # Individual slides with HTML/CSS
+│   ├── *-notes.md                     # Presentation guidance for each slide
+│   ├── voice/                         # Generated audio files
+│   ├── images/                        # Slide images and assets
+│   ├── narration-script/              # Detailed narration scripts
+│   └── opening-sequence/              # Presentation introduction assets
+├── .joyride/
+│   ├── src/
+│   │   ├── next_slide.cljs            # Slide navigation engine
+│   │   ├── next_slide_notes.cljs      # Slide notes management
+│   │   ├── showtime.cljs              # Status bar timer/stopwatch
+│   │   ├── ai_mood_selector.cljs      # AI system prompt switcher
+│   │   └── ai_presenter/              # AI presentation components
+│   │       ├── audio_generation.cljs  # TTS integration
+│   │       ├── audio_playback.cljs    # WebView audio player
+│   │       └── opening_sequence.cljs  # Presentation introduction
+│   ├── resources/
+│   │   └── audio-service.html         # Audio playback webview
+│   └── temp-audio/                    # Temporary storage for generated audio
+├── prompts/                           # AI system prompts
+│   ├── system/                        # Different AI personality modes
+│   │   ├── presenter-instructions.md              # Main presentation mode
+│   │   ├── joyride-hacker-instructions.md         # Developer mode
+│   │   ├── architect-instructions.md              # System design discussions
+│   │   ├── slide-author-instructions.md           # Content creation mode
+│   │   ├── slide-narration-author-instructions.md # Script creation
+│   │   ├── story-author-instructions.md           # Narrative development
+│   │   ├── audio-generator-instructions.md        # Voice synthesis
+│   │   └── reviewer-instructions.md               # Code review mode
+│   └── system-common-*.md                         # Shared prompt components
+├── docs/
+│   ├── PROJECT_SUMMARY.md             # Technical overview for LLMs
+│   ├── images/                        # Documentation images
+│   └── log/                           # Development logs
+├── audio/                             # Audio assets
+├── slides.edn                         # Slide configuration and ordering
+├── deps.edn                           # Clojure classpath (for tooling)
+├── package.json                       # Node.js dependencies
+└── next-slide.css                     # Slide styling
 ```
 
 ## Example Usage
