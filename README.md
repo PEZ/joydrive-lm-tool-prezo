@@ -128,7 +128,7 @@ The AI will:
 5. Play the audio
 6. Wait for your next instruction
 
-(Or, the AI should do the authoring and generation steps. But most often it just plays whatever audio is already generated for the slide.)
+(Actually, the AI is instructed such that in this case it *should* do the authoring and generation steps. But most often it just plays whatever audio is already generated for the slide. Prompting skill issue, I think.)
 
 ## 🚀 Extension Ideas
 
@@ -146,11 +146,15 @@ The AI will:
 This project demonstrates Interactive Programming principles built entirely in **Joyride ClojureScript**.
 
 ### For Effective Development
-For the most productive experience, both human and AI should be connected to the Joyride REPL:
+
+For the most productive experience, both the human and the artificial intelligence should be connected to the Joyride REPL:
 
 **Human setup:**
+
 - Install [Calva](https://marketplace.visualstudio.com/items?itemName=betterthantomorrow.calva) a Clojure extension
 - Command: `Calva: Start Joyride REPL and Connect`
+
+See [calva.io](https://calva.io) for how to use Calva.
 
 **AI setup:**
 
@@ -159,10 +163,9 @@ For the most productive experience, both human and AI should be connected to the
 ### Development Workflow
 1. Joyride automatically gives
 1. Start the Joyride REPL
-2. Enable AI access to the REPL (via Backseat Driver)
-3. Experiment with functions interactively
-4. Build upon the existing system
-5. Share your enhancements
+1. Experiment with functions interactively, together with CoPilot
+1. Build upon the existing system
+1. Share your enhancements
 
 **Both intelligences working together in the same REPL = Interactive Programming magic!** ✨
 
