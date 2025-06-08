@@ -1,21 +1,21 @@
 # AI-Powered Joyride Presentation System
 
-A complete presentation system + custom AI workflow, built entirely in Joyride, where AI generates and narrates slide content.
+A complete presentation system + custom AI workflow, built entirely in [Joyride](https://github.com/BetterThanTomorrow/joyride), where AI can make slide, generate slide narration, generate voice, and present the slides.
 
-**Taking this for a spin is as easy as opening this project in VS Code with CoPilot enabled**, and installing the Joyride extension.
+**Taking this for a spin is as easy as opening this project in VS Code with CoPilot enabled**, and installing the Joyride extension. (But please read on a bit before you do this.)
 
-The audio generation features need an OpenAI API key. You and CoPilot can hack it to use something else for audio generation, because ...
+The audio generation features need an OpenAI API key. But you and CoPilot can hack it to use something else for audio generation, because ...
 
-... This project is **100% Joyride** - The AI reads slide content, crafts engaging slide narration, generates high-quality audio from the narration scripts, and orchestrate full presentations - all through Joyride's integration with VS Code's extension API.
+... This project is **100% Joyride** - Leveraging VS Code's extension API in user space.
 
-It is also WIP: I am going to add much, much better guidance of how to use the example.
+It is also very WIP, and meant to forever be WIP, but your WIP. 😀
 
 ## 🚀 Quick Start
 
 ### Core Requirements
-**Only 3 things needed:**
-1. **[GitHub Copilot](https://marketplace.visualstudio.com/items?itemName=GitHub.copilot)** - For AI interaction with the system
-2. **[Joyride](https://marketplace.visualstudio.com/items?itemName=betterthantomorrow.joyride)** - ClojureScript scripting for VS Code (this project is 100% Joyride)
+
+1. **[GitHub Copilot](https://marketplace.visualstudio.com/items?itemName=GitHub.copilot)**
+2. **[Joyride](https://marketplace.visualstudio.com/items?itemName=betterthantomorrow.joyride)** - User space scripting for VS Code
 3. (for text-to-speech generation) **OpenAI API Key in your env**:
    ```bash
    export OPENAI_API_KEY="your-openai-api-key"
@@ -23,62 +23,72 @@ It is also WIP: I am going to add much, much better guidance of how to use the e
 
 ### Running the System
 
-See that button in the stats bar with “🎭”? It's a system prompt/mood selector. Select the **presenter** mood. Then ask CoPilot to demo it for you and show you how to operate it. ✨ It may take some time the first time because it will need to genarate audio from the text script.
+When you open the project with Joyride installed, the slide navigation system will automatically activate and the **Audio Service** webview will open.
+
+![audio-service-webview](docs/images/audio-service-webview.png)
+
+For audio to be played, yuu will need to click the **Enable Audio** button (browser restriction requiring a user gesture to autoplay audio).
+
+See that button in the stats bar with “🎭”? It's a system prompt/mood selector. Select the **presenter** mood. Then ask CoPilot to show the first slide.
+
+With your OpenAI API key set in the environment you can then activate the **audio-generator** mood, and ask Copilot to generate audio for the first slide. Then switch back to **presenter** mode and ask CoPilot to present the slide.
+
+To navigate the slides yourelf, with the keyboard or a clicker, you'll need to set up some keyboard shortcuts. See the slide navigation script
+[archive/next_slide.cljs](archive/next_slide.cljs), which starts with a bunch of shortcuts you can use in your keybindings.json file. (Use the **Toggle Line Comment** command to get JSON you can copy.)
 
 ## 🎯 Core Features
 
 ### AI Workflow support
 
-CoPilot Instructions moods supporting both VS Code hacking and presentation authoring/presenting.
+The project comes with CoPilot Instructions/moods supporting both VS Code hacking and presentation authoring/presenting.
 
-Easily switch between different system prompts depending on where in the workflow you are. Available system prompts (in `prompts/system/`):
+Easily switch between different system prompts depending on where in the workflow you are using the **AI mood** status bar button . Available system prompts (in `prompts/system/`):
 
-- **architect** - For system design and architectural decisions
-- **joyride-hacker** - For interactive programming and VS Code hacking with Joyride
-- **slide-author** - For creating and editing slide content
-- **story-author** - For crafting the full narrative story
-- **slide-narration-author** - For writing engaging slide narrations, based on slide content, notes and the narrative story
-- **audio-generator** - Generates high quality voice audio from slide scripts
-- **presenter** - For presenting slides with voice narration, can also author narration and genarate audio
-
-#### Slideshow creation workflow/pipeline
+#### Slideshow creation moods and workflow/pipeline
 
 Creating slides is a composition of human direction, AI agentic processing and Joyride scripts. The main pipeline looks something like so
 
 ```
 Human has a story to share
      ↓
-🤝 Human + slide-author → Draft slides & notes
+🤝 Human + **slide-author** → Draft slides & notes
      ↓ (human feedback & iteration)
-📖 story-author → Retrofits with storytelling expertise
+📖 **story-author** → Retrofits with storytelling expertise
      ↓ (human feedback & story refinement)
-🎙️ slide-narration-author → Crafts narration scripts
+🎙️ **slide-narration-author** → Crafts narration scripts
      ↓ (human feedback & narration polish)
-🔊 audio-generator → Generates high-quality voice audio
+🔊 **audio-generator** → Generates high-quality voice audio
      ↓ (human feedback & audio refinement)
-✨ Final Presentation
+✨ **presenter** (+ human) → Present slides
+       (the human needs to ask for next slides)
 ```
 
-It is the human who is responsible for the main orchestration, maintaining high flexibility. Orchestration is also part of each agent mood. At individual task level within orchestration is sometimes encoded as promise chains in Joyride scripts.
+It is the human who is responsible for the main orchestration. Including during presentation. A possible improvement you can try to vibe code is to make the AI able to run the whole presentation from start to finish.
+
+The reason for the story authoring step is so that slide narration is grounded in the overall story and can avoid some of the repetition that AI is so happy to produce.
+
+#### Coding moods
+
+- **architect** - For system design and architectural decisions
+- **joyride-hacker** - For interactive programming and VS Code hacking with Joyride
+- **reviewer** - Review Joyride code to get suggestions for improvements for code quality and maintainability.
 
 ## 📁 Project Structure
 
 ```
-├── slides/                    # Markdown presentation slides
-│   ├── *.md                  # Individual slides with HTML/CSS
-│   ├── *-notes.md            # Presentation guidance for each slide
-│   └── voice/                # Generated audio files
+├── slides/                       # Markdown presentation slides
+│   ├── *.md                      # Individual slides with HTML/CSS
+│   ├── *-notes.md                # Presentation guidance for each slide
+│   └── voice/                    # Generated audio files
 ├── .joyride/src/
-│   ├── next_slide.cljs       # Slide navigation system
-│   └── ai_presenter/         # AI presentation system
-│       ├── audio_generation.cljs  # TTS integration
-│       ├── audio_playback.cljs    # Webview audio player
-│       ├── core.cljs             # State management
-│       └── presentation.cljs     # High-level workflows
+│   ├── next_slide.cljs           # Slide navigation system
+│   └── ai_presenter/             # AI presentation system
+│       ├── audio_generation.cljs # TTS integration
+│       └── audio_playback.cljs   # Webview audio player
 ├── .joyride/resources/
-│   └── audio-service.html    # Audio playback webview
+│   └── audio-service.html        # Audio playback webview
 └── docs/
-    └── PROJECT_SUMMARY.md    # Detailed technical documentation
+    └── PROJECT_SUMMARY.md        # AI generated technical overview
 ```
 
 ## 🎬 Example Usage
