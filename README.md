@@ -1,12 +1,14 @@
-# AI-Powered Joyride Presentation System
+# Joyride + LM Tools for CoPilot
 
-A complete presentation system + custom AI workflow, built entirely in [Joyride](https://github.com/BetterThanTomorrow/joyride), where AI can make slide, generate slide narration, generate voice, and present the slides.
+*Presenting Joyride with an AI powered presentation system, made with Joyride*
+
+A complete AI-powered presentation system built entirely with [Joyride](https://github.com/BetterThanTomorrow/joyride) - user space scripting for VS Code. The system enables AI-assisted slide creation, narration generation, text-to-speech conversion, and interactive presentation delivery, all within the VS Code environment.
 
 **Taking this for a spin is as easy as opening this project in VS Code with CoPilot enabled**, and installing the Joyride extension. (But please read on a bit before you do this.)
 
 The audio generation features need an OpenAI API key. But you and CoPilot can hack it to use something else for audio generation, because ...
 
-... This project is **100% Joyride** - Leveraging VS Code's extension API in user space.
+... This project is **100% Joyride** - Leveraging VS Code's extension API.
 
 It is also very WIP, and meant to forever be WIP, but your WIP. 😀
 
@@ -171,6 +173,12 @@ See [calva.io](https://calva.io) for how to use Calva.
 
 **Happy Interactive Programming!** 🎉
 
----
+## License 🍻🗽
 
-*Built with 💜 by the Clojure community, powered by the magic of Interactive Programming*
+[MIT](LICENSE.txt)
+
+## Sponsor my open source work ♥️
+
+You are welcome to show me that you like my work:
+
+* https://github.com/sponsors/PEZ
