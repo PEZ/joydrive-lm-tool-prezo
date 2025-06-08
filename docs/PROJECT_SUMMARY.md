@@ -14,14 +14,20 @@ This is a complete AI-powered presentation system built entirely with [Joyride](
    - Keyboard-driven slide navigation
    - Configurable slide sequences via `slides.edn`
    - Context-aware VS Code integration
+   - Slide notes management (`.joyride/src/next_slide_notes.cljs`)
 
 2. **AI Presentation System** (`.joyride/src/ai_presenter/`)
    - **Audio Generation** (`audio_generation.cljs`) - OpenAI TTS integration
    - **Audio Playback** (`audio_playback.cljs`) - WebView-based audio player with user gesture handling
+   - **Opening Sequence** (`opening_sequence.cljs`) - Presentation introduction sequence
 
 3. **AI Mood System** (`.joyride/src/ai_mood_selector.cljs`)
    - Dynamic system prompt switching for different workflow phases
    - Status bar integration for easy mode switching
+
+4. **Showtime Utility** (`.joyride/src/showtime.cljs`)
+   - Status bar timer/stopwatch for presentation timing
+   - Interactive start/stop controls
 
 4. **Presentation Content**
    - Slides in Markdown format (`slides/*.md`)
@@ -37,10 +43,14 @@ This is a complete AI-powered presentation system built entirely with [Joyride](
 
 ### Core Joyride Source
 - `.joyride/src/next_slide.cljs` - Slide navigation engine
+- `.joyride/src/next_slide_notes.cljs` - Slide notes management
+- `.joyride/src/showtime.cljs` - Status bar timer/stopwatch
 - `.joyride/src/ai_presenter/audio_generation.cljs` - TTS generation with file management
 - `.joyride/src/ai_presenter/audio_playback.cljs` - WebView audio player with promise-based control
+- `.joyride/src/ai_presenter/opening_sequence.cljs` - Presentation introduction sequence
 - `.joyride/src/ai_mood_selector.cljs` - AI system prompt management
 - `.joyride/resources/audio-service.html` - Audio playback WebView UI
+- `.joyride/temp-audio/` - Temporary storage for generated audio
 
 ### AI System Prompts
 - `prompts/system/presenter-instructions.md` - AI presenter behavior and Joyride API usage
@@ -49,11 +59,13 @@ This is a complete AI-powered presentation system built entirely with [Joyride](
 - `prompts/system/slide-narration-author-instructions.md` - Narration script authoring
 - `prompts/system/story-author-instructions.md` - Overall narrative structure
 
-### Content
-- `slides/` - Markdown slides with embedded HTML/CSS
-- `slides/*-notes.md` - Presentation guidance and narration scripts
-- `slides/voice/` - Generated MP3 audio files
-- `slides/images/` - Presentation assets
+### Project Documentation
+- `docs/PROJECT_SUMMARY.md` - This comprehensive project overview
+- `docs/images/` - Documentation images and screenshots
+- `docs/log/` - Development logs and debugging notes
+  - `audio-debugging-log.md` - Audio system troubleshooting
+  - `audio-playback-user-gesture-bug.md` - User gesture handling issues
+  - `tts-voice-quality-investigation.md` - Voice quality testing
 
 ## Dependencies & Versions
 
@@ -115,10 +127,16 @@ Human Story Concept
 🤝 Human + slide-author → Draft slides & notes
      ↓ (iteration)
 📖 story-author → Narrative structure refinement
+     ↓ (system design)
+🏗️ architect → System architecture planning
+     ↓ (implementation)
+💻 joyride-hacker → Technical code development
      ↓ (refinement)
 🎙️ slide-narration-author → Narration scripts
      ↓ (polish)
 🔊 audio-generator → High-quality TTS audio
+     ↓ (review)
+🔍 reviewer → Code and content review
      ↓ (generation)
 ✨ presenter (+ human) → Interactive presentation
 ```
@@ -162,9 +180,13 @@ Human Story Concept
 1. Switch AI mood using status bar button (🎭)
 2. Use different moods for different tasks:
    - `presenter` - Live presentation
+   - `joyride-hacker` - Technical code development
+   - `architect` - System design discussions
    - `slide-author` - Content creation
+   - `slide-narration-author` - Narration script creation
+   - `story-author` - Narrative development
    - `audio-generator` - TTS generation
-   - `joyride-hacker` - Code development
+   - `reviewer` - Code review
 
 ## Technical Architecture Highlights
 
@@ -247,3 +269,11 @@ The goal is to demonstrate how developers can reshape their tools collaborativel
 - Current shortcuts in `next_slide.cljs` header comments
 - Add presenter remote control support
 - Implement gesture-based navigation
+
+## Content
+- `slides/` - Markdown slides with embedded HTML/CSS
+- `slides/*-notes.md` - Presentation guidance and narration scripts
+- `slides/voice/` - Generated MP3 audio files
+- `slides/images/` - Presentation assets
+- `slides/narration-script/` - Detailed narration scripts
+- `slides/opening-sequence/` - Presentation introduction assets
