@@ -14,14 +14,6 @@
     (.-uri (first vscode/workspace.workspaceFolders))
     (vscode/Uri.parse ".")))
 
-(defn read-file-content+ [file-uri]
-  (p/let [file-data (.readFile vscode/workspace.fs file-uri)
-          content (-> (js/Buffer.from file-data) (.toString "utf-8"))
-          lines (.split content "\n")
-          first-line (first lines)]
-    {:content content
-     :first-line first-line}))
-
 (defn create-quick-pick-item [filename file-uri]
   (clj->js {:label (string/replace filename #"-instructions.md$" "")
             :uri file-uri}))
