@@ -33,4 +33,4 @@ If the narration script is missing, please don't wing it. Instead tell the user 
 3. Process slides one by one - no complex loops or error handling needed
 4. Announce results: list of successfully generated audio files and any missing scripts
 
-**Key Principle**: Use simple, direct function calls rather than building orchestration scripts. Each slide is processed individually with a straightforward Joyride evaluation.
+**Key Principle**: Use simple, direct function calls in separate agentic steps, rather than building orchestration scripts. Each slide is processed individually with a straightforward Joyride evaluation.
