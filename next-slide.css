@@ -165,29 +165,30 @@ img:hover {
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  margin: 60px 0;
-  padding: 0 clamp(10px, 5vw, 40px);
-  min-height: clamp(60px, 12vw, 120px);
+  margin: 2rem 0;
+  padding: 0 5vw;
 }
 
 .title-logo-row img {
   flex: 1;
   max-width: 100%;
-  max-height: clamp(60px, 12vw, 200px);
+  max-height: 12vw;
   object-fit: contain;
 }
 
 .title-logo-row .logo-separator {
-  font-size: clamp(1.5em, 4vw, 6em);
+  font-size: 4vw;
   opacity: 0.7;
-  margin: 0 clamp(5px, 2vw, 30px);
+  margin: 0 4vw;
   flex-shrink: 0;
 }
 
 /* Slide Types */
 /* Title Slide */
 .title-slide h1 {
-  font-size: 2.5em;
+  font-size: 6vw;
+  overflow: hidden;
+  /* white-space: nowrap; */
 }
 
 .title-slide .subtitle {
