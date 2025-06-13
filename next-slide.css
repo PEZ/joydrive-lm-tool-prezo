@@ -159,6 +159,31 @@ img:hover {
   width: auto;
 }
 
+/* Title slide logo row - scales logos to fill width */
+.title-logo-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin: 60px 0;
+  padding: 0 clamp(10px, 5vw, 40px);
+  min-height: clamp(60px, 12vw, 120px);
+}
+
+.title-logo-row img {
+  flex: 1;
+  max-width: 100%;
+  max-height: clamp(60px, 12vw, 200px);
+  object-fit: contain;
+}
+
+.title-logo-row .logo-separator {
+  font-size: clamp(1.5em, 4vw, 6em);
+  opacity: 0.7;
+  margin: 0 clamp(5px, 2vw, 30px);
+  flex-shrink: 0;
+}
+
 /* Slide Types */
 /* Title Slide */
 .title-slide h1 {
