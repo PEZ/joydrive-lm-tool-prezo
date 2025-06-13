@@ -1,25 +1,29 @@
-# Speaker Notes: What is Joyride?
+# Speaker Notes: User space scripting for VS Code
 
 ## To Story and Slide Narrators
 
-This slide introduces Joyride and creates a meta-moment by revealing that this very presentation is a live example of what Joyride enables.
+This slide introduces Joyride with a direct, no-nonsense title and creates a compelling meta-moment by showcasing the very presentation system as proof of concept.
 
-**Core Message:** Joyride transforms VS Code from a fixed tool into a malleable development environment that you can reshape in real-time, especially when paired with AI assistance.
+**Core Message:** Joyride enables "user space scripting" - meaning you can extend and customize VS Code without the traditional extension development process, especially powerful when combined with AI assistance.
 
 **Key Emphasis Points:**
-- **"User-space scripting"** - Emphasize that you don't need to go through extension publishing workflows
-- **"Live development"** - This is the killer feature - REPL-driven modification of your editor while you use it
-- **"Vibe-coded"** - This term captures the collaborative, experimental, and iterative nature of human-AI programming
-- **Meta-commentary** - The presentation system itself demonstrates Joyride's power
+- **"User space scripting"** - This is the key concept - development freedom without barriers
+- **"Full VS Code API + Extension host access"** - Complete power, no limitations
+- **"Language Model REPL tool"** - This is revolutionary - it makes CoPilot capable of actually modifying your editor
+- **"Custom AI workflow"** - Emphasize that this creates entirely new possibilities for development workflows
+- **GitHub repository link** - Audience can immediately explore and experiment
 
-**Tone:** Confident and slightly playful. This slide should feel like pulling back the curtain to show the magic behind the magic.
+**Tone:** Confident and practical. This slide should feel like opening a door to immediate possibilities - not theoretical future benefits, but tools you can use right now.
 
 **Background Context for Narrators:**
-Joyride is a VS Code extension that allows users to write ClojureScript code that runs directly within the VS Code environment. Unlike traditional extensions that require packaging and publishing, Joyride scripts run in "user-space" - meaning developers can write, test, and iterate on editor customizations immediately.
+The title "User space scripting for VS Code" is significant positions Joyride not as another extension, but as a fundamental capability shift. "User space" is a technical term that conveys freedom and direct control.
 
-The presentation system being discussed was actually built using Joyride, with PEZ (Peter Strömberg, creator of Calva) and GitHub Copilot working together to create slides, manage presentation flow, and even generate audio narrations.
+The presentation system being discussed includes slide generation, voice narration, audio playback, and presentation orchestration - all built collaboratively using Joyride as the platform for human-AI interaction.
+
+The "Language Model REPL tool" concept is particularly important - this means CoPilot can actually execute code that modifies the editor in real-time, not just suggest static code snippets.
 
 **Potential Clarifications:**
-- "Vibe-coding" refers to the improvisational, exploratory style of programming that emerges when humans and AI collaborate iteratively
-- The heart emoji between Joyride and VS Code logos symbolizes the loving relationship between the tool and the user - it's about making VS Code truly yours
-- The "proof" aspect is important - this isn't theoretical; the audience is experiencing a Joyride-powered presentation right now
+- "User space scripting" means you can extend VS Code without going through extension marketplaces or approval processes
+- The heart emoji positioning (after the logos) suggests the love that develops from using these tools together
+- "Vibe-coded" captures the iterative, experimental joy of human-AI collaboration in this new paradigm
+- The GitHub link provides immediate actionability - the audience can start experimenting today. End on this call to action. We are eager to learn what you build!
