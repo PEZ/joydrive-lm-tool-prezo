@@ -61,4 +61,4 @@ The problem isn't VS Code. It's not the extensions either. The problem is that n
 
 What if I told you that you don't have to wait for someone else to build what you need? What if you could just... make it happen?
 
-That's what we're here to explore. Not just using VS Code, but joining the ranks of VS Code hackers. People who don't just adapt to their tools—they make their tools adapt to them.
+That's what we're here to explore. This is an invitation to join the ranks of VS Code hackers. People who don't adapt to our tools—we make our tools adapt to us.
