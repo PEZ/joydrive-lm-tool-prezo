@@ -8,9 +8,7 @@
 
 <div style="background: rgba(0,120,255,0.1); padding: 20px; border-radius: 12px; margin-bottom: 20px;">
 
-### 🎯 <strong>What You Can Do</strong>
-
-<div class="no-bullets">
+### What You Can Do
 
 * <i class="fas fa-terminal" style="color: #007ACC;"></i> <strong>Automate workflows</strong>
   * <small>Custom commands, shortcuts</small>
@@ -20,19 +18,19 @@
   * <small>New features, integrations</small>
 * <i class="fas fa-code" style="color: #007ACC;"></i> <strong>Live debugging</strong>
   * <small>Interactive problem solving</small>
-</div>
 
 </div>
 
 <div style="background: rgba(255,215,0,0.1); padding: 15px; border-radius: 12px;">
 
-### ⚡ <strong>How It Works</strong>
+### How It Works
 
 <div style="font-size: 0.85em; line-height: 1.3;">
-<strong>1.</strong> Ask CoPilot: <em>"Add a timer to my status bar"</em><br/>
-<strong>2.</strong> CoPilot codes: ClojureScript + VS Code API<br/>
-<strong>3.</strong> Joyride runs: Live in your editor<br/>
-<strong>4.</strong> You iterate: Refine until perfect
+
+1. Ask CoPilot: <em>"Add a timer to my status bar"</em><br/>
+1. CoPilot codes: ClojureScript + VS Code API<br/>
+1. Joyride runs: Live in your editor<br/>
+1. You iterate: Refine until perfect
 </div>
 
 </div>

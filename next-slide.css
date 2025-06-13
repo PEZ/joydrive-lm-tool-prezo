@@ -267,6 +267,38 @@ img:hover {
   margin: 0;
 }
 
+/* Icon Lists - Auto-detect and style lists with Font Awesome icons */
+ul li:has(> i.fas),
+ul li:has(> i.fab),
+ul li:has(> i.far),
+ul li:has(> i.fa) {
+  list-style: none;
+  margin-left: -1.5rem;
+  padding-left: 0;
+}
+
+/* Nested lists under icon lists */
+ul li:has(> i.fas) li,
+ul li:has(> i.fab) li,
+ul li:has(> i.far) li,
+ul li:has(> i.fa) li {
+  list-style: none;
+  margin-left: 0rem;
+  padding-left: 0;
+}
+
+/* Icon alignment for auto-detected icon lists */
+ul li > i.fas,
+ul li > i.fab,
+ul li > i.far,
+ul li > i.fa {
+  display: inline-block;
+  width: 1.2rem;
+  text-align: center;
+  margin-right: 0.2rem;
+}
+
+/* Keep existing no-bullets class for backward compatibility */
 .no-bullets li {
   list-style: none;
   margin-left: -1.5rem;
