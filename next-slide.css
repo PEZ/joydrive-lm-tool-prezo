@@ -16,6 +16,7 @@ body {
   padding: 20px;
   position: relative;
   box-sizing: border-box;
+  container-type: inline-size;
 }
 
 /* When body contains slides, prevent scrolling */
@@ -77,10 +78,13 @@ body.slide-mode {
 
 /* Responsive Containers - using container queries */
 @container (max-width: 600px) {
+  .row {
+    flex-direction: column;
+  }
+
   .column {
-    flex: 0 0 100%;
+    flex: 0 0 100% !important;
     margin-bottom: 20px;
-    margin-left: 10px;
   }
 }
 

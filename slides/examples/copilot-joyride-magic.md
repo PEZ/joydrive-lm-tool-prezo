@@ -8,7 +8,7 @@
 
 <div style="background: rgba(0,120,255,0.1); padding: 20px; border-radius: 12px; margin-bottom: 20px;">
 
-<div class="row" style="gap: 0.5rem;">
+<div class="row" style="gap: 0.5rem;" container-name="nested-row">
 <div class="column col-5">
 
 ### What You Can Do
