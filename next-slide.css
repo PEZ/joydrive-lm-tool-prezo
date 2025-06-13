@@ -267,6 +267,27 @@ img:hover {
   margin: 0;
 }
 
+.no-bullets li {
+  list-style: none;
+  margin-left: -1.5rem;
+  padding-left: 0;
+}
+
+.no-bullets li li {
+  list-style: none;
+  margin-left: -0.2rem;
+  padding-left: 0;
+}
+
+/* Icon alignment for lists with icons */
+.no-bullets li i.fas,
+.no-bullets li i.fab {
+  display: inline-block;
+  width: 25px;
+  text-align: center;
+  margin-right: 0.2rem;
+}
+
 .social-links li {
   list-style: none; /* Remove bullet points from list items */
 }

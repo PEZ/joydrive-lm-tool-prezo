@@ -7,9 +7,9 @@
 <div class="column col-6">
 
 <div style="display: flex; justify-content: center; gap: 30px; margin-bottom: 40px;">
-<img src="images/vscode.png" alt="VS Code Logo" style="height: 120px;" />
+<img src="../images/vscode.png" alt="VS Code Logo" style="height: 120px;" />
 <span style="font-size: 3em; color: #007ACC; margin: 0 10px;">+</span>
-<img src="images/copilot-icon-light.png" alt="CoPilot Symbol" style="height: 120px;" />
+<img src="../images/copilot-icon-light.png" alt="CoPilot Symbol" style="height: 120px;" />
 </div>
 
 <div style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 8px; margin-bottom: 30px;">
@@ -37,7 +37,7 @@
 </div>
 
 <div class="column col-6 center">
-<img src="images/joyride-logo.png" alt="Joyride Logo" style="height: 300px; width: auto;" />
+<img src="../images/joyride-logo.png" alt="Joyride Logo" style="height: 300px; width: auto;" />
 
 <div style="margin-top: 30px; font-size: 1.2em; color: #888;">
 <i class="fas fa-rocket"></i> <strong>Joyride + LM Tools</strong><br/>
