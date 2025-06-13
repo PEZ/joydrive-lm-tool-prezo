@@ -1,1 +1,2 @@
-{:slides ["slides/welcome.md"]}
+{:slides ["slides/welcome.md"
+          "slides/what-is-joyride.md"]}
