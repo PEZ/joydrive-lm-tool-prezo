@@ -3,41 +3,43 @@
 # CoPilot + Joyride = Magic
 *Interactive Programming meets AI*
 
-<div class="row">
+<div class="row" style="gap: 1rem;">
 <div class="column col-7">
 
 <div style="background: rgba(0,120,255,0.1); padding: 20px; border-radius: 12px; margin-bottom: 20px;">
 
+<div class="row" style="gap: 0.5rem;">
+<div class="column col-5">
+
 ### What You Can Do
 
-* <i class="fas fa-terminal" style="color: #007ACC;"></i> <strong>Automate workflows</strong>
+* <i class="fas fa-terminal"></i> <strong>Automate workflows</strong>
   * <small>Custom commands, shortcuts</small>
-* <i class="fas fa-paint-brush" style="color: #007ACC;"></i> <strong>Customize UI</strong>
+* <i class="fas fa-paint-brush"></i> <strong>Customize UI</strong>
   * <small>Add panels, modify interface</small>
-* <i class="fas fa-plug" style="color: #007ACC;"></i> <strong>Extend functionality</strong>
+* <i class="fas fa-plug"></i> <strong>Extend functionality</strong>
   * <small>New features, integrations</small>
-* <i class="fas fa-code" style="color: #007ACC;"></i> <strong>Live debugging</strong>
+* <i class="fas fa-code"></i> <strong>Live debugging</strong>
   * <small>Interactive problem solving</small>
-
 </div>
 
-<div style="background: rgba(255,215,0,0.1); padding: 15px; border-radius: 12px;">
+<div class="column col-7">
 
 ### How It Works
-
-<div style="font-size: 0.85em; line-height: 1.3;">
 
 1. Ask CoPilot: <em>"Add a timer to my status bar"</em><br/>
 1. CoPilot codes: ClojureScript + VS Code API<br/>
 1. Joyride runs: Live in your editor<br/>
 1. You iterate: Refine until perfect
-</div>
 
 </div>
 
 </div>
+</div>
 
-<div class="column col-5 center">
+</div>
+
+<div class="column col-4 center">
 
 <div style="border: 2px solid #007ACC; border-radius: 12px; padding: 20px; background: rgba(0,120,255,0.05);">
 

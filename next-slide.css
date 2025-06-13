@@ -292,6 +292,7 @@ ul li > i.fas,
 ul li > i.fab,
 ul li > i.far,
 ul li > i.fa {
+  color: #007acc;
   display: inline-block;
   width: 1.2rem;
   text-align: center;
