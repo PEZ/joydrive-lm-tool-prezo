@@ -27,3 +27,26 @@ The "Language Model REPL tool" concept is particularly important - this means Co
 - The heart emoji positioning (after the logos) suggests the love that develops from using these tools together
 - "Vibe-coded" captures the iterative, experimental joy of human-AI collaboration in this new paradigm
 - The GitHub link provides immediate actionability - the audience can start experimenting today. End on this call to action. We are eager to learn what you build!
+
+## To the Slide Narration Author
+
+**How this slide fits into the story:**
+This is the “how” chapter. After the opening’s promise of empowerment, this slide delivers the tool—Joyride—that makes it real. It’s the bridge from aspiration to action.
+
+**Crucial message:**
+Joyride is not just another extension. It’s a new way to shape VS Code, with no barriers. Combined with Copilot, it lets you and the AI hack your editor live.
+
+**Extra important details:**
+- “User space scripting” means you don’t need to wait for someone else to build what you need.
+- The presentation system itself is built with these tools—this is a live demo, not just a claim.
+- The Language Model REPL tool is the secret sauce: Copilot can actually change your editor, not just suggest code.
+
+**Dramaturgic mood:**
+Confident, practical, and a bit revelatory. The audience should feel the door to new possibilities opening.
+
+**Narration length:**
+Medium. Take enough time to make the power and immediacy of Joyride clear, and to ground the story in the real, working demo.
+
+**Hooks:**
+Hooks from: The desire for empowerment and customization set up in the opening.
+Hooks to: The call to action—start experimenting, start hacking, start collaborating with AI.

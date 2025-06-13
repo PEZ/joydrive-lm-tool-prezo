@@ -26,3 +26,26 @@ This message should be a central theme, perhaps explicitly stated by the narrato
 **Potential Ambiguities to Clarify:**
 *   Ensure the audience understands that "hacking" here means creative customization and problem-solving, not malicious activity.
 *   Briefly clarify what Joyride is if it's not universally known (a tool for scripting VS Code with ClojureScript).
+
+## To the Slide Narration Author
+
+**How this slide fits into the story:**
+This is the opening chapter. It sets the tone and stakes: the audience is not just here to learn, but to be empowered. The story begins by inviting them to see themselves as VS Code hackers—people who shape their tools, not just use them.
+
+**Crucial message:**
+You have the power to make your editor your own. Don’t settle for “good enough.” The real problem is that only you know what you need—this presentation will show you how to achieve it.
+
+**Extra important details:**
+- Make the distinction between “user” and “hacker” clear and inspiring.
+- Emphasize that this is about creative empowerment, not just technical tricks.
+- The “problem” is not the tools, but the lack of personal fit—this is what the story promises to solve.
+
+**Dramaturgic mood:**
+Bold, direct, and empowering. The audience should feel a sense of possibility and excitement.
+
+**Narration length:**
+Short to medium. Enough to grab attention and set the theme, but leave the audience wanting more.
+
+**Hooks:**
+Hooks from: The audience’s desire for more control and customization.
+Hooks to: The next slide, which reveals the tool (Joyride) that makes this empowerment possible.
