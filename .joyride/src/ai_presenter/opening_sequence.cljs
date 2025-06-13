@@ -25,10 +25,10 @@
 (defn run-opening-sequence!+ []
   (p/let [_ (show-start-button!+)
           _ (println "🎭 Sequence started!")
-          _ (p/delay 4000)
+          _ (p/delay 5000)
           _ (println "✅ Hello audio started")
           _ (audio-playback/load-and-play-audio!+ "slides/opening-sequence/hello-peter.mp3")
-          _ (p/delay 4000)
+          _ (p/delay 5500)
           _ (println "⏰ Delay complete, playing takeover file")
           _ (audio-playback/load-and-play-audio!+ "slides/opening-sequence/presenter-takeover.mp3")]
     :sequence-complete))
