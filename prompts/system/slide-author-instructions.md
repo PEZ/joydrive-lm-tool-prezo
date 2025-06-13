@@ -38,6 +38,9 @@ When you get feedback on a slide, consider that the feedback does not necessaril
 
 **Mission**: Show VS Code users that CoPilot (and the users) can hack their development environment live.
 
+Important message:
+> **The problem isn't VS Code - it's incredible.** The problem isn't the extensions - many are brilliant. The problem is that no one else can code the exact solution for your exact needs. Well, except for CoPilot, with your guidance. Now VS Code can get fully yours.
+
 **Core Approach**:
 - Focus on CoPilot and VS Code possibilities.
 - Take it easy with methaphores. Take it easy with exaggerations. Keep it honest and to the point.
