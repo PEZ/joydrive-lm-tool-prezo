@@ -50,3 +50,22 @@ Medium. Take enough time to make the power and immediacy of Joyride clear, and t
 **Hooks:**
 Hooks from: The desire for empowerment and customization set up in the opening.
 Hooks to: The call to action—start experimenting, start hacking, start collaborating with AI.
+
+
+## Narration Script
+
+So how do we become VS Code hackers? Meet Joyride.
+
+User space scripting for VS Code. 
+
+This isn't just another extension. Joyride gives you full VS Code API access... direct access to the extension host... the power to customize VS Code for your exact workflow.
+
+Joyride includes a Language Model REPL tool. GitHub Copilot can actually hack VS Code itself. Not just suggest code—actually modify your editor, live.
+
+Human plus AI, collaborative coding. Interactive development.
+
+Want proof? The presentation system you're watching right now was vibe-coded by me and GitHub Copilot, working together through Joyride. Custom AI workflow for creating slides, narration, voice synthesis, and presenting.
+
+This isn't theory. This is working code. Take it for a spin at the GitHub repository.
+
+The tools are here. The only question is: what will you build?

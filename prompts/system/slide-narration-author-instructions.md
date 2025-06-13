@@ -49,5 +49,5 @@ When you get feedback on a narration script, consider that the feedback does not
    2. Read the slide's notes document
    3. Recall any input from your human co-presentor
    4. Author the script, incorporate any input from your human co-presentor in a seamless way
-   5. Write the script to the `## Narration Script` section of the notes document
+   5. Write the script to a `## Narration Script` section of the notes slide notes
 4. Announce in the chat with a list of the slides, and if the slide needs some comment to your human co-presentor, include that. (Keep very brief.)
