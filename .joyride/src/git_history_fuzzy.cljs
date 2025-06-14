@@ -28,10 +28,6 @@
 
 ;; Format commit for display in QuickPick
 (defn format-commit-for-quickpick [commit]
-  (def commit commit)
-  (comment
-    (joyride/js-properties commit)
-    )
   (let [hash (.-hash commit)
         short-hash (subs hash 0 7)
         message (.-message commit)
@@ -70,6 +66,40 @@
         (set! (.-selection editor)
               (vscode/Selection. (.-start range) (.-start range)))))))
 
+;; Function to show diff for a commit when it's selected
+(defn preview-commit-diff!+ [repo commit preview?]
+  (def repo repo)
+  (def commit commit)
+  (when commit
+    (let [git-api (get-git-api!+)
+          hash (.-hash commit)
+          parents (.-parents commit)]
+      (if-not (seq parents)
+        (vscode/window.showInformationMessage "This is the initial commit with no parent")
+        (let [parent-hash (first parents)]
+          ;; Get the changes for this commit
+          (def parent-hash parent-hash)
+          (-> (.diffWith repo parent-hash)
+              (p/then (fn [changes]
+                        (def changes changes)
+                        (if-not (seq changes)
+                          (vscode/window.showInformationMessage "No changes in this commit")
+                          (let [first-change (first changes)
+                                uri (.-uri first-change)
+                                file-path (.-fsPath uri)
+                                uri1 (.toGitUri git-api uri parent-hash)
+                                uri2 (.toGitUri git-api uri hash)
+                                title (str "Diff: " (vscode/workspace.asRelativePath uri) " ("
+                                           (subs parent-hash 0 7) " → " (subs hash 0 7) ")")]
+                            ;; Open the diff view with preview mode
+                            (vscode/commands.executeCommand "vscode.diff"
+                                                            uri1
+                                                            uri2
+                                                            title
+                                                            #js {:preview preview? :preserveFocus preview?})))))
+              (p/catch (fn [err]
+                         (vscode/window.showErrorMessage (str "Error showing diff: " err))))))))))
+
 ;; Create the QuickPick UI for git history
 (defn show-git-history-search!+ []
   (p/let [repo (get-current-repository!+)
@@ -86,18 +116,33 @@
     (set! (.-matchOnDetail quick-pick) true)
 
     (.onDidChangeActive quick-pick (fn [active-items]
-                          (highlight-item! (first active-items) true)))
+                                     (let [first-item (first active-items)]
+                                       (when first-item
+                                         (preview-commit-diff!+ repo (.-commit first-item) true)))))
+
+    #_(.onDidChangeActive quick-pick (fn [active-items]
+                                     (def active-items active-items)
+                                     (let [first-item (first active-items)]
+                                       (def first-item first-item)
+                                       (comment
+                                         (.-hash first-item)
+                                         (joyride/js-properties first-item)
+                                         (-> first-item
+                                             .-commit
+                                             .-parents)
+                                         (-> first-item
+                                             .-commit
+                                             (joyride/js-properties))
+                                         )
+                                       (vscode/commands.executeCommand "vscode.diff")
+                                       #_(highlight-item! (first active-items) true))))
 
     (.onDidAccept quick-pick
                   (fn [_e]
                     (p/let [selected-item (first (.-selectedItems quick-pick))
-                            commit (.-commit selected-item)
-                            hash (.-hash commit)]
+                            commit (.-commit selected-item)]
                       ;; Use the VS Code git.viewCommit command to show the commit
-                      (when hash
-                        (vscode/commands.executeCommand "git.viewCommit"
-                                                        (clj->js {:hash hash
-                                                                  :repo repo})))
+                      (preview-commit-diff!+ repo commit true)
                       (.dispose quick-pick))))
 
     ;; Clean up when the QuickPick is hidden
