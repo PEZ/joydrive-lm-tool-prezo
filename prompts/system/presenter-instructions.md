@@ -23,9 +23,8 @@ These should all be run from the `user` namespace.
 ;; Hiding the chat
 (vscode/commands.executeCommand "workbench.action.closeAuxiliaryBar")
 
-;; Audio workflow - Generation and Playback
-(p/let [gen-result (ai-presenter.audio-generation/generate-slide-audio!+ slide-name script)]
-  (ai-presenter.audio-playback/load-and-play-audio!+ "slides/voice/filename.mp3"))
+;; Smart audio loading and playing with user gesture handling
+(ai-presenter.audio-playback/load-and-play-audio!+ "slides/voice/filename.mp3")
 
 ;; Audio Control Functions
 (ai-presenter.audio-playback/play-audio!)     ; play/resume audio
@@ -45,15 +44,9 @@ These should all be run from the `user` namespace.
 (showtime/stop!)         ; Stop the timer
 ```
 
-
-## Slide Notes System
-
-Each slide has notes (e.g., `slides/what-is-joyride-notes.md`) with key points, VS Code hooks, and presentation guidance. **Always check notes** before writing scripts.
-
 ## Human-AI Timing Control
 
 - **No automatic progression** - always wait for human input
-- **Audio plays once** per navigation command
 - **Human controls pacing** through natural conversation
 - **AI responds to context** if, and only if, commentary or questions are provided in navigation requests
 
@@ -67,7 +60,7 @@ The most common case, you are asked to present a slide:
    - Remove the `.md` suffix to get the audio filename.
    - Check if there is a voice file for the slide, `slides/voice/<filename>.mp3`
      - IF there is:
-        - All good
+        - All good, `(ai-presenter.audio-playback/load-and-play-audio!+ "slides/voice/<filename>.mp3")`
      - ELSE:
         - Read the corresponding `-notes.md` file (e.g., `slides/hello-notes.md` for `slides/hello.md`)
         - call `(ai-presenter.audio-generation/generate-slide-audio!+ slide-name script-content)`
