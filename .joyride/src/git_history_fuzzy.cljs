@@ -6,31 +6,32 @@
 
 ;; Get Git API and repositories
 (defn get-git-api!+ []
-  (p/let [git-extension (.getExtension vscode/extensions "vscode.git")]
-    (when git-extension
-      (.. git-extension -exports (getAPI 1)))))
+  (some-> (vscode/extensions.getExtension  "vscode.git")
+          .-exports
+          (.getAPI 1)))
 
 (defn get-repositories!+ []
-  (p/let [git-api (get-git-api!+)]
-    (when git-api
-      (.-repositories git-api))))
+  (some-> (get-git-api!+)
+          .-repositories))
 
 (defn get-current-repository!+ []
-  (p/let [repos (get-repositories!+)]
-    (when (seq repos)
-      (first repos))))
+  (first (get-repositories!+)))
 
 ;; Fetch commit history with options
 (defn get-commit-history!+
   ([repo] (get-commit-history!+ repo {}))
   ([repo options]
-   (let [default-options {:maxEntries 100}
+   (let [default-options {:maxEntries 1000}
          merged-options (merge default-options options)]
      (when repo
        (.log repo (clj->js merged-options))))))
 
 ;; Format commit for display in QuickPick
 (defn format-commit-for-quickpick [commit]
+  (def commit commit)
+  (comment
+    (joyride/js-properties commit)
+    )
   (let [hash (.-hash commit)
         short-hash (subs hash 0 7)
         message (.-message commit)
@@ -47,6 +48,28 @@
          :alwaysShow true
          :hash hash}))
 
+(def ^:private !decorated-editor (atom nil))
+
+(def line-decoration-type
+  (vscode/window.createTextEditorDecorationType #js {:backgroundColor "rgba(255,255,255,0.15)"}))
+
+(defn- clear-decorations! [editor]
+  (.setDecorations editor line-decoration-type #js []))
+
+(defn- highlight-item! [item preview?]
+  (when (some-> item .-range)
+    (p/let [document (vscode/workspace.openTextDocument (.-uri item))
+            editor (vscode/window.showTextDocument document #js {:preview preview? :preserveFocus preview?})
+            range (.-range item)]
+      (.revealRange editor range vscode/TextEditorRevealType.InCenter)
+      (clear-decorations! editor)
+      (if preview?
+        (do
+          (.setDecorations editor line-decoration-type #js [range])
+          (reset! !decorated-editor editor))
+        (set! (.-selection editor)
+              (vscode/Selection. (.-start range) (.-start range)))))))
+
 ;; Create the QuickPick UI for git history
 (defn show-git-history-search!+ []
   (p/let [repo (get-current-repository!+)
@@ -62,7 +85,9 @@
     (set! (.-matchOnDescription quick-pick) true)
     (set! (.-matchOnDetail quick-pick) true)
 
-    ;; Handle selection
+    (.onDidChangeActive quick-pick (fn [active-items]
+                          (highlight-item! (first active-items) true)))
+
     (.onDidAccept quick-pick
                   (fn [_e]
                     (p/let [selected-item (first (.-selectedItems quick-pick))
