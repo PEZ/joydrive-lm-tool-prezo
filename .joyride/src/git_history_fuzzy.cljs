@@ -120,23 +120,6 @@
                                        (when first-item
                                          (preview-commit-diff!+ repo (.-commit first-item) true)))))
 
-    #_(.onDidChangeActive quick-pick (fn [active-items]
-                                     (def active-items active-items)
-                                     (let [first-item (first active-items)]
-                                       (def first-item first-item)
-                                       (comment
-                                         (.-hash first-item)
-                                         (joyride/js-properties first-item)
-                                         (-> first-item
-                                             .-commit
-                                             .-parents)
-                                         (-> first-item
-                                             .-commit
-                                             (joyride/js-properties))
-                                         )
-                                       (vscode/commands.executeCommand "vscode.diff")
-                                       #_(highlight-item! (first active-items) true))))
-
     (.onDidAccept quick-pick
                   (fn [_e]
                     (p/let [selected-item (first (.-selectedItems quick-pick))
