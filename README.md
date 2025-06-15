@@ -2,6 +2,10 @@
 
 *Presenting Joyride with an AI powered presentation system, made with Joyride*
 
+[![Video thumbnail: CoPilot hacked my editorCoPilot hacked my editor](docs/images/copilot-hacked-my-editor-video-thumb.png)](https://www.youtube.com/watch?v=-yYJV7WEFjI)
+
+[YouTube: CoPilot hacked my editor](https://www.youtube.com/watch?v=-yYJV7WEFjI)
+
 A complete AI-powered presentation system built entirely with [Joyride](https://github.com/BetterThanTomorrow/joyride) - user space scripting for VS Code. The system enables AI-assisted slide creation, narration generation, text-to-speech conversion, and interactive presentation delivery, all within the VS Code environment.
 
 **Taking this for a spin is as easy as opening this project in VS Code with CoPilot enabled**, and installing the Joyride extension. (But please read on a bit before you do this.)
