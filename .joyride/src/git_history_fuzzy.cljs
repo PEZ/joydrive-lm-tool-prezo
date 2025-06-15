@@ -6,7 +6,7 @@
   ;; {
   ;;   "key": "ctrl+alt+f",
   ;;   "command": "joyride.runCode",
-  ;;   "args": "(require 'git-history-fuzzy :reload) (show-git-history!+ 3000)"
+  ;;   "args": "(require 'git-history-fuzzy :reload) (show-git-history!+)"
   ;; },
 
 ;; vscode.git API

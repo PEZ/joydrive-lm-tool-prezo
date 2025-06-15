@@ -4,6 +4,8 @@
    [ai-mood-selector]
    [ai-presenter.audio-playback :as audio-playback]
    ai-presenter.audio-generation
+   ai-presenter.opening-sequence
+   git-history-fuzzy
    [joyride.core :as joyride]
    [next-slide]
    [next-slide-notes]
