@@ -9,6 +9,9 @@
   ;;   "args": "(require 'git-history-fuzzy :reload) (show-git-history!+ 3000)"
   ;; },
 
+;; vscode.git API
+;; https://github.com/Microsoft/vscode/blob/main/extensions/git/src/api/git.d.ts
+
 (def max-entries 5000)
 
 (defn get-git-api!+ []
@@ -49,11 +52,6 @@
          :fileChange file-change
          :hash hash}))
 
-(defn is-new-file? [change]
-  (let [status (.-status change)]
-    ;; Status.INDEX_ADDED = 1, Status.ADDED = 11
-    (or (= status 1) (= status 11))))
-
 (defn show-file-diff!+ [commit file-change preview?]
   (p/let [git-api (get-git-api!+)]
     (when (and git-api commit file-change)
@@ -62,10 +60,13 @@
             uri (.-uri file-change)
             file-path (vscode/workspace.asRelativePath uri)
             parent-hash (first parents)
-            uri1 (.toGitUri git-api uri (if (is-new-file? file-change)
+            status (.-status file-change)
+            uri1 (.toGitUri git-api uri (if (#{1 11} status)
                                           hash
                                           parent-hash))
-            uri2 (.toGitUri git-api uri hash)
+            uri2 (.toGitUri git-api uri (if (= 6 status)
+                                          parent-hash
+                                          hash))
             title (str "Diff: " file-path " (" (subs parent-hash 0 7) " → " (subs hash 0 7) ")")]
         (vscode/commands.executeCommand "vscode.diff"
                                         uri1
@@ -74,19 +75,14 @@
                                         #js {:preview preview?
                                                                            :preserveFocus preview?})))))
 
-;; Get all the files changed in a commit
 (defn get-commit-changes!+ [repo commit]
   (when (and repo commit)
     (let [hash (.-hash commit)
           parents (.-parents commit)]
       (if (empty? parents)
-        ;; For initial commit, we need to compare with empty tree
-        (p/let [changes (.diffWith repo hash)]
-          changes)
-        ;; For other commits, compare with first parent
-        (p/let [parent-hash (first parents)
-                changes (.diffBetween repo parent-hash hash)]
-          changes)))))
+        (.diffWith repo hash)
+        (let [parent-hash (first parents)]
+          (.diffBetween repo parent-hash hash))))))
 
 (defn show-git-history-search!+ []
   (p/let [repo (get-current-repository!+)

@@ -75,6 +75,11 @@ The reason for the story authoring step is so that slide narration is grounded i
 - **joyride-hacker** - For interactive programming and VS Code hacking with Joyride
 - **reviewer** - Review Joyride code to get suggestions for improvements for code quality and maintainability.
 
+## Extra features
+
+An example VS Code hack adding a git history fuzzy search menu:
+* [git_history_fuzzy.cljs](.joyride/src/git_history_fuzzy.cljs)
+
 ## Project Structure
 
 ```
@@ -90,6 +95,7 @@ The reason for the story authoring step is so that slide narration is grounded i
 │   │   ├── next_slide.cljs            # Slide navigation engine
 │   │   ├── next_slide_notes.cljs      # Slide notes management
 │   │   ├── showtime.cljs              # Status bar timer/stopwatch
+│   │   ├── git_history_fuzzy.cljs     # Git history fuzzy search
 │   │   ├── ai_mood_selector.cljs      # AI system prompt switcher
 │   │   └── ai_presenter/              # AI presentation components
 │   │       ├── audio_generation.cljs  # TTS integration
