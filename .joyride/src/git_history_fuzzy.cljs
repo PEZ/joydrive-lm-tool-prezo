@@ -66,66 +66,116 @@
         (set! (.-selection editor)
               (vscode/Selection. (.-start range) (.-start range)))))))
 
-;; Function to show diff for a commit when it's selected
-(defn preview-commit-diff!+ [repo commit preview?]
-  (def repo repo)
-  (def commit commit)
-  (when commit
-    (let [git-api (get-git-api!+)
-          hash (.-hash commit)
-          parents (.-parents commit)]
-      (if-not (seq parents)
-        (vscode/window.showInformationMessage "This is the initial commit with no parent")
-        (let [parent-hash (first parents)]
-          ;; Get the changes for this commit
-          (def parent-hash parent-hash)
-          (-> (.diffWith repo parent-hash)
-              (p/then (fn [changes]
-                        (def changes changes)
-                        (if-not (seq changes)
-                          (vscode/window.showInformationMessage "No changes in this commit")
-                          (let [first-change (first changes)
-                                uri (.-uri first-change)
-                                file-path (.-fsPath uri)
-                                uri1 (.toGitUri git-api uri parent-hash)
-                                uri2 (.toGitUri git-api uri hash)
-                                title (str "Diff: " (vscode/workspace.asRelativePath uri) " ("
-                                           (subs parent-hash 0 7) " → " (subs hash 0 7) ")")]
-                            ;; Open the diff view with preview mode
-                            (vscode/commands.executeCommand "vscode.diff"
-                                                            uri1
-                                                            uri2
-                                                            title
-                                                            #js {:preview preview? :preserveFocus preview?})))))
-              (p/catch (fn [err]
-                         (vscode/window.showErrorMessage (str "Error showing diff: " err))))))))))
+;; Format commit files for display in QuickPick
+(defn format-file-for-quickpick [commit file-change]
+  (let [hash (.-hash commit)
+        short-hash (subs hash 0 7)
+        message (.-message commit)
+        author-name (.-authorName commit)
+        commit-date (.-commitDate commit)
+        formatted-date (when commit-date
+                         (.toLocaleDateString commit-date))
+        file-uri (.-uri file-change)
+        file-path (vscode/workspace.asRelativePath file-uri)
+        status (.-status file-change)]
+    #js {:label (str "$(git-commit) " message)
+         :description (str short-hash " - " file-path " - " author-name " - " formatted-date)
+         :detail (str "Status: " status)
+         :commit commit
+         :fileChange file-change
+         :hash hash}))
 
-;; Create the QuickPick UI for git history
+;; Show diff for a specific file
+(defn show-file-diff!+ [repo commit file-change preview?]
+  (p/let [git-api (get-git-api!+)]
+    (when (and git-api commit file-change)
+      (let [hash (.-hash commit)
+            parents (.-parents commit)
+            uri (.-uri file-change)
+            file-path (vscode/workspace.asRelativePath uri)]
+        (def git-api git-api)
+        (def hash hash)
+        (def parents parents)
+        (def uri uri)
+        (def file-path file-path)
+        (if (empty? parents)
+          ;; For initial commit, compare with empty tree
+          (let [uri1 (.toGitUri git-api uri "HEAD^{}")  ;; Empty tree
+                uri2 (.toGitUri git-api uri hash)
+                title (str "Diff: " file-path " (Initial commit " (subs hash 0 7) ")")]
+            (vscode/commands.executeCommand "vscode.diff" uri1 uri2 title #js {:preview preview?
+                                                                               :preserveFocus preview?}))
+          ;; For other commits, compare with first parent
+          (let [parent-hash (first parents)
+                _ (def parent-hash parent-hash)
+                uri1 (.toGitUri git-api uri parent-hash)
+                uri2 (.toGitUri git-api uri hash)
+                title (str "Diff: " file-path " (" (subs parent-hash 0 7) " → " (subs hash 0 7) ")")]
+            (def uri1 uri1)
+            (def uri2 uri2)
+            (def title title)
+            (def preview? preview?)
+            (vscode/commands.executeCommand "vscode.diff"
+                                            (.toGitUri git-api uri "HEAD^{}")
+                                            uri2 title #js {:preview preview?
+                                                                               :preserveFocus preview?})
+            (vscode/commands.executeCommand "vscode.diff" uri1 uri2 title #js {:preview preview?
+                                                                               :preserveFocus preview?})))))))
+
+;; Show diff for a specific file in a preview mode (when navigating)
+(defn preview-file-diff!+ [repo commit file-change]
+  (show-file-diff!+ repo commit file-change true))
+
+;; Get all the files changed in a commit
+(defn get-commit-changes!+ [repo commit]
+  (when (and repo commit)
+    (let [hash (.-hash commit)
+          parents (.-parents commit)]
+      (if (empty? parents)
+        ;; For initial commit, we need to compare with empty tree
+        (p/let [changes (.diffWith repo hash)]
+          changes)
+        ;; For other commits, compare with first parent
+        (p/let [parent-hash (first parents)
+                changes (.diffBetween repo parent-hash hash)]
+          changes)))))
+
+;; Create the QuickPick UI for git history with files
 (defn show-git-history-search!+ []
   (p/let [repo (get-current-repository!+)
           _ (when-not repo
               (throw (js/Error. "No Git repository found in the current workspace")))
           commits (get-commit-history!+ repo)
-          commit-items (map format-commit-for-quickpick commits)
+          ;; For each commit, get its changes and create items for each file change
+          all-items-promises (map (fn [commit]
+                                   (p/let [changes (get-commit-changes!+ repo commit)]
+                                     (if (seq changes)
+                                       (map #(format-file-for-quickpick commit %) changes)
+                                       [(format-commit-for-quickpick commit)])))
+                                 commits)
+          all-items-nested (p/all all-items-promises)
+          all-items (apply concat all-items-nested)
           quick-pick (vscode/window.createQuickPick)]
 
-    (set! (.-items quick-pick) (into-array commit-items))
+    (set! (.-items quick-pick) (into-array all-items))
     (set! (.-title quick-pick) "Git History Search")
-    (set! (.-placeHolder quick-pick) "Search commit messages, authors, or hashes")
+    (set! (.-placeHolder quick-pick) "Search commit messages, files, authors, or hashes")
     (set! (.-matchOnDescription quick-pick) true)
     (set! (.-matchOnDetail quick-pick) true)
 
     (.onDidChangeActive quick-pick (fn [active-items]
                                      (let [first-item (first active-items)]
-                                       (when first-item
-                                         (preview-commit-diff!+ repo (.-commit first-item) true)))))
+                                       (when (and first-item (.-fileChange first-item))
+                                         (preview-file-diff!+ repo (.-commit first-item) (.-fileChange first-item))))))
 
     (.onDidAccept quick-pick
                   (fn [_e]
                     (p/let [selected-item (first (.-selectedItems quick-pick))
-                            commit (.-commit selected-item)]
-                      ;; Use the VS Code git.viewCommit command to show the commit
-                      (preview-commit-diff!+ repo commit true)
+                            commit (.-commit selected-item)
+                            file-change (.-fileChange selected-item)]
+                      ;; Open the diff in a non-preview editor
+                      (when (and commit file-change)
+                        (show-file-diff!+ repo commit file-change false))
                       (.dispose quick-pick))))
 
     ;; Clean up when the QuickPick is hidden
