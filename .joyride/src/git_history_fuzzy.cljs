@@ -6,11 +6,15 @@
   ;; {
   ;;   "key": "ctrl+alt+f",
   ;;   "command": "joyride.runCode",
-  ;;   "args": "(require 'git-history-fuzzy :reload) (show-git-history!+)"
+  ;;   "args": "(git-history-fuzzy/show-git-history!+)"
   ;; },
 
 ;; vscode.git API
 ;; https://github.com/Microsoft/vscode/blob/main/extensions/git/src/api/git.d.ts
+
+;; If you want to have the git fuzzy search feature outside of this project,
+;; add it to your Joyride User scripts library. See:
+;; https://github.com/BetterThanTomorrow/joyride/blob/master/README.md#user-and-workspace-scripts
 
 (def max-entries 5000)
 
