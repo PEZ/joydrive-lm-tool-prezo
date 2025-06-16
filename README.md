@@ -8,7 +8,7 @@
 
 A complete AI-powered presentation system built entirely with [Joyride](https://github.com/BetterThanTomorrow/joyride) - user space scripting for VS Code. The system enables AI-assisted slide creation, narration generation, text-to-speech conversion, and interactive presentation delivery, all within the VS Code environment.
 
-**Taking this for a spin is as easy as opening this project in VS Code with CoPilot enabled**, and installing the Joyride extension. (But please read on a bit before you do this.)
+**Taking this for a spin is as easy as opening this project in VS Code with CoPilot enabled**, and installing the Joyride extension. (But please read on a bit before you do this. At least about [Running the System](#running-the-system))
 
 The audio generation features need an OpenAI API key. But you and CoPilot can hack it to use something else for audio generation, because ...
 
@@ -33,7 +33,7 @@ When you open the project with Joyride installed, the slide navigation system wi
 
 ![audio-service-webview](docs/images/audio-service-webview.png)
 
-For audio to be played, yuu will need to click the **Enable Audio** button (browser restriction requiring a user gesture to autoplay audio).
+For audio to be played, yuu will need to click the **Enable Audio** button, because of browser restriction requiring a user gesture to autoplay audio. (You may have to click the button twice, there's some glitch in the vibe coded scripts for audio playback, that I'll fix soon.)
 
 See that button in the stats bar with “🎭”? It's a system prompt/mood selector. Select the **presenter** mood. Then ask CoPilot to show the first slide.
 
