@@ -1,13 +1,15 @@
 (ns git-history-fuzzy
-  (:require ["vscode" :as vscode]
-            [promesa.core :as p]))
+  (:require
+   ["vscode" :as vscode]
+   [joyride.core :as joyride]
+   [promesa.core :as p]))
 
 ;; “Install” by adding something like this to your keybindings.json
-  ;; {
-  ;;   "key": "ctrl+alt+f",
-  ;;   "command": "joyride.runCode",
-  ;;   "args": "(git-history-fuzzy/show-git-history!+)"
-  ;; },
+;; {
+;;   "key": "ctrl+alt+f",
+;;   "command": "joyride.runCode",
+;;   "args": "(git-history-fuzzy/show-git-history!+)"
+;; },
 
 ;; vscode.git API
 ;; https://github.com/Microsoft/vscode/blob/main/extensions/git/src/api/git.d.ts
@@ -17,6 +19,7 @@
 ;; https://github.com/BetterThanTomorrow/joyride/blob/master/README.md#user-and-workspace-scripts
 
 (def max-entries 5000)
+(def batch-size 250)
 
 (defn get-git-api!+ []
   (some-> (vscode/extensions.getExtension  "vscode.git")
@@ -49,12 +52,21 @@
         file-uri (.-uri file-change)
         file-path (vscode/workspace.asRelativePath file-uri)
         status (.-status file-change)]
-    #js {:label (str "$(file) " message)
+    #js {:label message
+         :iconPath (vscode/ThemeIcon. "file")
          :description (str file-path)
          :detail (str "$(git-commit) " short-hash " - " author-name " - " formatted-date " Status: " status)
          :commit commit
          :fileChange file-change
-         :hash hash}))
+         :fileUri file-uri
+         :hash hash
+         :buttons #js [#js {:name "copy"
+                            :iconPath (vscode/ThemeIcon. "copy")
+                            :tooltip "Copy commit id"}
+                       #js {:name "open"
+                            :iconPath (vscode/ThemeIcon. "go-to-file")
+                            :tooltip "Open file"}]}))
+
 
 (defn show-file-diff!+ [commit file-change preview?]
   (p/let [git-api (get-git-api!+)]
@@ -77,7 +89,7 @@
                                         uri2
                                         title
                                         #js {:preview preview?
-                                                                           :preserveFocus preview?})))))
+                                             :preserveFocus preview?})))))
 
 (defn get-commit-changes!+ [repo commit]
   (when (and repo commit)
@@ -92,40 +104,79 @@
   (p/let [repo (get-current-repository!+)
           _ (when-not repo
               (throw (js/Error. "No Git repository found in the current workspace")))
-          commits (get-commit-history!+ repo)
-          all-items-promises (map (fn [commit]
-                                    (p/let [changes (get-commit-changes!+ repo commit)]
-                                      (map #(format-file-for-quickpick commit %) changes)))
-                                  commits)
-          all-items-nested (p/all all-items-promises)
-          all-items (apply concat all-items-nested)
+
           quick-pick (vscode/window.createQuickPick)]
 
-    (set! (.-items quick-pick) (into-array all-items))
+    (set! (.-busy quick-pick) true)
+    (.show quick-pick)
     (set! (.-title quick-pick) "Git History Search")
-    (set! (.-placeHolder quick-pick) "Search commit messages, files, authors, or hashes")
-    (set! (.-matchOnDescription quick-pick) true)
-    (set! (.-matchOnDetail quick-pick) true)
+    (set! (.-placeholder quick-pick) "Loading commit history... Please wait")
 
-    (.onDidChangeActive quick-pick (fn [active-items]
-                                     (let [first-item (first active-items)]
-                                       (when (and first-item (.-fileChange first-item))
-                                         (show-file-diff!+ (.-commit first-item) (.-fileChange first-item) true)))))
-    (.onDidAccept quick-pick
+    (p/let [commits (get-commit-history!+ repo)
+            total-commits (count commits)
+            batches (partition-all batch-size commits)
+            total-batches (count batches)
+            _ (do (set! (.-placeholder quick-pick) (str "Processing " total-commits " commits in " total-batches " batches..."))
+                  (set! (.-totalSteps quick-pick) total-batches))]
+
+      (reduce (fn [acc-promise [batch-idx batch]]
+                (p/let [acc acc-promise
+                        _ (set! (.-step quick-pick) (inc batch-idx))
+                        processed-commits (* batch-idx batch-size)
+                        _ (set! (.-placeholder quick-pick)
+                                (str "Processing batch " (inc batch-idx) "/" total-batches
+                                     " (commits " processed-commits "-"
+                                     (min (+ processed-commits batch-size) total-commits) ")"))
+                        changes-promises (map #(get-commit-changes!+ repo %) batch)
+                        all-changes (p/all changes-promises)
+                        batch-results (->> (map vector batch all-changes)
+                                           (mapcat (fn [[commit changes]]
+                                                     (map #(format-file-for-quickpick commit %) changes))))
+                        new-acc (concat acc batch-results)]
+
+                  ;; Update items in QuickPick as we go (progressive loading!)
+                  (set! (.-items quick-pick) (into-array new-acc))
+                  new-acc))
+              (p/resolved [])
+              (map-indexed vector batches))
+
+      (set! (.-busy quick-pick) false)
+      (set! (.-step quick-pick) nil)
+      (set! (.-totalSteps quick-pick) nil)
+      (set! (.-placeholder quick-pick) "Fuzzy search commit messages")
+      (set! (.-matchOnDescription quick-pick) true)
+      (set! (.-matchOnDetail quick-pick) true)
+
+      (.onDidChangeActive quick-pick (fn [active-items]
+                                       (let [first-item (first active-items)]
+                                         (when (and first-item (.-fileChange first-item))
+                                           (show-file-diff!+ (.-commit first-item) (.-fileChange first-item) true)))))
+      (.onDidAccept quick-pick
+                    (fn [_e]
+                      (p/let [selected-item (first (.-selectedItems quick-pick))
+                              commit (.-commit selected-item)
+                              file-change (.-fileChange selected-item)]
+                        (when (and commit file-change)
+                          (show-file-diff!+ commit file-change false))
+                        (.dispose quick-pick))))
+      (.onDidHide quick-pick
                   (fn [_e]
-                    (p/let [selected-item (first (.-selectedItems quick-pick))
-                            commit (.-commit selected-item)
-                            file-change (.-fileChange selected-item)]
-                      (when (and commit file-change)
-                        (show-file-diff!+ commit file-change false))
-                      (.dispose quick-pick))))
-    (.onDidHide quick-pick
-                (fn [_e]
-                  (.dispose quick-pick)))
-    (.show quick-pick)))
+                    (.dispose quick-pick)))
+      (.onDidTriggerItemButton quick-pick
+                               (fn [e]
+                                 (case (some-> e .-button .-name)
+                                   "copy"
+                                   (vscode/env.clipboard.writeText (.-hash (.-item e)))
+                                   "open"
+                                   (p/-> (vscode/workspace.openTextDocument (.-fileUri (.-item e)))
+                                         (vscode/window.showTextDocument (.-fileUri (.-item e)) #{:preview true})))
+                                 (.dispose quick-pick))))))
 
 (defn ^:export show-git-history!+ []
   (p/catch
    (show-git-history-search!+)
    (fn [err]
      (vscode/window.showErrorMessage (str "Error: " err)))))
+
+(when (= (joyride/invoked-script) joyride/*file*)
+  (show-git-history!+))
