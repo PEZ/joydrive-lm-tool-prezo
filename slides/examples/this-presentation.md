@@ -6,7 +6,7 @@
 <div class="row">
 <div class="col-6">
 
-## Made with Joyride by CoPilot
+## Made with Joyride by Copilot
 
 * Presentation system
   * Authoring slides
@@ -29,7 +29,7 @@
 
 <div style="display: flex; justify-content: flex-start; gap: 20px; margin-top: 50px;">
 <img src="images/joyride-icon.png" alt="Joyride Symbol" style="max-height: 180px;" />
-<img src="images/copilot-icon-light.png" alt="CoPilot Symbol" style="max-height: 180px;" />
+<img src="images/copilot-icon-light.png" alt="Copilot Symbol" style="max-height: 180px;" />
 </div>
 
 </div>

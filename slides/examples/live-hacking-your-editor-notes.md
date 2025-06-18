@@ -4,7 +4,7 @@
 
 **Notes from the human participants to guide the work of the AI agents.**
 
-This slide addresses the universal developer frustration: VS Code with tons of extensions that still don't quite fit your workflow. The key message is that instead of hunting for the perfect extension, you can ask CoPilot to hack VS Code live, while you're coding in it.
+This slide addresses the universal developer frustration: VS Code with tons of extensions that still don't quite fit your workflow. The key message is that instead of hunting for the perfect extension, you can ask Copilot to hack VS Code live, while you're coding in it.
 
 **Key Insight**: Most developers accept the limitations of their tools. This slide challenges that acceptance and introduces the possibility of true customization through live scripting.
 
@@ -36,7 +36,7 @@ The transition to the next slide is crucial - we need the audience hungry to see
 This slide establishes the universal developer pain point and introduces the revolutionary solution. It's the setup that makes the next slide's demonstration compelling.
 
 ### Crucial message
-You don't have to accept the limitations of your development environment. CoPilot can hack VS Code for you, live, while you're coding.
+You don't have to accept the limitations of your development environment. Copilot can hack VS Code for you, live, while you're coding.
 
 ### Extra important details
 - Acknowledge the real frustration developers feel
@@ -68,10 +68,10 @@ So we accept "close enough." We adapt to our tools instead of having them adapt 
 
 **But what if I told you that you don't have to accept these limitations anymore?**
 
-What if your coding assistant - GitHub CoPilot - could hack your editor *live*, while you're coding in it? Not after you learn a new programming language. Not after you dive into extension development. Right now. Today.
+What if your coding assistant - GitHub Copilot - could hack your editor *live*, while you're coding in it? Not after you learn a new programming language. Not after you dive into extension development. Right now. Today.
 
 *[building excitement]*
 
-This is about having a conversation with CoPilot: *"I need a timer in my status bar"* or *"Can you add a command to auto-format my commit messages?"* - and watching it happen. **Instantly.**
+This is about having a conversation with Copilot: *"I need a timer in my status bar"* or *"Can you add a command to auto-format my commit messages?"* - and watching it happen. **Instantly.**
 
 That's Joyride plus LM Tools. Your editor, your rules. Let me show you exactly how this magic works.

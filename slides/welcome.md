@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col-12 center">
         <h1 style="font-size: 3.5em; margin-bottom: 0.3em;">Welcome, VS Code Hacker</h1>
-        <p class="subtitle" style="margin-top: 1.6em; margin-bottom: 1em;">You will it. CoPilot makes it. Your editor transforms.</p>
+        <p class="subtitle" style="margin-top: 1.6em; margin-bottom: 1em;">You will it. Copilot makes it. Your editor transforms.</p>
         <div class="title-logo-row">
             <img src="images/vscode.png" alt="VS Code Logo" />
             <i class="fas fa-plus logo-separator"></i>

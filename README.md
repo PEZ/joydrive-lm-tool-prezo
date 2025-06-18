@@ -1,16 +1,16 @@
-# Joyride + LM Tools for CoPilot
+# Joyride + LM Tools for Copilot
 
 *Presenting Joyride with an AI powered presentation system, made with Joyride*
 
-[![Video thumbnail: CoPilot hacked my editorCoPilot hacked my editor](docs/images/copilot-hacked-my-editor-video-thumb.png)](https://www.youtube.com/watch?v=-yYJV7WEFjI)
+[![Video thumbnail: Copilot hacked my editorCopilot hacked my editor](docs/images/copilot-hacked-my-editor-video-thumb.png)](https://www.youtube.com/watch?v=-yYJV7WEFjI)
 
-[YouTube: CoPilot hacked my editor](https://www.youtube.com/watch?v=-yYJV7WEFjI)
+[YouTube: Copilot hacked my editor](https://www.youtube.com/watch?v=-yYJV7WEFjI)
 
 A complete AI-powered presentation system built entirely with [Joyride](https://github.com/BetterThanTomorrow/joyride) - user space scripting for VS Code. The system enables AI-assisted slide creation, narration generation, text-to-speech conversion, and interactive presentation delivery, all within the VS Code environment.
 
-**Taking this for a spin is as easy as opening this project in VS Code with CoPilot enabled**, and installing the Joyride extension. (But please read on a bit before you do this. At least about [Running the System](#running-the-system))
+**Taking this for a spin is as easy as opening this project in VS Code with Copilot enabled**, and installing the Joyride extension. (But please read on a bit before you do this. At least about [Running the System](#running-the-system))
 
-The audio generation features need an OpenAI API key. But you and CoPilot can hack it to use something else for audio generation, because ...
+The audio generation features need an OpenAI API key. But you and Copilot can hack it to use something else for audio generation, because ...
 
 ... This project is **100% Joyride** - Leveraging VS Code's extension API.
 
@@ -35,9 +35,9 @@ When you open the project with Joyride installed, the slide navigation system wi
 
 For audio to be played, yuu will need to click the **Enable Audio** button, because of browser restriction requiring a user gesture to autoplay audio. (You may have to click the button twice, there's some glitch in the vibe coded scripts for audio playback, that I'll fix soon.)
 
-See that button in the stats bar with “🎭”? It's a system prompt/mood selector. Select the **presenter** mood. Then ask CoPilot to show the first slide.
+See that button in the stats bar with “🎭”? It's a system prompt/mood selector. Select the **presenter** mood. Then ask Copilot to show the first slide.
 
-With your OpenAI API key set in the environment you can then activate the **audio-generator** mood, and ask Copilot to generate audio for the first slide. Then switch back to **presenter** mode and ask CoPilot to present the slide.
+With your OpenAI API key set in the environment you can then activate the **audio-generator** mood, and ask Copilot to generate audio for the first slide. Then switch back to **presenter** mode and ask Copilot to present the slide.
 
 To navigate the slides yourelf, with the keyboard or a clicker, you'll need to set up some keyboard shortcuts. See the slide navigation script
 [archive/next_slide.cljs](archive/next_slide.cljs), which starts with a bunch of shortcuts you can use in your keybindings.json file. (Use the **Toggle Line Comment** command to get JSON you can copy.)
@@ -46,7 +46,7 @@ To navigate the slides yourelf, with the keyboard or a clicker, you'll need to s
 
 ### AI Workflow support
 
-The project comes with CoPilot Instructions/moods supporting both VS Code hacking and presentation authoring/presenting.
+The project comes with Copilot Instructions/moods supporting both VS Code hacking and presentation authoring/presenting.
 
 Easily switch between different system prompts depending on where in the workflow you are using the **AI mood** status bar button . Available system prompts (in `prompts/system/`):
 
@@ -202,7 +202,7 @@ See [calva.io](https://calva.io) for how to use Calva.
 ### Development Workflow
 1. Joyride automatically gives
 1. Start the Joyride REPL
-1. Experiment with functions interactively, together with CoPilot
+1. Experiment with functions interactively, together with Copilot
 1. Build upon the existing system
 1. Share your enhancements
 

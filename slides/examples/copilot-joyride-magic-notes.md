@@ -1,10 +1,10 @@
-# CoPilot + Joyride = Magic - Notes
+# Copilot + Joyride = Magic - Notes
 
 ## Stakeholder Input
 
 **Notes from the human participants to guide the work of the AI agents.**
 
-This slide demonstrates the concrete possibilities and workflow. It should make the audience understand exactly how they can start using this today. The key is showing the simplicity of the interaction - just ask CoPilot what you want, and it happens.
+This slide demonstrates the concrete possibilities and workflow. It should make the audience understand exactly how they can start using this today. The key is showing the simplicity of the interaction - just ask Copilot what you want, and it happens.
 
 **Key Message**: This isn't theoretical - it's practical magic you can use right now. The barrier to customizing VS Code has been completely removed by AI.
 
@@ -16,7 +16,7 @@ This slide demonstrates the concrete possibilities and workflow. It should make 
 
 This slide should be energetic and demonstrate the concrete value. If possible, show a quick live demo or at least walk through the 4-step process with enthusiasm.
 
-End with the CoPilot quote to drive home that the AI is ready and willing to help.
+End with the Copilot quote to drive home that the AI is ready and willing to help.
 
 *--- End To the Presenter ---*
 
@@ -38,12 +38,12 @@ The credibility note (Calva creator) reinforces that this isn't just theory - it
 This is the payoff slide - after establishing the problem, we now show the magical solution in action. It should feel like a revelation and make the audience excited to try it.
 
 ### Crucial message
-The combination of CoPilot and Joyride removes all barriers to customizing VS Code. You just ask for what you want, and it happens.
+The combination of Copilot and Joyride removes all barriers to customizing VS Code. You just ask for what you want, and it happens.
 
 ### Extra important details
 - Emphasize the simplicity of the workflow
 - Show concrete examples of what's possible
-- End with the empowering CoPilot quote
+- End with the empowering Copilot quote
 - Mention the credibility (built by Calva creator)
 
 ### Dramaturgic mood
@@ -60,7 +60,7 @@ This is the final slide - it should end with clear call to action and empowermen
 
 ## Narration Script
 
-Here's where it gets magical. **CoPilot plus Joyride equals your development environment, completely customized.**
+Here's where it gets magical. **Copilot plus Joyride equals your development environment, completely customized.**
 
 *[confident, demonstrative]*
 
@@ -70,9 +70,9 @@ Look at what becomes possible when you combine AI with live scripting. You can a
 
 And here's how simple it is:
 
-**Step one:** Ask CoPilot - *"Add a timer to my status bar."*
+**Step one:** Ask Copilot - *"Add a timer to my status bar."*
 
-**Step two:** CoPilot codes it - ClojureScript plus the VS Code API.
+**Step two:** Copilot codes it - ClojureScript plus the VS Code API.
 
 **Step three:** Joyride runs it - live, in your editor.
 
@@ -88,6 +88,6 @@ This represents a fundamental shift. Instead of adapting to our tools, our tools
 
 *[final emphasis, personal]*
 
-GitHub CoPilot is ready to hack VS Code for you. The technology exists. The tools are available. Built by the creator of Calva - tools that empower developers to make their environment truly their own.
+GitHub Copilot is ready to hack VS Code for you. The technology exists. The tools are available. Built by the creator of Calva - tools that empower developers to make their environment truly their own.
 
 **The only question is: what will you build first?**

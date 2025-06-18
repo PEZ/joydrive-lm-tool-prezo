@@ -9,7 +9,7 @@
 <div style="display: flex; justify-content: center; gap: 30px; margin-bottom: 40px;">
 <img src="../images/vscode.png" alt="VS Code Logo" style="height: 120px;" />
 <span style="font-size: 3em; color: #007ACC; margin: 0 10px;">+</span>
-<img src="../images/copilot-icon-light.png" alt="CoPilot Symbol" style="height: 120px;" />
+<img src="../images/copilot-icon-light.png" alt="Copilot Symbol" style="height: 120px;" />
 </div>
 
 <div style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 8px; margin-bottom: 30px;">
@@ -27,7 +27,7 @@
 
 <strong>The Solution:</strong>
 <ul style="margin: 10px 0; padding-left: 20px;">
-<li>🎯 Ask CoPilot to hack VS Code</li>
+<li>🎯 Ask Copilot to hack VS Code</li>
 <li>⚡ Live, as you need it</li>
 <li>🛠️ Full VS Code API access</li>
 </ul>

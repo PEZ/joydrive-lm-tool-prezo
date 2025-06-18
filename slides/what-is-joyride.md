@@ -16,7 +16,7 @@
 
 * <i class="fas fa-key"></i> **Full VS Code API + Extension host access**
 * <i class="fas fa-rocket"></i> **Customize VS Code to support your exact workflow**
-* <i class="fas fa-bolt"></i> **Language Model REPL tool** - Enables CoPilot to hack VS Code
+* <i class="fas fa-bolt"></i> **Language Model REPL tool** - Enables Copilot to hack VS Code
 * <i class="fas fa-users"></i> **Human + AI collaborative and interactive coding**
 
 </div>

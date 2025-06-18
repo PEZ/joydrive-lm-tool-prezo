@@ -9,7 +9,7 @@ This slide introduces Joyride with a direct, no-nonsense title and creates a com
 **Key Emphasis Points:**
 - **"User space scripting"** - This is the key concept - development freedom without barriers
 - **"Full VS Code API + Extension host access"** - Complete power, no limitations
-- **"Language Model REPL tool"** - This is revolutionary - it makes CoPilot capable of actually modifying your editor
+- **"Language Model REPL tool"** - This is revolutionary - it makes Copilot capable of actually modifying your editor
 - **"Custom AI workflow"** - Emphasize that this creates entirely new possibilities for development workflows
 - **GitHub repository link** - Audience can immediately explore and experiment
 
@@ -20,7 +20,7 @@ The title "User space scripting for VS Code" is significant positions Joyride no
 
 The presentation system being discussed includes slide generation, voice narration, audio playback, and presentation orchestration - all built collaboratively using Joyride as the platform for human-AI interaction.
 
-The "Language Model REPL tool" concept is particularly important - this means CoPilot can actually execute code that modifies the editor in real-time, not just suggest static code snippets.
+The "Language Model REPL tool" concept is particularly important - this means Copilot can actually execute code that modifies the editor in real-time, not just suggest static code snippets.
 
 **Potential Clarifications:**
 - "User space scripting" means you can extend VS Code without going through extension marketplaces or approval processes

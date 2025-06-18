@@ -25,7 +25,7 @@ I want to the user to see my contact details as an invitation to join the commun
 This is the closing chapter. It introduces PEZ and extends a personal invitation to join the VS Code hacker community.
 
 ### Crucial message
-You’re invited to be part of this movement—reach out, connect, and share your own Joyride + CoPilot stories.
+You’re invited to be part of this movement—reach out, connect, and share your own Joyride + Copilot stories.
 
 ### Extra important details
 Mention Agical as a unique consultancy and the open invitation to connect via the provided links.
