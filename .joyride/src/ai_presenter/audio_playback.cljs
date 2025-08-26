@@ -290,13 +290,13 @@
          :success true}))))
 
 (comment
-  (p/let [load+ (load-audio! "/Users/pez/Projects/Meetup/joydrive-lm-tool-prezo/slides/voice/test-playback.mp3")]
+  (p/let [load+ (load-audio! "/Users/pez/Projects/Meetup/joydrive-lm-tool-prezo/slides/voice/copilot-joyride-magic.mp3")]
     (def load+ load+))
 
   (p/let [play+ (play-audio!)]
     (def play+ play+))
 
-  (p/let [load-and-play+ (load-and-play-audio!+ "/Users/pez/Projects/Meetup/joydrive-lm-tool-prezo/slides/voice/test-playback.mp3")]
+  (p/let [load-and-play+ (load-and-play-audio!+ "/Users/pez/Projects/Meetup/joydrive-lm-tool-prezo/slides/voice/copilot-joyride-magic.mp3")]
     (def load-and-play+ load-and-play+))
 
 

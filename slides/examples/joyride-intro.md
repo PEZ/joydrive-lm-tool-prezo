@@ -1,6 +1,6 @@
 <div class="slide">
 
-# Joyride: The Editor Becomes Yours
+# Joyride: Make it _your_ editor
 
 <div class="row">
 <div class="column col-7">
@@ -18,9 +18,12 @@
 
 </div>
 
-<div class="column col-4">
+<div class="column col-5">
 <div style="background-color: rgba(0,0,0,0.05); padding: 20px; border-radius: 10px; margin-top: 20px;">
-<pre style="font-size: 0.9rem;"><code>(ns user
+<pre style="font-size: 0.9rem;">
+
+```clojure
+(ns user
   (:require [joyride.core :as j]
             [promesa.core :as p]))
 
@@ -28,8 +31,8 @@
 (p/let [editor (j/current-editor)]
   (j/show-message
     (str "Editing "
-         (.-fileName editor))))</code></pre>
-</div>
+         (.-fileName editor))))
+```
 <div class="center" style="margin-top: 30px;">
 <i class="fa fa-magic" style="font-size: 3rem; opacity: 0.7;"></i>
 </div>
